@@ -1,6 +1,6 @@
 import { Alert, Button, PasswordField, TextField } from '@/components';
 import { AUTH_COPY } from '@/constants';
-import type { LoginPayload } from '@/api/auth/types/auth.types';
+import type { LoginPayload } from '@/api';
 import { useLoginForm } from '../hooks/useLoginForm';
 import './AuthForm.css';
 

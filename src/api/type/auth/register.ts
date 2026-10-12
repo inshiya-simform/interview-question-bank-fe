@@ -1,16 +1,6 @@
 import { z } from 'zod';
 import { MESSAGES, NAME_MAX_LENGTH, PASSWORD_MIN_LENGTH } from '@/constants';
-
-const emailSchema = z
-  .string()
-  .trim()
-  .min(1, MESSAGES.EMAIL_REQUIRED)
-  .pipe(z.email(MESSAGES.EMAIL_INVALID));
-
-export const loginSchema = z.object({
-  email: emailSchema,
-  password: z.string().min(1, MESSAGES.PASSWORD_REQUIRED),
-});
+import { emailSchema } from './shared-fields';
 
 export const registerSchema = z.object({
   name: z
@@ -25,5 +15,4 @@ export const registerSchema = z.object({
     .min(PASSWORD_MIN_LENGTH, MESSAGES.PASSWORD_TOO_SHORT),
 });
 
-export type LoginPayload = z.infer<typeof loginSchema>;
 export type RegisterPayload = z.infer<typeof registerSchema>;

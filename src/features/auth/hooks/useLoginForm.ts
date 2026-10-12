@@ -1,5 +1,5 @@
-import { loginSchema } from '@/api/auth/types/auth.types';
-import type { LoginPayload } from '@/api/auth/types/auth.types';
+import { loginSchema } from '@/api';
+import type { LoginPayload } from '@/api';
 import { useZodForm } from '@/hooks/useZodForm';
 
 export function useLoginForm(onSubmit?: (payload: LoginPayload) => void) {
