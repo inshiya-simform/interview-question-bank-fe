@@ -1,13 +1,9 @@
-import { lazy, Suspense } from 'react';
+import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { ErrorFallback, Loader } from '@/components';
 import { ROUTES } from '@/constants';
-
-const LoginPage = lazy(() => import('@/pages/LoginPage').then((m) => ({ default: m.LoginPage })));
-const RegisterPage = lazy(() =>
-  import('@/pages/RegisterPage').then((m) => ({ default: m.RegisterPage })),
-);
+import { LazyLoginPage, LazyRegisterPage } from '@/pages/lazyPages';
 
 export function App() {
   return (
@@ -15,8 +11,8 @@ export function App() {
       <Suspense fallback={<Loader />}>
         <Routes>
           <Route path={ROUTES.ROOT} element={<Navigate to={ROUTES.LOGIN} replace />} />
-          <Route path={ROUTES.LOGIN} element={<LoginPage />} />
-          <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
+          <Route path={ROUTES.LOGIN} element={<LazyLoginPage />} />
+          <Route path={ROUTES.REGISTER} element={<LazyRegisterPage />} />
         </Routes>
       </Suspense>
     </ErrorBoundary>
