@@ -37,7 +37,8 @@ SPA that consumes its REST API.
 ## Tech Stack
 
 - React 19 + TypeScript (strict), Vite
-- React Router (`react-router-dom`)
+- React Router (`react-router-dom`): `<BrowserRouter>` in `main.tsx`, `<Routes>`/`<Route>` in `App.tsx`
+- `react-error-boundary` for error boundaries (keeps us on function components only)
 - TanStack Query v5 (`@tanstack/react-query`) for all server state
 - Zod for all runtime validation (API responses, forms, URL/search params)
 - ESLint (flat config, `typescript-eslint`, react-hooks, react-refresh) + Prettier
@@ -81,12 +82,13 @@ src/
       hooks/                # useXxx.ts (all logic for the components)
       constants.ts          # feature-local constants
   pages/                    # route-level components (JSX only) + their hooks
+    lazyPages.ts            # every React.lazy page definition (single file)
   hooks/                    # shared, non-API hooks (useDebounce, useDisclosure, ...)
   constants/                # project-wide constants (see below)
   utils/                    # project-wide pure helper functions
-  config/                   # env.ts, queryClient.ts, router
-  App.tsx
-  main.tsx
+  config/                   # env.ts, queryClient.ts (create when needed)
+  App.tsx                   # ErrorBoundary > Suspense > <Routes>/<Route> declarations
+  main.tsx                  # providers only (StrictMode, BrowserRouter, ...)
 ```
 
 Use the path alias `@/` (-> `src/`, configured in `tsconfig.app.json` and `vite.config.ts`) for
@@ -199,7 +201,20 @@ Components never call `fetch`/`axios` or services directly; they use the hooks.
 - Keep components pure; no side effects in render. Don't store derived data in state.
 - Use stable `key`s (ids, never array index for dynamic lists).
 - Memoise (`useMemo`/`useCallback`/`memo`) only for a measured reason, never by default.
-- Lazy-load route-level pages with `React.lazy` + `Suspense`; wrap routes in an error boundary.
+- **Routing:** `<BrowserRouter>` wraps `<App />` in `main.tsx`; routes are declared with
+  `<Routes>`/`<Route>` in `App.tsx`. Do not use `createBrowserRouter`. Paths come from `ROUTES`
+  in `constants/routes.ts`, never inline strings.
+- **Lazy pages:** every route-level page is lazy-loaded. Define each `React.lazy` in
+  `src/pages/lazyPages.ts` (named `LazyXxxPage`) and import it into `App.tsx`; never call `lazy()`
+  in `App.tsx` or in components. To add a page: create `XxxPage.tsx`, add its lazy export in
+  `lazyPages.ts`, add the path to `ROUTES`, add a `<Route>` in `App.tsx`.
+- **Loading and errors at the root:** `App.tsx` wraps routes in `<ErrorBoundary
+FallbackComponent={ErrorFallback}>` (outermost) and `<Suspense fallback={<Loader />}>`. Use the
+  shared `Loader` and `ErrorFallback` from `@/components`; don't write ad-hoc spinners or
+  fallbacks. Add a nested `ErrorBoundary` around a section only when it should fail independently.
+- Error boundaries use `react-error-boundary` (a function-component API); never write class
+  components. Fallbacks must not render `error.message` or stack traces, since they may contain
+  restricted data. Fallback copy lives in `COMMON_COPY`.
 - Never use `dangerouslySetInnerHTML` with API data. Answer notes are untrusted text; render as text
   (or through a vetted sanitiser if rich text is ever added).
 
@@ -234,7 +249,8 @@ Components never call `fetch`/`axios` or services directly; they use the hooks.
 
 ### Error, loading, and empty states
 
-- Every data-driven view handles loading, error, and empty states using shared components.
+- Every data-driven view handles loading, error, and empty states using shared components
+  (`Loader`, `ErrorFallback`/`Alert`, ...).
 - Normalise all errors to one `ApiError` shape in the API client; map to user-friendly messages from
   constants.
 
@@ -269,8 +285,8 @@ Components never call `fetch`/`axios` or services directly; they use the hooks.
 
 ### Shared components (`src/components/`)
 
-- Anything reusable by more than one feature (Button, TextField, PasswordField, Alert, Modal,
-  Spinner, ...) lives in `src/components/`, is exported through `src/components/index.ts`, and is
+- Anything reusable by more than one feature (Button, TextField, PasswordField, Alert, Loader,
+  ErrorFallback, Modal, ...) lives in `src/components/`, is exported through `src/components/index.ts`, and is
   imported as `import { Button } from '@/components'`.
 - Shared components are feature-agnostic: no API calls, no feature imports, copy passed in via props.
   Feature-specific UI (e.g. `AuthLayout`) stays in its `features/<feature>/components/`.
@@ -309,4 +325,6 @@ Components never call `fetch`/`axios` or services directly; they use the hooks.
 - [ ] Endpoint added to `api/endpoints.ts`; key added to `api/queryKeys.ts`
 - [ ] Response is parsed with a strict Zod schema; types derived via `z.infer`
 - [ ] Loading, error, and empty states handled
+- [ ] New page: lazy export in `pages/lazyPages.ts`, path in `ROUTES`, `<Route>` in `App.tsx`
+- [ ] Only the five palette colours, via semantic tokens
 - [ ] `npm run lint && npm run format:check && npm run build` pass
