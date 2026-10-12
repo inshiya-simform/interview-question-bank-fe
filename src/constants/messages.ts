@@ -7,6 +7,11 @@ export const MESSAGES = {
   PASSWORD_TOO_SHORT: `Password must be at least ${PASSWORD_MIN_LENGTH} characters`,
   NAME_REQUIRED: 'Name is required',
   NAME_TOO_LONG: 'Name is too long',
+  ERROR_NETWORK: 'Unable to reach the server. Check your connection and try again.',
+  ERROR_UNKNOWN: 'Something went wrong. Please try again.',
+  ERROR_UNAUTHORIZED: 'Your session has expired. Please log in again.',
+  ERROR_FORBIDDEN: 'You do not have access to this.',
+  ERROR_RESPONSE_INVALID: 'Received an unexpected response from the server.',
 } as const;
 
 export const COMMON_COPY = {
@@ -34,4 +39,10 @@ export const AUTH_COPY = {
   PASSWORD_HINT: `At least ${PASSWORD_MIN_LENGTH} characters`,
   SHOW_PASSWORD: 'Show password',
   HIDE_PASSWORD: 'Hide password',
+} as const;
+
+export const HOME_COPY = {
+  WELCOME: (name: string) => `Welcome, ${name}`,
+  SUBTITLE: 'Browse and contribute interview questions.',
+  LOGOUT: 'Log out',
 } as const;

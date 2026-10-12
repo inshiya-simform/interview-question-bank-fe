@@ -39,7 +39,11 @@ SPA that consumes its REST API.
 - React 19 + TypeScript (strict), Vite
 - React Router (`react-router-dom`): `<BrowserRouter>` in `main.tsx`, `<Routes>`/`<Route>` in `App.tsx`
 - `react-error-boundary` for error boundaries (keeps us on function components only)
+- Axios for HTTP: a single `apiClient` instance in `src/api/client.ts`
 - TanStack Query v5 (`@tanstack/react-query`) for all server state
+- `react-toastify` for toasts: `<Toaster />` (wraps its `ToastContainer`, palette-mapped) is mounted in
+  `main.tsx`; raise toasts with `toast.error(...)`/`toast.success(...)` using messages from constants.
+  API errors are toasted centrally in `config/queryClient.ts`, so hooks/components don't toast them.
 - Zod for all runtime validation (API responses, forms, URL/search params)
 - ESLint (flat config, `typescript-eslint`, react-hooks, react-refresh) + Prettier
 - Husky + lint-staged (pre-commit runs `eslint --fix` and `prettier --write` on staged files)
@@ -59,8 +63,9 @@ Before finishing any task: `npm run lint && npm run format:check && npm run buil
 
 ## Environment
 
-- Config comes from `VITE_*` env vars, read **once** in `src/config/env.ts` and validated with Zod
-  (fail fast on startup). Never read `import.meta.env` anywhere else.
+- Config comes from `VITE_*` env vars. The API base URL is `VITE_API_URL` (includes the version
+  prefix, e.g. `http://localhost:3000/api/v1`), read once in `src/api/client.ts`; its type is
+  declared in `src/vite-env.d.ts`. Don't read `import.meta.env` elsewhere.
 - Document every variable in `.env.example`. Never commit `.env`.
 
 ## Folder Structure
@@ -68,13 +73,15 @@ Before finishing any task: `npm run lint && npm run format:check && npm run buil
 ```
 src/
   api/                      # ALL API integration lives here
-    endpoints.ts            # every endpoint path/builder (single file)
-    queryKeys.ts            # every TanStack Query key (single file)
-    client.ts               # shared fetch/axios wrapper (auth header, error normalisation)
-    <feature>/              # e.g. questions/, tags/, auth/, clients/, history/
-      hooks/                # useQuestions.ts, useCreateQuestion.ts, ... (TanStack Query hooks)
-      service/              # questionService.ts (calls client, parses response with Zod)
-      types/                # question.types.ts (Zod schemas + z.infer types)
+    endpoints.ts            # API_ENDPOINTS: every endpoint path/builder (single file)
+    query-keys.ts           # QUERY_KEYS: every TanStack Query key (single file)
+    client.ts               # axios `apiClient` (auth interceptor, 401 + error interceptor)
+    errors.ts               # ApiError (status, message) thrown by the response interceptor
+    token-storage.ts        # auth cookie read/write (the only place the token is touched)
+    index.ts                # barrel for services + types
+    hooks/                  # useAuth.ts, useQuestions.ts, ... (one file per domain) + index.ts
+    service/                # auth.service.ts, questions.service.ts (apiClient + Zod parse)
+    type/                   # common.ts + <domain>/ (shared.ts, login.ts, ... Zod + z.infer)
   components/               # shared, feature-agnostic UI (Button, TextField, Alert, ...) + index.ts barrel
   features/                 # feature modules (questions, filters, search, history, auth)
     <feature>/
@@ -86,7 +93,7 @@ src/
   hooks/                    # shared, non-API hooks (useDebounce, useDisclosure, ...)
   constants/                # project-wide constants (see below)
   utils/                    # project-wide pure helper functions
-  config/                   # env.ts, queryClient.ts (create when needed)
+  config/                   # queryClient.ts
   App.tsx                   # ErrorBoundary > Suspense > <Routes>/<Route> declarations
   main.tsx                  # providers only (StrictMode, BrowserRouter, ...)
 ```
@@ -133,11 +140,9 @@ export const MESSAGES = {
 ### 4. Strict API response validation
 
 - **Every** API response is parsed with a Zod schema before reaching hooks or components. Use
-  `schema.parse()` (or `safeParse` + explicit error handling) inside the service layer. Never cast
-  with `as` or trust `response.json()` as typed.
-- Use `.strict()` on object schemas for responses so unexpected fields fail loudly rather than
-  silently passing through (especially important here: an unexpected field could be leaked
-  restricted metadata).
+  `schema.parse()` inside the service layer (never `safeParse` to swallow drift). Never cast
+  with `as` or trust `response.data` as typed.
+- Response schemas are plain `z.object(...)` (not `.strict()`); the API is the authority on shape.
 - Parse **error** responses too, into a normalised `ApiError` type.
 - Validate request payloads (forms, filters, query params) with Zod before sending.
 - Types are derived from schemas (`z.infer`), never hand-written alongside them.
@@ -161,25 +166,26 @@ export const MESSAGES = {
 
 ### 7. API layer layout
 
-All server communication goes through `src/api/<feature>/` with exactly these subfolders:
+All server communication goes through `src/api/`:
 
-- `service/` - plain async functions that call the shared client, using `ENDPOINTS`, and parse the
-  response with the Zod schema from `types/`. No React here.
-- `types/` - Zod schemas and the inferred TypeScript types for requests and responses.
-- `hooks/` - TanStack Query hooks (`useQuery`/`useMutation`/`useInfiniteQuery`) wrapping services,
-  using keys from `queryKeys.ts`.
+- `service/<domain>.service.ts` - plain async functions that call `apiClient`, using
+  `API_ENDPOINTS`, and parse the response with the Zod schema from `type/`. No React, no `try/catch`.
+- `type/<domain>/` - one file per operation (plus `shared.ts`): Zod schemas and inferred types.
+- `hooks/use<Domain>.ts` - TanStack Query hooks wrapping services, using keys from
+  `query-keys.ts`; re-exported from `hooks/index.ts`.
 
-Components never call `fetch`/`axios` or services directly; they use the hooks.
+Never call `fetch` or import `axios` outside `src/api/client.ts`. Components never call services
+directly; they use the hooks.
 
 ### 8. Endpoints in one file
 
 - All endpoint paths live in `src/api/endpoints.ts`, as constants or small builder functions
-  (`ENDPOINTS.questions.byId(id)`). No URL strings anywhere else.
+  (`API_ENDPOINTS.QUESTIONS.BY_ID(id)`). No URL strings anywhere else.
 
 ### 9. Query keys in one file
 
-- All TanStack Query keys live in `src/api/queryKeys.ts` as a key factory
-  (`queryKeys.questions.list(filters)`, `queryKeys.questions.detail(id)`). No inline key arrays.
+- All TanStack Query keys live in `src/api/query-keys.ts` as `QUERY_KEYS` (a static base key plus
+  factories: `QUERY_KEYS.QUESTIONS(filters)`, `QUERY_KEYS.QUESTION_ITEM(id)`). No inline key arrays.
 - Keys include every input that changes the result (filters, keyword, page, **and the current user
   id** so cached data never crosses user boundaries after logout/login).
 - Invalidate by key prefix from mutations; on logout call `queryClient.clear()`.
@@ -321,9 +327,9 @@ FallbackComponent={ErrorFallback}>` (outermost) and `<Suspense fallback={<Loader
 - [ ] Reusable helpers are in `utils/`
 - [ ] Component <= 150 LOC, one exported component per file
 - [ ] `.tsx` has JSX only; logic is in a custom hook
-- [ ] API code is under `api/<feature>/{hooks,service,types}`
-- [ ] Endpoint added to `api/endpoints.ts`; key added to `api/queryKeys.ts`
-- [ ] Response is parsed with a strict Zod schema; types derived via `z.infer`
+- [ ] API code is under `api/{hooks,service,type}`, with barrels updated
+- [ ] Endpoint added to `api/endpoints.ts`; key added to `api/query-keys.ts`
+- [ ] Response is parsed with a Zod schema; types derived via `z.infer`
 - [ ] Loading, error, and empty states handled
 - [ ] New page: lazy export in `pages/lazyPages.ts`, path in `ROUTES`, `<Route>` in `App.tsx`
 - [ ] Only the five palette colours, via semantic tokens
