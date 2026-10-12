@@ -11,6 +11,9 @@ export const MESSAGES = {
 
 export const COMMON_COPY = {
   LOADING: 'Loading',
+  ERROR_TITLE: 'Something went wrong',
+  ERROR_DESCRIPTION: 'An unexpected error occurred. Reloading the page usually fixes it.',
+  ERROR_RELOAD: 'Reload page',
 } as const;
 
 export const AUTH_COPY = {

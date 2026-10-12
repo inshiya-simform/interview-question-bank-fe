@@ -1,0 +1,20 @@
+.error-fallback {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-4);
+  text-align: center;
+}
+
+.error-fallback__title {
+  font-size: 1.5rem;
+}
+
+.error-fallback__description {
+  margin: 0;
+  max-width: 26rem;
+  color: var(--color-muted);
+}
