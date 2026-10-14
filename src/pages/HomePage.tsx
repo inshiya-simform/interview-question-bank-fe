@@ -1,12 +1,21 @@
-import { Button, Drawer } from '@/components';
+import { Button } from '@/components';
 import { HOME_COPY, QUESTIONS_COPY } from '@/constants';
-import { AddQuestionForm, QuestionList } from '@/features/questions';
+import { QuestionDrawer, QuestionList } from '@/features/questions';
 import { useHomePage } from './useHomePage';
 import './HomePage.css';
 
 export function HomePage() {
-  const { name, logout, isDrawerOpen, isSubmitting, openDrawer, closeDrawer, addQuestion } =
-    useHomePage();
+  const {
+    name,
+    logout,
+    isDrawerOpen,
+    editingId,
+    isSubmitting,
+    openDrawer,
+    openEditDrawer,
+    closeDrawer,
+    saveQuestion,
+  } = useHomePage();
 
   return (
     <main className="home">
@@ -20,19 +29,14 @@ export function HomePage() {
           {HOME_COPY.LOGOUT}
         </Button>
       </section>
-      <QuestionList />
-      <Drawer
+      <QuestionList onEdit={openEditDrawer} />
+      <QuestionDrawer
         isOpen={isDrawerOpen}
+        editingId={editingId}
+        isSubmitting={isSubmitting}
         onClose={closeDrawer}
-        title={QUESTIONS_COPY.DRAWER_TITLE}
-        closeLabel={QUESTIONS_COPY.CLOSE}
-      >
-        <AddQuestionForm
-          onSubmit={addQuestion}
-          onCancel={closeDrawer}
-          isSubmitting={isSubmitting}
-        />
-      </Drawer>
+        onSubmit={saveQuestion}
+      />
     </main>
   );
 }

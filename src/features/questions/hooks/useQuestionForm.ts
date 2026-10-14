@@ -1,25 +1,26 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import type { SelectOption } from '@/components';
-import { addQuestionSchema } from '../schema';
-import type { AddQuestionValues, CategoryTags } from '../schema';
+import { questionFormSchema } from '../schema';
+import type { QuestionFormValues, CategoryTags } from '../schema';
 import { useQuestionOptions } from './useQuestionOptions';
 
-type Errors = Partial<Record<keyof AddQuestionValues, string>>;
+type Errors = Partial<Record<keyof QuestionFormValues, string>>;
 
 const EMPTY_ROW: CategoryTags = { category: '', tags: [] };
 
-const INITIAL_VALUES: AddQuestionValues = {
+const INITIAL_VALUES: QuestionFormValues = {
   question: '',
   answer: '',
   categories: [EMPTY_ROW],
   clientId: '',
 };
 
-export function useAddQuestionForm(
-  onSubmit: (values: AddQuestionValues, onSuccess: () => void) => void,
+export function useQuestionForm(
+  onSubmit: (values: QuestionFormValues, onSuccess: () => void) => void,
+  initialValues: QuestionFormValues = INITIAL_VALUES,
 ) {
-  const [values, setValues] = useState(INITIAL_VALUES);
+  const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState<Errors>({});
   const { categories, clientOptions, isLoading, isError, refetch } = useQuestionOptions();
 
@@ -45,7 +46,7 @@ export function useAddQuestionForm(
 
   const setField = <K extends 'question' | 'answer' | 'clientId'>(
     field: K,
-    value: AddQuestionValues[K],
+    value: QuestionFormValues[K],
   ) => {
     setValues((current) => ({ ...current, [field]: value }));
     setErrors((current) => ({ ...current, [field]: undefined }));
@@ -79,13 +80,13 @@ export function useAddQuestionForm(
     }));
 
   const reset = () => {
-    setValues(INITIAL_VALUES);
+    setValues(initialValues);
     setErrors({});
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const result = addQuestionSchema.safeParse(values);
+    const result = questionFormSchema.safeParse(values);
     if (!result.success) {
       const next: Errors = {};
       for (const issue of result.error.issues) {

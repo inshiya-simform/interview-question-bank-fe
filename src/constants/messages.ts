@@ -15,6 +15,7 @@ export const MESSAGES = {
   ANSWER_REQUIRED: 'Answer is required',
   CATEGORY_REQUIRED: 'Select a category',
   QUESTION_ADDED: 'Question added',
+  QUESTION_UPDATED: 'Question updated',
   ERROR_RESPONSE_INVALID: 'Received an unexpected response from the server.',
 } as const;
 
@@ -73,6 +74,12 @@ export const QUESTIONS_COPY = {
   PAGE_NUMBER: (page: number) => `Page ${page}`,
   PAGE_STATUS: (page: number, totalPages: number) => `Page ${page} of ${totalPages}`,
   DRAWER_TITLE: 'Add a question',
+  EDIT_DRAWER_TITLE: 'Edit question',
+  EDIT: 'Edit',
+  EDIT_QUESTION: (text: string) => `Edit question: ${text}`,
+  QUESTION_LOAD_ERROR: 'Could not load this question.',
+  SAVE: 'Save',
+  SAVING: 'Saving...',
   CLOSE: 'Close',
   CANCEL: 'Cancel',
   SUBMIT: 'Add',
