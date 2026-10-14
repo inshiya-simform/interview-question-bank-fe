@@ -16,6 +16,11 @@
   --color-muted: var(--palette-4);
   --color-text: var(--palette-5);
 
+  /* Badge hues are the one deliberate exception to the five-colour palette. */
+  --badge-category: #8ecae6;
+  --badge-tag: #b7e4a7;
+  --badge-client: #f4c27a;
+
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;

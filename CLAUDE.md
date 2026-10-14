@@ -284,7 +284,9 @@ FallbackComponent={ErrorFallback}>` (outermost) and `<Suspense fallback={<Loader
   values and never the palette tokens directly. To retheme, change the token mapping in `index.css`.
 - Contrast: `--color-muted` is only guaranteed readable on `--color-bg-deep`; avoid it for small
   text on lighter palette backgrounds.
-- **No colours outside the palette, including status colours.** Errors, warnings and success are
+- **Single exception:** the category/tag/client `Badge` hues (`--badge-category`, `--badge-tag`,
+  `--badge-client` in `index.css`) were explicitly requested and sit outside the palette.
+- **No other colours outside the palette, including status colours.** Errors, warnings and success are
   conveyed with palette colours plus non-colour cues (heavier border, bold text, a `!` prefix, icons),
   never with red/green/amber.
 - Spacing (`--space-*`), radii (`--radius-*`), and fonts are also tokens in `index.css`; reuse them.

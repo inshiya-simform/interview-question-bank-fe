@@ -78,3 +78,8 @@
 .field__toggle:hover {
   color: var(--color-text);
 }
+
+.field__input--area {
+  padding: var(--space-3);
+  resize: vertical;
+}

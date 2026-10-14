@@ -1,0 +1,11 @@
+.qform {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.qform__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+}
