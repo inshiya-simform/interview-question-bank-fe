@@ -1,7 +1,12 @@
 export { Alert } from './Alert';
+export { Badge } from './Badge';
 export { Button } from './Button';
+export { Drawer } from './Drawer';
 export { ErrorFallback } from './ErrorFallback';
 export { Loader } from './Loader';
+export { MultiSelect } from './MultiSelect';
 export { PasswordField } from './PasswordField';
+export { SelectField } from './SelectField';
 export { Toaster } from './Toaster';
+export { TextAreaField } from './TextAreaField';
 export { TextField } from './TextField';
