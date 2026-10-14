@@ -19,6 +19,7 @@
 }
 
 .home__welcome {
+  grid-column: 2;
   text-align: center;
 }
 
@@ -33,6 +34,7 @@
   }
 
   .home__welcome {
+    grid-column: auto;
     order: -1;
     text-align: left;
   }

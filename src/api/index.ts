@@ -5,6 +5,7 @@ export * from './service/tags.service';
 export * from './token-storage';
 export * from './type/auth/current-user';
 export * from './type/auth/login';
+export * from './type/auth/permissions';
 export * from './type/auth/register';
 export * from './type/auth/shared';
 export * from './type/clients/clients-list';

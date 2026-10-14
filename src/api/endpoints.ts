@@ -3,6 +3,7 @@ export const API_ENDPOINTS = {
     REGISTER: '/auth/register',
     LOGIN: '/auth/login',
     ME: '/auth/me',
+    PERMISSIONS: '/auth/permissions',
   },
   QUESTIONS: {
     BASE: '/questions',
