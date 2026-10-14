@@ -1,6 +1,6 @@
 import { Button } from '@/components';
 import { HOME_COPY, QUESTIONS_COPY } from '@/constants';
-import { QuestionDrawer, QuestionList } from '@/features/questions';
+import { AddQuestionButton, QuestionDrawer, QuestionList } from '@/features/questions';
 import { useHomePage } from './useHomePage';
 import './HomePage.css';
 
@@ -20,7 +20,7 @@ export function HomePage() {
   return (
     <main className="home">
       <section className="home__panel" aria-label={HOME_COPY.WELCOME(name)}>
-        <Button onClick={openDrawer}>+ {QUESTIONS_COPY.ADD_QUESTION}</Button>
+        <AddQuestionButton onClick={openDrawer}>+ {QUESTIONS_COPY.ADD_QUESTION}</AddQuestionButton>
         <div className="home__welcome">
           <h1>{HOME_COPY.WELCOME(name)}</h1>
           <p className="home__subtitle">{HOME_COPY.SUBTITLE}</p>

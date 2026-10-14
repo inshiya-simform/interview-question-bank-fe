@@ -1,8 +1,9 @@
-import { Badge, Button } from '@/components';
+import { Badge } from '@/components';
 import { QUESTIONS_COPY } from '@/constants';
 import { cn } from '@/utils/cn';
 import type { Question } from '@/api';
 import { useQuestionItem } from '../hooks/useQuestionItem';
+import { EditQuestionButton } from './EditQuestionButton';
 import './QuestionItem.css';
 
 interface QuestionItemProps {
@@ -30,13 +31,13 @@ export function QuestionItem({ question, onEdit }: QuestionItemProps) {
           </button>
         </h3>
         {canEdit && (
-          <Button
+          <EditQuestionButton
             variant="secondary"
             aria-label={QUESTIONS_COPY.EDIT_QUESTION(question.text)}
             onClick={() => onEdit(question.id)}
           >
             {QUESTIONS_COPY.EDIT}
-          </Button>
+          </EditQuestionButton>
         )}
       </div>
       <ul className="qitem__badges" aria-label={QUESTIONS_COPY.FIELD_CATEGORIES}>

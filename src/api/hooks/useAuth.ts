@@ -1,12 +1,20 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { QUERY_KEYS } from '../query-keys';
-import { getCurrentUser, login, register } from '../service/auth.service';
+import { getCurrentUser, getUserPermissions, login, register } from '../service/auth.service';
 import { setAuthToken } from '../token-storage';
 
 export function useCurrentUserQuery(enabled: boolean) {
   return useQuery({
     queryKey: QUERY_KEYS.AUTH_ME,
     queryFn: getCurrentUser,
+    enabled,
+  });
+}
+
+export function useUserPermissionsQuery(enabled: boolean) {
+  return useQuery({
+    queryKey: QUERY_KEYS.AUTH_PERMISSIONS,
+    queryFn: getUserPermissions,
     enabled,
   });
 }

@@ -1,6 +1,7 @@
 export * from './http';
 export * from './messages';
 export * from './pagination';
+export * from './permissions';
 export * from './regex';
 export * from './roles';
 export * from './routes';
