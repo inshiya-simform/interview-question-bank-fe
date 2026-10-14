@@ -1,14 +1,12 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useCreateQuestionMutation } from '@/api/hooks';
-import type { Question } from '@/api';
 import { MESSAGES } from '@/constants';
 import type { AddQuestionValues } from '../schema';
 import { buildCreateQuestionPayload } from '../utils';
 
-// There is no list endpoint yet, so the list holds questions added during this session.
+// The list refetches itself: creating a question invalidates the questions query prefix.
 export function useQuestionsHome() {
-  const [questions, setQuestions] = useState<Question[]>([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const { mutate, isPending } = useCreateQuestionMutation();
 
@@ -17,8 +15,7 @@ export function useQuestionsHome() {
 
   const addQuestion = (values: AddQuestionValues, onSuccess: () => void) => {
     mutate(buildCreateQuestionPayload(values), {
-      onSuccess: (created) => {
-        setQuestions((current) => [created, ...current]);
+      onSuccess: () => {
         toast.success(MESSAGES.QUESTION_ADDED);
         onSuccess();
         closeDrawer();
@@ -26,5 +23,5 @@ export function useQuestionsHome() {
     });
   };
 
-  return { questions, isDrawerOpen, isSubmitting: isPending, openDrawer, closeDrawer, addQuestion };
+  return { isDrawerOpen, isSubmitting: isPending, openDrawer, closeDrawer, addQuestion };
 }

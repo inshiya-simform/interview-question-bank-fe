@@ -9,5 +9,6 @@ export * from './type/auth/register';
 export * from './type/auth/shared';
 export * from './type/clients/clients-list';
 export * from './type/questions/create-question';
+export * from './type/questions/questions-list';
 export * from './type/questions/shared';
 export * from './type/tags/tags-list';

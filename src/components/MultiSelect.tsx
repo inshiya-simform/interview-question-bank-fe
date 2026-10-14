@@ -30,6 +30,7 @@ export function MultiSelect({
 }: MultiSelectProps) {
   const { rootRef, triggerId, panelId, expanded, toggleOpen, toggleOption, handleKeyDown } =
     useMultiSelect({ value, onChange, disabled });
+  const messageId = `${triggerId}-message`;
 
   return (
     <div className="field multi" ref={rootRef} onKeyDown={handleKeyDown}>
@@ -45,6 +46,7 @@ export function MultiSelect({
         aria-controls={panelId}
         aria-labelledby={`${triggerId}-label ${triggerId}`}
         aria-invalid={error ? true : undefined}
+        aria-describedby={error || hint ? messageId : undefined}
         disabled={disabled}
         onClick={toggleOpen}
       >
@@ -83,9 +85,15 @@ export function MultiSelect({
         </ul>
       )}
       {error ? (
-        <p className="field__message field__message--error">{error}</p>
+        <p id={messageId} className="field__message field__message--error">
+          {error}
+        </p>
       ) : (
-        hint && <p className="field__message">{hint}</p>
+        hint && (
+          <p id={messageId} className="field__message">
+            {hint}
+          </p>
+        )
       )}
     </div>
   );

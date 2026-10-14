@@ -5,6 +5,7 @@ export { Drawer } from './Drawer';
 export { ErrorFallback } from './ErrorFallback';
 export { Loader } from './Loader';
 export { MultiSelect } from './MultiSelect';
+export { Pagination } from './Pagination';
 export { PasswordField } from './PasswordField';
 export { SelectField } from './SelectField';
 export { Toaster } from './Toaster';

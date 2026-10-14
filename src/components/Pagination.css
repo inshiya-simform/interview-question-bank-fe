@@ -1,0 +1,37 @@
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+}
+
+.pagination__status {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.875rem;
+}
+
+.pagination__pages {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.pagination .btn {
+  min-height: 2.375rem;
+  padding: 0 var(--space-4);
+  font-size: 1rem;
+}
+
+.pagination .pagination__page {
+  min-width: 2.75rem;
+  padding: 0 var(--space-2);
+}
+
+.pagination__gap {
+  min-width: 2.75rem;
+  text-align: center;
+  color: var(--color-muted);
+}
