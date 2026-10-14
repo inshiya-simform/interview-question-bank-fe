@@ -5,8 +5,16 @@ import { useHomePage } from './useHomePage';
 import './HomePage.css';
 
 export function HomePage() {
-  const { name, logout, questions, isDrawerOpen, openDrawer, closeDrawer, addQuestion } =
-    useHomePage();
+  const {
+    name,
+    logout,
+    questions,
+    isDrawerOpen,
+    isSubmitting,
+    openDrawer,
+    closeDrawer,
+    addQuestion,
+  } = useHomePage();
 
   return (
     <main className="home">
@@ -27,7 +35,11 @@ export function HomePage() {
         title={QUESTIONS_COPY.DRAWER_TITLE}
         closeLabel={QUESTIONS_COPY.CLOSE}
       >
-        <AddQuestionForm onSubmit={addQuestion} onCancel={closeDrawer} />
+        <AddQuestionForm
+          onSubmit={addQuestion}
+          onCancel={closeDrawer}
+          isSubmitting={isSubmitting}
+        />
       </Drawer>
     </main>
   );

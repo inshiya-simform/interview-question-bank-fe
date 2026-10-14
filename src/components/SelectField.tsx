@@ -1,11 +1,12 @@
 import type { SelectHTMLAttributes } from 'react';
 import { useFieldIds } from '@/hooks/useFieldIds';
 import { cn } from '@/utils/cn';
+import type { SelectOption } from './selectOption';
 import './TextField.css';
 
 interface SelectFieldProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, 'id'> {
   label: string;
-  options: readonly string[];
+  options: readonly SelectOption[];
   placeholder: string;
   error?: string;
 }
@@ -36,8 +37,8 @@ export function SelectField({
           {placeholder}
         </option>
         {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
+          <option key={option.value} value={option.value}>
+            {option.label}
           </option>
         ))}
       </select>

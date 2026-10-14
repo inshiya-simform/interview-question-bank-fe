@@ -1,19 +1,30 @@
 import { useState } from 'react';
-import { SEED_QUESTIONS } from '../constants';
-import type { AddQuestionValues, Question } from '../schema';
+import { toast } from 'react-toastify';
+import { useCreateQuestionMutation } from '@/api/hooks';
+import type { Question } from '@/api';
+import { MESSAGES } from '@/constants';
+import type { AddQuestionValues } from '../schema';
+import { buildCreateQuestionPayload } from '../utils';
 
-// In-memory only until the questions API is integrated; swap for the query/mutation hooks.
+// There is no list endpoint yet, so the list holds questions added during this session.
 export function useQuestionsHome() {
-  const [questions, setQuestions] = useState<Question[]>(SEED_QUESTIONS);
+  const [questions, setQuestions] = useState<Question[]>([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const { mutate, isPending } = useCreateQuestionMutation();
 
   const openDrawer = () => setIsDrawerOpen(true);
   const closeDrawer = () => setIsDrawerOpen(false);
 
-  const addQuestion = (values: AddQuestionValues) => {
-    setQuestions((current) => [{ id: crypto.randomUUID(), ...values }, ...current]);
-    closeDrawer();
+  const addQuestion = (values: AddQuestionValues, onSuccess: () => void) => {
+    mutate(buildCreateQuestionPayload(values), {
+      onSuccess: (created) => {
+        setQuestions((current) => [created, ...current]);
+        toast.success(MESSAGES.QUESTION_ADDED);
+        onSuccess();
+        closeDrawer();
+      },
+    });
   };
 
-  return { questions, isDrawerOpen, openDrawer, closeDrawer, addQuestion };
+  return { questions, isDrawerOpen, isSubmitting: isPending, openDrawer, closeDrawer, addQuestion };
 }
