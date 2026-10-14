@@ -17,6 +17,9 @@ export const MESSAGES = {
   QUESTION_ADDED: 'Question added',
   QUESTION_UPDATED: 'Question updated',
   ERROR_RESPONSE_INVALID: 'Received an unexpected response from the server.',
+  ROLE_REQUIRED: 'Select a role',
+  STAFF_ADDED: 'Member added',
+  CLIENT_ACCESS_UPDATED: 'Client access updated',
 } as const;
 
 export const COMMON_COPY = {
@@ -50,6 +53,62 @@ export const HOME_COPY = {
   WELCOME: (name: string) => `Welcome, ${name}`,
   SUBTITLE: 'Browse and contribute interview questions.',
   LOGOUT: 'Log out',
+} as const;
+
+export const ADMIN_COPY = {
+  SECTION_LABEL: 'Super admin',
+  NAV_LABEL: 'Super admin navigation',
+  NAV_CLIENTS: 'Client access',
+  NAV_MEMBERS: 'Authors & reviewers',
+  CLIENTS_TITLE: 'Client access',
+  CLIENTS_SUBTITLE: "Choose which users can see each client's restricted questions.",
+  COLUMN_CLIENT: 'Client',
+  COLUMN_USERS: 'Users with access',
+  TABLE_LABEL: 'Clients and their users',
+  USER_COUNT: (count: number) => `${count} ${count === 1 ? 'user' : 'users'}`,
+  CLIENT_COUNT: (count: number) => `${count} ${count === 1 ? 'client' : 'clients'} found`,
+  EMPTY_CLIENTS: 'No clients found.',
+  NO_USERS: 'No users yet.',
+  FIELD_SEARCH: 'Search',
+  PLACEHOLDER_SEARCH: 'Search by client name or user email',
+  PAGINATION_LABEL: 'Client access pagination',
+  PREVIOUS_PAGE: 'Previous',
+  NEXT_PAGE: 'Next',
+  PAGE_NUMBER: (page: number) => `Page ${page}`,
+  PAGE_STATUS: (page: number, totalPages: number) => `Page ${page} of ${totalPages}`,
+  LOADING: 'Loading client access',
+  LOAD_ERROR: 'Could not load client access.',
+  RETRY: 'Try again',
+  ADD_USER: 'Add user',
+  FIELD_USER_EMAIL: 'User email',
+  PLACEHOLDER_USER_EMAIL: 'name@company.com',
+  CONFIRM_ADD: 'Add',
+  CANCEL: 'Cancel',
+  ADDING: 'Adding...',
+  REMOVE_USER: (email: string, client: string) => `Remove ${email} from ${client}`,
+  MEMBERS_TITLE: 'Add an author or reviewer',
+  MEMBERS_SUBTITLE: 'Give someone an elevated role. They sign in with the email you enter.',
+  FIELD_EMAIL: 'Email address',
+  FIELD_ROLE: 'Role',
+  PLACEHOLDER_EMAIL: 'name@company.com',
+  HINT_EMAIL: 'Use the address they will sign in with.',
+  CLEAR: 'Clear',
+  SUBMIT: 'Add to system',
+  SUBMITTING: 'Adding...',
+  PERMISSIONS_TITLE: 'What each role can do',
+  PERMISSIONS_NOTE:
+    'Both roles only see client-restricted questions after being given access on the Client access page.',
+} as const;
+
+export const STAFF_ROLE_COPY = {
+  AUTHOR: {
+    DESCRIPTION: 'Adds questions and edits their own entries.',
+    CAPABILITY: 'Add questions and edit entries they created.',
+  },
+  REVIEWER: {
+    DESCRIPTION: 'Edits any entry in the bank.',
+    CAPABILITY: 'Edit any question, whoever wrote it.',
+  },
 } as const;
 
 export const QUESTIONS_COPY = {

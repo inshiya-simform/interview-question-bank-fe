@@ -7,3 +7,9 @@ export const LazyLoginPage = lazy(() =>
 export const LazyRegisterPage = lazy(() =>
   import('./RegisterPage').then((m) => ({ default: m.RegisterPage })),
 );
+export const LazyClientAccessPage = lazy(() =>
+  import('./ClientAccessPage').then((m) => ({ default: m.ClientAccessPage })),
+);
+export const LazyAddMemberPage = lazy(() =>
+  import('./AddMemberPage').then((m) => ({ default: m.AddMemberPage })),
+);

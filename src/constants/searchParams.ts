@@ -6,4 +6,9 @@ export const QUESTION_SEARCH_PARAMS = {
   TAGS: 'tags',
 } as const;
 
+export const ADMIN_SEARCH_PARAMS = {
+  PAGE: 'page',
+  SEARCH: 'q',
+} as const;
+
 export const CSV_SEPARATOR = ',';
