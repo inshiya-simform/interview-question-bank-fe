@@ -9,6 +9,8 @@ interface SelectFieldProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>,
   options: readonly SelectOption[];
   placeholder: string;
   error?: string;
+  // When true the placeholder is a selectable "no selection" option (for filters).
+  clearable?: boolean;
 }
 
 export function SelectField({
@@ -16,6 +18,7 @@ export function SelectField({
   options,
   placeholder,
   error,
+  clearable = false,
   className,
   ...rest
 }: SelectFieldProps) {
@@ -33,7 +36,7 @@ export function SelectField({
         aria-describedby={error ? errorId : undefined}
         {...rest}
       >
-        <option value="" disabled>
+        <option value="" disabled={!clearable}>
           {placeholder}
         </option>
         {options.map((option) => (

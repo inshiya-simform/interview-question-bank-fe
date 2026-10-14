@@ -5,16 +5,8 @@ import { useHomePage } from './useHomePage';
 import './HomePage.css';
 
 export function HomePage() {
-  const {
-    name,
-    logout,
-    questions,
-    isDrawerOpen,
-    isSubmitting,
-    openDrawer,
-    closeDrawer,
-    addQuestion,
-  } = useHomePage();
+  const { name, logout, isDrawerOpen, isSubmitting, openDrawer, closeDrawer, addQuestion } =
+    useHomePage();
 
   return (
     <main className="home">
@@ -28,7 +20,7 @@ export function HomePage() {
           {HOME_COPY.LOGOUT}
         </Button>
       </section>
-      <QuestionList questions={questions} />
+      <QuestionList />
       <Drawer
         isOpen={isDrawerOpen}
         onClose={closeDrawer}
