@@ -1,22 +1,27 @@
-import { Button, MultiSelect, TextAreaField, TextField } from '@/components';
+import { Alert, Button, Loader, SelectField, TextAreaField, TextField } from '@/components';
 import { QUESTIONS_COPY } from '@/constants';
-import { CLIENT_OPTIONS } from '../constants';
 import { CategoryTagsRow } from './CategoryTagsRow';
 import { useAddQuestionForm } from '../hooks/useAddQuestionForm';
 import type { AddQuestionValues } from '../schema';
 import './AddQuestionForm.css';
 
 interface AddQuestionFormProps {
-  onSubmit: (values: AddQuestionValues) => void;
+  onSubmit: (values: AddQuestionValues, onSuccess: () => void) => void;
   onCancel: () => void;
+  isSubmitting: boolean;
 }
 
-export function AddQuestionForm({ onSubmit, onCancel }: AddQuestionFormProps) {
+export function AddQuestionForm({ onSubmit, onCancel, isSubmitting }: AddQuestionFormProps) {
   const {
     values,
     errors,
     canAddCategory,
+    clientOptions,
+    isLoading,
+    isError,
+    refetch,
     optionsForRow,
+    tagOptionsForRow,
     setField,
     setRowCategory,
     setRowTags,
@@ -25,6 +30,18 @@ export function AddQuestionForm({ onSubmit, onCancel }: AddQuestionFormProps) {
     handleSubmit,
     reset,
   } = useAddQuestionForm(onSubmit);
+
+  if (isLoading) return <Loader label={QUESTIONS_COPY.OPTIONS_LOADING} />;
+  if (isError) {
+    return (
+      <div className="qform">
+        <Alert>{QUESTIONS_COPY.OPTIONS_ERROR}</Alert>
+        <Button variant="secondary" onClick={refetch}>
+          {QUESTIONS_COPY.OPTIONS_RETRY}
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <form className="qform" onSubmit={handleSubmit} noValidate>
@@ -50,6 +67,7 @@ export function AddQuestionForm({ onSubmit, onCancel }: AddQuestionFormProps) {
           key={index}
           row={row}
           categoryOptions={optionsForRow(index)}
+          tagOptions={tagOptionsForRow(row.category)}
           error={row.category === '' ? errors.categories : undefined}
           onCategoryChange={(category) => setRowCategory(index, category)}
           onTagsChange={(tags) => setRowTags(index, tags)}
@@ -59,13 +77,13 @@ export function AddQuestionForm({ onSubmit, onCancel }: AddQuestionFormProps) {
       <Button variant="secondary" disabled={!canAddCategory} onClick={addCategory}>
         + {QUESTIONS_COPY.ADD_CATEGORY}
       </Button>
-      <MultiSelect
-        label={QUESTIONS_COPY.FIELD_CLIENTS}
-        options={CLIENT_OPTIONS}
-        value={values.clients}
-        onChange={(clients) => setField('clients', clients)}
-        placeholder={QUESTIONS_COPY.PLACEHOLDER_CLIENTS}
-        badgeVariant="client"
+      <SelectField
+        label={QUESTIONS_COPY.FIELD_CLIENT}
+        name="client"
+        options={clientOptions}
+        placeholder={QUESTIONS_COPY.PLACEHOLDER_CLIENT}
+        value={values.clientId}
+        onChange={(event) => setField('clientId', event.target.value)}
       />
       <div className="qform__actions">
         <Button
@@ -77,7 +95,9 @@ export function AddQuestionForm({ onSubmit, onCancel }: AddQuestionFormProps) {
         >
           {QUESTIONS_COPY.CANCEL}
         </Button>
-        <Button type="submit">{QUESTIONS_COPY.SUBMIT}</Button>
+        <Button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? QUESTIONS_COPY.SUBMITTING : QUESTIONS_COPY.SUBMIT}
+        </Button>
       </div>
     </form>
   );

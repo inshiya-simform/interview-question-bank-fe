@@ -4,4 +4,13 @@ export const API_ENDPOINTS = {
     LOGIN: '/auth/login',
     ME: '/auth/me',
   },
+  QUESTIONS: {
+    BASE: '/questions',
+  },
+  CLIENTS: {
+    BASE: '/clients',
+  },
+  TAGS: {
+    BASE: '/tags',
+  },
 } as const;

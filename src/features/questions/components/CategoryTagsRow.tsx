@@ -1,12 +1,13 @@
 import { MultiSelect, SelectField } from '@/components';
+import type { SelectOption } from '@/components';
 import { QUESTIONS_COPY } from '@/constants';
-import { tagsForCategory } from '../constants';
 import type { CategoryTags } from '../schema';
 import './CategoryTagsRow.css';
 
 interface CategoryTagsRowProps {
   row: CategoryTags;
-  categoryOptions: readonly string[];
+  categoryOptions: readonly SelectOption[];
+  tagOptions: readonly SelectOption[];
   error?: string;
   onCategoryChange: (category: string) => void;
   onTagsChange: (tags: string[]) => void;
@@ -16,6 +17,7 @@ interface CategoryTagsRowProps {
 export function CategoryTagsRow({
   row,
   categoryOptions,
+  tagOptions,
   error,
   onCategoryChange,
   onTagsChange,
@@ -36,7 +38,7 @@ export function CategoryTagsRow({
       />
       <MultiSelect
         label={QUESTIONS_COPY.FIELD_TAGS}
-        options={tagsForCategory(row.category)}
+        options={tagOptions}
         value={row.tags}
         onChange={onTagsChange}
         placeholder={

@@ -1,12 +1,13 @@
 import { cn } from '@/utils/cn';
 import { Badge } from './Badge';
 import type { BadgeVariant } from './Badge';
+import type { SelectOption } from './selectOption';
 import { useMultiSelect } from './useMultiSelect';
 import './MultiSelect.css';
 
 interface MultiSelectProps {
   label: string;
-  options: readonly string[];
+  options: readonly SelectOption[];
   value: string[];
   onChange: (next: string[]) => void;
   placeholder: string;
@@ -53,7 +54,7 @@ export function MultiSelect({
           <span className="multi__badges">
             {value.map((item) => (
               <Badge key={item} variant={badgeVariant}>
-                {item}
+                {options.find((option) => option.value === item)?.label ?? item}
               </Badge>
             ))}
           </span>
@@ -68,14 +69,14 @@ export function MultiSelect({
           aria-labelledby={`${triggerId}-label`}
         >
           {options.map((option) => (
-            <li key={option}>
+            <li key={option.value}>
               <label className="multi__option">
                 <input
                   type="checkbox"
-                  checked={value.includes(option)}
-                  onChange={() => toggleOption(option)}
+                  checked={value.includes(option.value)}
+                  onChange={() => toggleOption(option.value)}
                 />
-                {option}
+                {option.label}
               </label>
             </li>
           ))}

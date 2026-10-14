@@ -1,7 +1,7 @@
 import { Badge } from '@/components';
 import { QUESTIONS_COPY } from '@/constants';
 import { cn } from '@/utils/cn';
-import type { Question } from '../schema';
+import type { Question } from '@/api';
 import { useQuestionItem } from '../hooks/useQuestionItem';
 import './QuestionItem.css';
 
@@ -23,12 +23,12 @@ export function QuestionItem({ question }: QuestionItemProps) {
           aria-controls={panelId}
           onClick={toggle}
         >
-          <span className="qitem__text">{question.question}</span>
+          <span className="qitem__text">{question.text}</span>
           <span className="qitem__chevron" aria-hidden="true" />
         </button>
       </h3>
       <ul className="qitem__badges" aria-label={QUESTIONS_COPY.FIELD_CATEGORIES}>
-        {question.categories.map(({ category, tags }) => (
+        {Object.entries(question.tags).map(([category, tags]) => (
           <li key={category} className="qitem__group">
             <Badge variant="category">{category}</Badge>
             {tags.length > 0 && <span aria-hidden="true">›</span>}
@@ -39,14 +39,14 @@ export function QuestionItem({ question }: QuestionItemProps) {
             ))}
           </li>
         ))}
-        {question.clients.map((client) => (
-          <li key={client}>
-            <Badge variant="client">{client}</Badge>
+        {question.client && (
+          <li>
+            <Badge variant="client">{question.client.name}</Badge>
           </li>
-        ))}
+        )}
       </ul>
       <div id={panelId} role="region" aria-labelledby={triggerId} hidden={!isOpen}>
-        <p className="qitem__answer">{question.answer || QUESTIONS_COPY.NO_ANSWER}</p>
+        <p className="qitem__answer">{question.answerNotes || QUESTIONS_COPY.NO_ANSWER}</p>
       </div>
     </li>
   );

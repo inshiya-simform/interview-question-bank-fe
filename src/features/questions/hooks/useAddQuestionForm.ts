@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
-import { CATEGORY_OPTIONS } from '../constants';
+import type { SelectOption } from '@/components';
 import { addQuestionSchema } from '../schema';
 import type { AddQuestionValues, CategoryTags } from '../schema';
+import { useQuestionOptions } from './useQuestionOptions';
 
 type Errors = Partial<Record<keyof AddQuestionValues, string>>;
 
@@ -12,23 +13,37 @@ const INITIAL_VALUES: AddQuestionValues = {
   question: '',
   answer: '',
   categories: [EMPTY_ROW],
-  clients: [],
+  clientId: '',
 };
 
-export function useAddQuestionForm(onSubmit: (values: AddQuestionValues) => void) {
+export function useAddQuestionForm(
+  onSubmit: (values: AddQuestionValues, onSuccess: () => void) => void,
+) {
   const [values, setValues] = useState(INITIAL_VALUES);
   const [errors, setErrors] = useState<Errors>({});
+  const { categories, clientOptions, isLoading, isError, refetch } = useQuestionOptions();
 
+  const categoryOptions: SelectOption[] = categories.map(({ id, name }) => ({
+    value: String(id),
+    label: name,
+  }));
   const usedCategories = values.categories.map((row) => row.category);
   const optionsForRow = (index: number) =>
-    CATEGORY_OPTIONS.filter(
-      (option) => option === values.categories[index]?.category || !usedCategories.includes(option),
+    categoryOptions.filter(
+      (option) =>
+        option.value === values.categories[index]?.category ||
+        !usedCategories.includes(option.value),
     );
+  const tagOptionsForRow = (category: string): SelectOption[] =>
+    (categories.find(({ id }) => String(id) === category)?.tags ?? []).map(({ id, name }) => ({
+      value: String(id),
+      label: name,
+    }));
   const canAddCategory =
     values.categories.every((row) => row.category !== '') &&
-    values.categories.length < CATEGORY_OPTIONS.length;
+    values.categories.length < categoryOptions.length;
 
-  const setField = <K extends 'question' | 'answer' | 'clients'>(
+  const setField = <K extends 'question' | 'answer' | 'clientId'>(
     field: K,
     value: AddQuestionValues[K],
   ) => {
@@ -82,15 +97,19 @@ export function useAddQuestionForm(onSubmit: (values: AddQuestionValues) => void
       setErrors(next);
       return;
     }
-    onSubmit(result.data);
-    reset();
+    onSubmit(result.data, reset);
   };
 
   return {
     values,
     errors,
     canAddCategory,
+    clientOptions,
+    isLoading,
+    isError,
+    refetch,
     optionsForRow,
+    tagOptionsForRow,
     setField,
     setRowCategory,
     setRowTags,

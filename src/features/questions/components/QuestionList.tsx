@@ -1,5 +1,5 @@
 import { QUESTIONS_COPY } from '@/constants';
-import type { Question } from '../schema';
+import type { Question } from '@/api';
 import { QuestionItem } from './QuestionItem';
 import './QuestionList.css';
 

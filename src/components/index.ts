@@ -10,3 +10,4 @@ export { SelectField } from './SelectField';
 export { Toaster } from './Toaster';
 export { TextAreaField } from './TextAreaField';
 export { TextField } from './TextField';
+export type { SelectOption } from './selectOption';
