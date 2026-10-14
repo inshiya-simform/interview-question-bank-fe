@@ -8,6 +8,8 @@ import type {
   ClientAccessListParams,
   ClientAccessListResponse,
 } from '../type/admin/client-access-list';
+import { createClientSchema } from '../type/admin/create-client';
+import type { CreateClientPayload } from '../type/admin/create-client';
 import { createStaffSchema } from '../type/admin/create-staff';
 import type { CreateStaffPayload } from '../type/admin/create-staff';
 import { grantClientAccessSchema } from '../type/admin/grant-client-access';
@@ -45,5 +47,13 @@ export async function grantClientAccess(
 
 export async function revokeClientAccess(clientId: string, userId: string): Promise<ClientAccess> {
   const { data } = await apiClient.delete(API_ENDPOINTS.ADMIN.CLIENT_USER(clientId, userId));
+  return clientAccessSchema.parse(data);
+}
+
+export async function createClient(payload: CreateClientPayload): Promise<ClientAccess> {
+  const { data } = await apiClient.post(
+    API_ENDPOINTS.ADMIN.CLIENTS,
+    createClientSchema.parse(payload),
+  );
   return clientAccessSchema.parse(data);
 }

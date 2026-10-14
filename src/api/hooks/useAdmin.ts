@@ -1,6 +1,7 @@
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { QUERY_KEYS } from '../query-keys';
 import {
+  createClient,
   createStaff,
   getClientAccessList,
   grantClientAccess,
@@ -35,6 +36,14 @@ export function useRevokeClientAccessMutation() {
   return useMutation({
     mutationFn: ({ clientId, userId }: { clientId: string; userId: string }) =>
       revokeClientAccess(clientId, userId),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEYS.CLIENT_ACCESS_LIST }),
+  });
+}
+
+export function useCreateClientMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: createClient,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEYS.CLIENT_ACCESS_LIST }),
   });
 }

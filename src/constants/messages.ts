@@ -19,6 +19,7 @@ export const MESSAGES = {
   ERROR_RESPONSE_INVALID: 'Received an unexpected response from the server.',
   ROLE_REQUIRED: 'Select a role',
   STAFF_ADDED: 'Member added',
+  CLIENT_ADDED: 'Client added',
   CLIENT_ACCESS_UPDATED: 'Client access updated',
 } as const;
 
@@ -80,6 +81,10 @@ export const ADMIN_COPY = {
   LOAD_ERROR: 'Could not load client access.',
   RETRY: 'Try again',
   ADD_USER: 'Add user',
+  ADD_CLIENT: 'Add client',
+  FIELD_CLIENT_NAME: 'Client name',
+  PLACEHOLDER_CLIENT_NAME: 'e.g. Acme Corp',
+  ADDING_CLIENT: 'Adding...',
   FIELD_USER_EMAIL: 'User email',
   PLACEHOLDER_USER_EMAIL: 'name@company.com',
   CONFIRM_ADD: 'Add',

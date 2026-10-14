@@ -1,6 +1,8 @@
 import { Alert, Button, Loader, Pagination, TextField } from '@/components';
 import { ADMIN_COPY } from '@/constants';
+import { useDisclosure } from '@/hooks/useDisclosure';
 import { useClientAccessTable } from '../hooks/useClientAccessTable';
+import { AddClientForm } from './AddClientForm';
 import { ClientAccessRow } from './ClientAccessRow';
 import './ClientAccessTable.css';
 
@@ -18,18 +20,23 @@ export function ClientAccessTable() {
     hasData,
     refetch,
   } = useClientAccessTable();
+  const addClient = useDisclosure();
 
   return (
     <section className="access" aria-label={ADMIN_COPY.TABLE_LABEL}>
-      <TextField
-        className="access__search"
-        type="search"
-        name="search"
-        label={ADMIN_COPY.FIELD_SEARCH}
-        placeholder={ADMIN_COPY.PLACEHOLDER_SEARCH}
-        value={searchInput}
-        onChange={(event) => setSearchInput(event.target.value)}
-      />
+      <div className="access__toolbar">
+        <TextField
+          className="access__search"
+          type="search"
+          name="search"
+          label={ADMIN_COPY.FIELD_SEARCH}
+          placeholder={ADMIN_COPY.PLACEHOLDER_SEARCH}
+          value={searchInput}
+          onChange={(event) => setSearchInput(event.target.value)}
+        />
+        {!addClient.isOpen && <Button onClick={addClient.toggle}>+ {ADMIN_COPY.ADD_CLIENT}</Button>}
+      </div>
+      {addClient.isOpen && <AddClientForm onDone={addClient.toggle} />}
       <p className="access__count" aria-live="polite">
         {hasData ? ADMIN_COPY.CLIENT_COUNT(total) : ''}
       </p>

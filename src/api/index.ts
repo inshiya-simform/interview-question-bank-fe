@@ -4,6 +4,7 @@ export * from './service/clients.service';
 export * from './service/questions.service';
 export * from './service/tags.service';
 export * from './token-storage';
+export * from './type/admin/create-client';
 export * from './type/admin/create-staff';
 export * from './type/admin/client-access-list';
 export * from './type/admin/grant-client-access';
