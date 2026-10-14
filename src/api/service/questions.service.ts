@@ -9,6 +9,16 @@ import {
   questionListParamsSchema,
   questionListResponseSchema,
 } from '../type/questions/questions-list';
+import { questionSchema } from '../type/questions/shared';
+import {
+  updateQuestionPayloadSchema,
+  updateQuestionResponseSchema,
+} from '../type/questions/update-question';
+import type {
+  UpdateQuestionPayload,
+  UpdateQuestionResponse,
+} from '../type/questions/update-question';
+import type { Question } from '../type/questions/shared';
 import type { QuestionListParams, QuestionListResponse } from '../type/questions/questions-list';
 import type {
   CreateQuestionPayload,
@@ -36,4 +46,20 @@ export async function getQuestions(params: QuestionListParams = {}): Promise<Que
     },
   });
   return questionListResponseSchema.parse(data);
+}
+
+export async function getQuestion(id: string): Promise<Question> {
+  const { data } = await apiClient.get(API_ENDPOINTS.QUESTIONS.BY_ID(id));
+  return questionSchema.parse(data);
+}
+
+export async function updateQuestion(
+  id: string,
+  payload: UpdateQuestionPayload,
+): Promise<UpdateQuestionResponse> {
+  const { data } = await apiClient.patch(
+    API_ENDPOINTS.QUESTIONS.BY_ID(id),
+    updateQuestionPayloadSchema.parse(payload),
+  );
+  return updateQuestionResponseSchema.parse(data);
 }

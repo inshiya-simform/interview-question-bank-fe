@@ -7,7 +7,7 @@ export const categoryTagsSchema = z.object({
   tags: z.array(z.string()),
 });
 
-export const addQuestionSchema = z.object({
+export const questionFormSchema = z.object({
   question: z.string().trim().min(1, MESSAGES.QUESTION_TEXT_REQUIRED),
   answer: z.string().trim().min(1, MESSAGES.ANSWER_REQUIRED),
   categories: z.array(categoryTagsSchema).min(1, MESSAGES.CATEGORY_REQUIRED),
@@ -15,4 +15,4 @@ export const addQuestionSchema = z.object({
 });
 
 export type CategoryTags = z.infer<typeof categoryTagsSchema>;
-export type AddQuestionValues = z.infer<typeof addQuestionSchema>;
+export type QuestionFormValues = z.infer<typeof questionFormSchema>;

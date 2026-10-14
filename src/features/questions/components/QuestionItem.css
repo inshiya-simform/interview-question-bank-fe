@@ -9,7 +9,15 @@
   border-color: var(--color-muted);
 }
 
+.qitem__top {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
 .qitem__heading {
+  flex: 1;
+  min-width: 0;
   font-size: 1rem;
 }
 

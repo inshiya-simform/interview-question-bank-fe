@@ -5,7 +5,11 @@ import { QuestionFilters } from './QuestionFilters';
 import { QuestionItem } from './QuestionItem';
 import './QuestionList.css';
 
-export function QuestionList() {
+interface QuestionListProps {
+  onEdit: (id: string) => void;
+}
+
+export function QuestionList({ onEdit }: QuestionListProps) {
   const {
     filters,
     searchInput,
@@ -53,7 +57,7 @@ export function QuestionList() {
       {questions.length > 0 && (
         <ul className="qlist">
           {questions.map((question) => (
-            <QuestionItem key={question.id} question={question} />
+            <QuestionItem key={question.id} question={question} onEdit={onEdit} />
           ))}
         </ul>
       )}

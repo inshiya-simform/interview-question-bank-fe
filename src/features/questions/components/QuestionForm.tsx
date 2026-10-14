@@ -1,17 +1,27 @@
 import { Alert, Button, Loader, SelectField, TextAreaField, TextField } from '@/components';
 import { QUESTIONS_COPY } from '@/constants';
 import { CategoryTagsRow } from './CategoryTagsRow';
-import { useAddQuestionForm } from '../hooks/useAddQuestionForm';
-import type { AddQuestionValues } from '../schema';
-import './AddQuestionForm.css';
+import { useQuestionForm } from '../hooks/useQuestionForm';
+import type { QuestionFormValues } from '../schema';
+import './QuestionForm.css';
 
-interface AddQuestionFormProps {
-  onSubmit: (values: AddQuestionValues, onSuccess: () => void) => void;
+interface QuestionFormProps {
+  onSubmit: (values: QuestionFormValues, onSuccess: () => void) => void;
   onCancel: () => void;
   isSubmitting: boolean;
+  submitLabel: string;
+  submittingLabel: string;
+  initialValues?: QuestionFormValues;
 }
 
-export function AddQuestionForm({ onSubmit, onCancel, isSubmitting }: AddQuestionFormProps) {
+export function QuestionForm({
+  onSubmit,
+  onCancel,
+  isSubmitting,
+  submitLabel,
+  submittingLabel,
+  initialValues,
+}: QuestionFormProps) {
   const {
     values,
     errors,
@@ -29,7 +39,7 @@ export function AddQuestionForm({ onSubmit, onCancel, isSubmitting }: AddQuestio
     removeCategory,
     handleSubmit,
     reset,
-  } = useAddQuestionForm(onSubmit);
+  } = useQuestionForm(onSubmit, initialValues);
 
   if (isLoading) return <Loader label={QUESTIONS_COPY.OPTIONS_LOADING} />;
   if (isError) {
@@ -96,7 +106,7 @@ export function AddQuestionForm({ onSubmit, onCancel, isSubmitting }: AddQuestio
           {QUESTIONS_COPY.CANCEL}
         </Button>
         <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? QUESTIONS_COPY.SUBMITTING : QUESTIONS_COPY.SUBMIT}
+          {isSubmitting ? submittingLabel : submitLabel}
         </Button>
       </div>
     </form>
