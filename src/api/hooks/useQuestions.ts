@@ -1,6 +1,7 @@
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { QUERY_KEYS } from '../query-keys';
 import {
+  checkDuplicateQuestion,
   createQuestion,
   getQuestion,
   getQuestions,
@@ -40,5 +41,15 @@ export function useQuestionQuery(userId: string | undefined, id: string | null) 
     queryKey: QUERY_KEYS.QUESTION_ITEM(userId ?? '', id ?? ''),
     queryFn: () => getQuestion(id ?? ''),
     enabled: Boolean(userId) && id !== null,
+  });
+}
+
+// POST is used as a read-only check, so it is modelled as a query.
+export function useCheckDuplicateQuery(userId: string | undefined, text: string, enabled: boolean) {
+  return useQuery({
+    queryKey: QUERY_KEYS.DUPLICATE_CHECK(userId ?? '', text),
+    queryFn: () => checkDuplicateQuestion({ text }),
+    enabled: enabled && Boolean(userId),
+    placeholderData: keepPreviousData,
   });
 }

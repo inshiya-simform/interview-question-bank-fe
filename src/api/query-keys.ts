@@ -10,6 +10,8 @@ export const QUERY_KEYS = {
     ['questions', userId, params] as const,
   // Shares the 'questions' prefix so list invalidation also refreshes cached items.
   QUESTION_ITEM: (userId: string, id: string) => ['questions', 'item', userId, id] as const,
+  DUPLICATE_CHECK: (userId: string, text: string) =>
+    ['questions', 'duplicate-check', userId, text] as const,
   CLIENTS: (userId: string) => ['clients', userId] as const,
   TAGS: (userId: string) => ['tags', userId] as const,
   CLIENT_ACCESS_LIST: ['admin', 'client-access'] as const,
