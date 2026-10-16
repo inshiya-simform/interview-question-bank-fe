@@ -8,7 +8,8 @@ type FormErrors<K extends string> = Partial<Record<K, string>>;
 export function useZodForm<K extends string>(
   schema: z.ZodType<FormValues<K>, FormValues<K>>,
   initialValues: FormValues<K>,
-  onSubmit?: (values: FormValues<K>) => void,
+  // `reset` lets callers clear the form once an async submit succeeds.
+  onSubmit?: (values: FormValues<K>, reset: () => void) => void,
 ) {
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState<FormErrors<K>>({});
@@ -19,12 +20,17 @@ export function useZodForm<K extends string>(
     setErrors((current) => ({ ...current, [name]: undefined }));
   };
 
+  const reset = () => {
+    setValues(initialValues);
+    setErrors({});
+  };
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const result = schema.safeParse(values);
     if (result.success) {
       setErrors({});
-      onSubmit?.(result.data);
+      onSubmit?.(result.data, reset);
       return;
     }
     const next: FormErrors<K> = {};
@@ -35,5 +41,5 @@ export function useZodForm<K extends string>(
     setErrors(next);
   };
 
-  return { values, errors, handleChange, handleSubmit };
+  return { values, errors, handleChange, handleSubmit, reset };
 }

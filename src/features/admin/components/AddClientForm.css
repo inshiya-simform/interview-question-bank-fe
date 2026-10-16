@@ -1,0 +1,20 @@
+.client-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  background: var(--color-bg-deep);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.client-form__name {
+  flex: 1 1 16rem;
+  max-width: 28rem;
+}
+
+/* Buttons sit level with the input, below the field label (0.875rem × 1.5 line + gap). */
+.client-form > .btn {
+  margin-top: calc(1.3125rem + var(--space-2));
+}

@@ -12,6 +12,12 @@ export const API_ENDPOINTS = {
   CLIENTS: {
     BASE: '/clients',
   },
+  ADMIN: {
+    USERS: '/admin/users',
+    CLIENTS: '/admin/clients',
+    CLIENT_USERS: (clientId: string) => `/admin/clients/${clientId}/users`,
+    CLIENT_USER: (clientId: string, userId: string) => `/admin/clients/${clientId}/users/${userId}`,
+  },
   TAGS: {
     BASE: '/tags',
   },

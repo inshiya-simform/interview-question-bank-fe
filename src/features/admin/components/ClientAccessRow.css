@@ -1,0 +1,42 @@
+.access-row > * {
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: top;
+  text-align: left;
+}
+
+.access-row__client {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.access-row__name {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.access-row__users {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.access-row__editor {
+  flex-basis: 100%;
+}
+
+.btn.access-row__add {
+  min-height: 2.25rem;
+  padding: 0 var(--space-3);
+  border-style: dashed;
+  border-color: var(--color-muted);
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 400;
+}

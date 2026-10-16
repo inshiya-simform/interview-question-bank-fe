@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { ROLES } from '@/constants';
 
-export const roleSchema = z.enum([ROLES.USER, ROLES.AUTHOR, ROLES.REVIEWER]);
+export const roleSchema = z.enum([ROLES.SUPER_ADMIN, ROLES.USER, ROLES.AUTHOR, ROLES.REVIEWER]);
 
 export const sessionUserSchema = z.object({
   id: z.string(),

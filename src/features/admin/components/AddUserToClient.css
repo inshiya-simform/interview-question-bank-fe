@@ -1,0 +1,16 @@
+.add-user {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.add-user__email {
+  flex: 1 1 14rem;
+  max-width: 24rem;
+}
+
+/* Buttons sit level with the input, below the field label (0.875rem × 1.5 line + gap). */
+.add-user > .btn {
+  margin-top: calc(1.3125rem + var(--space-2));
+}
