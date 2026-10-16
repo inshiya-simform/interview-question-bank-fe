@@ -1,0 +1,2 @@
+export const DUPLICATE_CHECK_DEBOUNCE_MS = 500;
+export const DUPLICATE_CHECK_MIN_LENGTH = 3;

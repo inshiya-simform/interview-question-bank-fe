@@ -2,6 +2,14 @@ import { joinCsv } from '@/utils/csv';
 import { apiClient } from '../client';
 import { API_ENDPOINTS } from '../endpoints';
 import {
+  checkDuplicatePayloadSchema,
+  checkDuplicateResponseSchema,
+} from '../type/questions/check-duplicate';
+import type {
+  CheckDuplicatePayload,
+  CheckDuplicateResponse,
+} from '../type/questions/check-duplicate';
+import {
   createQuestionPayloadSchema,
   createQuestionResponseSchema,
 } from '../type/questions/create-question';
@@ -62,4 +70,14 @@ export async function updateQuestion(
     updateQuestionPayloadSchema.parse(payload),
   );
   return updateQuestionResponseSchema.parse(data);
+}
+
+export async function checkDuplicateQuestion(
+  payload: CheckDuplicatePayload,
+): Promise<CheckDuplicateResponse> {
+  const { data } = await apiClient.post(
+    API_ENDPOINTS.QUESTIONS.CHECK_DUPLICATE,
+    checkDuplicatePayloadSchema.parse(payload),
+  );
+  return checkDuplicateResponseSchema.parse(data);
 }

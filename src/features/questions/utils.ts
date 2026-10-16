@@ -1,11 +1,13 @@
-import type { Question, TagCategory, UpdateQuestionPayload } from '@/api';
+import type { Question, TagCategory, CreateQuestionPayload } from '@/api';
 import type { QuestionFormValues } from './schema';
 
-export function buildQuestionPayload(values: QuestionFormValues): UpdateQuestionPayload {
+export function buildQuestionPayload(values: QuestionFormValues): CreateQuestionPayload {
   return {
     text: values.question,
     answerNotes: values.answer,
     clientId: values.clientId || undefined,
+    confirmDistinct: values.confirmDistinct || undefined,
+    distinctReason: values.confirmDistinct ? values.distinctReason : undefined,
     tags: values.categories.map(({ category, tags }) => ({
       categoryId: Number(category),
       tagIds: tags.map(Number),

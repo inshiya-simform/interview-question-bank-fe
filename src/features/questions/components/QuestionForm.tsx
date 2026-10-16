@@ -1,6 +1,7 @@
 import { Alert, Button, Loader, SelectField, TextAreaField, TextField } from '@/components';
 import { QUESTIONS_COPY } from '@/constants';
 import { CategoryTagsRow } from './CategoryTagsRow';
+import { DuplicateMatches } from './DuplicateMatches';
 import { useQuestionForm } from '../hooks/useQuestionForm';
 import type { QuestionFormValues } from '../schema';
 import './QuestionForm.css';
@@ -12,6 +13,7 @@ interface QuestionFormProps {
   submitLabel: string;
   submittingLabel: string;
   initialValues?: QuestionFormValues;
+  checkDuplicates?: boolean;
 }
 
 export function QuestionForm({
@@ -21,11 +23,16 @@ export function QuestionForm({
   submitLabel,
   submittingLabel,
   initialValues,
+  checkDuplicates = false,
 }: QuestionFormProps) {
   const {
     values,
     errors,
     canAddCategory,
+    duplicates,
+    isDuplicateBlocked,
+    setConfirmDistinct,
+    setDistinctReason,
     clientOptions,
     isLoading,
     isError,
@@ -39,7 +46,7 @@ export function QuestionForm({
     removeCategory,
     handleSubmit,
     reset,
-  } = useQuestionForm(onSubmit, initialValues);
+  } = useQuestionForm(onSubmit, initialValues, checkDuplicates);
 
   if (isLoading) return <Loader label={QUESTIONS_COPY.OPTIONS_LOADING} />;
   if (isError) {
@@ -63,6 +70,17 @@ export function QuestionForm({
         onChange={(event) => setField('question', event.target.value)}
         error={errors.question}
       />
+      {checkDuplicates && (
+        <DuplicateMatches
+          matches={duplicates.matches}
+          isChecking={duplicates.isChecking}
+          isConfirmed={Boolean(values.confirmDistinct)}
+          onConfirmChange={setConfirmDistinct}
+          reason={values.distinctReason ?? ''}
+          reasonError={errors.distinctReason}
+          onReasonChange={setDistinctReason}
+        />
+      )}
       <TextAreaField
         label={QUESTIONS_COPY.FIELD_ANSWER}
         name="answer"
@@ -105,7 +123,7 @@ export function QuestionForm({
         >
           {QUESTIONS_COPY.CANCEL}
         </Button>
-        <Button type="submit" disabled={isSubmitting}>
+        <Button type="submit" disabled={isSubmitting || isDuplicateBlocked}>
           {isSubmitting ? submittingLabel : submitLabel}
         </Button>
       </div>

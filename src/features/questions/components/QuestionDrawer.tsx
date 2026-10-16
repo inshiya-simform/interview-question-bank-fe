@@ -46,6 +46,7 @@ export function QuestionDrawer({
           onSubmit={onSubmit}
           onCancel={onClose}
           isSubmitting={isSubmitting}
+          checkDuplicates={!isEditing}
           submitLabel={isEditing ? QUESTIONS_COPY.SAVE : QUESTIONS_COPY.SUBMIT}
           submittingLabel={isEditing ? QUESTIONS_COPY.SAVING : QUESTIONS_COPY.SUBMITTING}
         />

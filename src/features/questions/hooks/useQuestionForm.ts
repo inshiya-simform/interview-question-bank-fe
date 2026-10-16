@@ -3,6 +3,7 @@ import type { FormEvent } from 'react';
 import type { SelectOption } from '@/components';
 import { questionFormSchema } from '../schema';
 import type { QuestionFormValues, CategoryTags } from '../schema';
+import { useDuplicateCheck } from './useDuplicateCheck';
 import { useQuestionOptions } from './useQuestionOptions';
 
 type Errors = Partial<Record<keyof QuestionFormValues, string>>;
@@ -19,9 +20,12 @@ const INITIAL_VALUES: QuestionFormValues = {
 export function useQuestionForm(
   onSubmit: (values: QuestionFormValues, onSuccess: () => void) => void,
   initialValues: QuestionFormValues = INITIAL_VALUES,
+  checkDuplicates = false,
 ) {
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState<Errors>({});
+  const duplicates = useDuplicateCheck(values.question, checkDuplicates);
+  const isDuplicateBlocked = duplicates.matches.length > 0 && !values.confirmDistinct;
   const { categories, clientOptions, isLoading, isError, refetch } = useQuestionOptions();
 
   const categoryOptions: SelectOption[] = categories.map(({ id, name }) => ({
@@ -48,8 +52,27 @@ export function useQuestionForm(
     field: K,
     value: QuestionFormValues[K],
   ) => {
-    setValues((current) => ({ ...current, [field]: value }));
+    // Changing the question text invalidates any earlier "this is different" confirmation.
+    setValues((current) => ({
+      ...current,
+      [field]: value,
+      ...(field === 'question' && { confirmDistinct: false, distinctReason: '' }),
+    }));
     setErrors((current) => ({ ...current, [field]: undefined }));
+  };
+
+  const setConfirmDistinct = (confirmDistinct: boolean) => {
+    setValues((current) => ({
+      ...current,
+      confirmDistinct,
+      ...(!confirmDistinct && { distinctReason: '' }),
+    }));
+    setErrors((current) => ({ ...current, distinctReason: undefined }));
+  };
+
+  const setDistinctReason = (distinctReason: string) => {
+    setValues((current) => ({ ...current, distinctReason }));
+    setErrors((current) => ({ ...current, distinctReason: undefined }));
   };
 
   const updateRow = (index: number, row: CategoryTags) => {
@@ -86,12 +109,22 @@ export function useQuestionForm(
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const result = questionFormSchema.safeParse(values);
+    if (isDuplicateBlocked) return;
+    // A stale confirmation must not demand a reason once no duplicates are shown.
+    const hasMatches = duplicates.matches.length > 0;
+    const result = questionFormSchema.safeParse(
+      hasMatches ? values : { ...values, confirmDistinct: false, distinctReason: '' },
+    );
     if (!result.success) {
       const next: Errors = {};
       for (const issue of result.error.issues) {
         const field = issue.path[0];
-        if (field === 'question' || field === 'answer' || field === 'categories') {
+        if (
+          field === 'question' ||
+          field === 'answer' ||
+          field === 'categories' ||
+          field === 'distinctReason'
+        ) {
           next[field] ??= issue.message;
         }
       }
@@ -105,6 +138,10 @@ export function useQuestionForm(
     values,
     errors,
     canAddCategory,
+    duplicates,
+    isDuplicateBlocked,
+    setConfirmDistinct,
+    setDistinctReason,
     clientOptions,
     isLoading,
     isError,
