@@ -1,8 +1,16 @@
-import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  keepPreviousData,
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
+import { ADMIN_USERS_PAGE_SIZE } from '@/constants';
 import { QUERY_KEYS } from '../query-keys';
 import {
   createClient,
   createStaff,
+  getAdminUsers,
   getClientAccessList,
   grantClientAccess,
   revokeClientAccess,
@@ -18,8 +26,23 @@ export function useClientAccessQuery(userId: string | undefined, params: ClientA
   });
 }
 
+export function useAdminUsersInfiniteQuery(userId: string | undefined, search: string) {
+  return useInfiniteQuery({
+    queryKey: QUERY_KEYS.ADMIN_USERS(userId ?? '', search),
+    queryFn: ({ pageParam }) =>
+      getAdminUsers({ page: pageParam, limit: ADMIN_USERS_PAGE_SIZE, search: search || undefined }),
+    initialPageParam: 1,
+    getNextPageParam: ({ page, limit, total }) => (page * limit < total ? page + 1 : undefined),
+    enabled: Boolean(userId),
+  });
+}
+
 export function useCreateStaffMutation() {
-  return useMutation({ mutationFn: createStaff });
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: createStaff,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEYS.ADMIN_USERS_LIST }),
+  });
 }
 
 export function useGrantClientAccessMutation() {

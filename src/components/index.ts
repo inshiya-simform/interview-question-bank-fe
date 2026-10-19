@@ -1,6 +1,7 @@
 export { Alert } from './Alert';
 export { Badge } from './Badge';
 export { Button } from './Button';
+export { Combobox } from './Combobox';
 export { Drawer } from './Drawer';
 export { ErrorFallback } from './ErrorFallback';
 export { Loader } from './Loader';

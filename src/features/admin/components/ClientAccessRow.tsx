@@ -36,7 +36,12 @@ export function ClientAccessRow({ client }: ClientAccessRowProps) {
           ))}
           <li className={isAdding ? 'access-row__editor' : undefined}>
             {isAdding ? (
-              <AddUserToClient isPending={isGranting} onAdd={addUser} onCancel={closeAdd} />
+              <AddUserToClient
+                existingUserIds={client.users.map((user) => user.id)}
+                isPending={isGranting}
+                onAdd={addUser}
+                onCancel={closeAdd}
+              />
             ) : (
               <Button variant="secondary" className="access-row__add" onClick={openAdd}>
                 + {ADMIN_COPY.ADD_USER}

@@ -4,6 +4,7 @@ import { PASSWORD_MIN_LENGTH, REVIEW_NOTE_MAX_LENGTH } from './validation';
 
 export const MESSAGES = {
   EMAIL_REQUIRED: 'Email is required',
+  USER_REQUIRED: 'Select a user',
   EMAIL_INVALID: 'Enter a valid email address',
   PASSWORD_REQUIRED: 'Password is required',
   PASSWORD_TOO_SHORT: `Password must be at least ${PASSWORD_MIN_LENGTH} characters`,
@@ -96,8 +97,10 @@ export const ADMIN_COPY = {
   FIELD_CLIENT_NAME: 'Client name',
   PLACEHOLDER_CLIENT_NAME: 'e.g. Acme Corp',
   ADDING_CLIENT: 'Adding...',
-  FIELD_USER_EMAIL: 'User email',
-  PLACEHOLDER_USER_EMAIL: 'name@company.com',
+  FIELD_USER: 'User',
+  PLACEHOLDER_USER: 'Search by name or email',
+  LOADING_USERS: 'Loading users...',
+  NO_USERS_MATCH: 'No users found.',
   CONFIRM_ADD: 'Add',
   CANCEL: 'Cancel',
   ADDING: 'Adding...',
