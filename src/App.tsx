@@ -2,15 +2,17 @@ import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Route, Routes } from 'react-router-dom';
 import { ErrorFallback, Loader } from '@/components';
-import { ROUTES } from '@/constants';
+import { PERMISSIONS, ROUTES } from '@/constants';
 import { RequireSuperAdmin, SuperAdminHomeRedirect, SuperAdminLayout } from '@/features/admin';
-import { GuestOnly, RequireAuth } from '@/features/auth';
+import { GuestOnly, RequireAuth, RequirePermission } from '@/features/auth';
 import {
   LazyAddMemberPage,
   LazyClientAccessPage,
   LazyHomePage,
   LazyLoginPage,
+  LazyMySubmissionsPage,
   LazyRegisterPage,
+  LazyReviewQueuePage,
 } from '@/pages/lazyPages';
 
 export function App() {
@@ -21,6 +23,12 @@ export function App() {
           <Route element={<RequireAuth />}>
             <Route element={<SuperAdminHomeRedirect />}>
               <Route path={ROUTES.HOME} element={<LazyHomePage />} />
+            </Route>
+            <Route element={<RequirePermission permissions={[PERMISSIONS.QUESTION_CREATE]} />}>
+              <Route path={ROUTES.MY_QUESTIONS} element={<LazyMySubmissionsPage />} />
+            </Route>
+            <Route element={<RequirePermission permissions={[PERMISSIONS.QUESTION_REVIEW]} />}>
+              <Route path={ROUTES.REVIEW_QUEUE} element={<LazyReviewQueuePage />} />
             </Route>
             <Route element={<RequireSuperAdmin />}>
               <Route element={<SuperAdminLayout />}>

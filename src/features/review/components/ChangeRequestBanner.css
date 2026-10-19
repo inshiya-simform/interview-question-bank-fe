@@ -1,0 +1,29 @@
+.crbanner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+  border: 2px solid var(--color-text);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-deep);
+}
+
+.crbanner--soft {
+  border: 1px dashed var(--color-muted);
+}
+
+.crbanner__title {
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+.crbanner__meta {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.75rem;
+}
+
+.crbanner__note {
+  margin: 0;
+  white-space: pre-wrap;
+}

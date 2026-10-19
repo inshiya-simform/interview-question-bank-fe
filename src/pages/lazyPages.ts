@@ -13,3 +13,9 @@ export const LazyClientAccessPage = lazy(() =>
 export const LazyAddMemberPage = lazy(() =>
   import('./AddMemberPage').then((m) => ({ default: m.AddMemberPage })),
 );
+export const LazyMySubmissionsPage = lazy(() =>
+  import('./MySubmissionsPage').then((m) => ({ default: m.MySubmissionsPage })),
+);
+export const LazyReviewQueuePage = lazy(() =>
+  import('./ReviewQueuePage').then((m) => ({ default: m.ReviewQueuePage })),
+);

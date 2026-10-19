@@ -20,7 +20,7 @@ const matches = (key: string, item: { slug: string; name: string }) =>
 
 // The API returns tag names grouped by category key, while the form works with ids.
 export function buildInitialValues(
-  question: Question,
+  question: Pick<Question, 'text' | 'answerNotes' | 'tags' | 'client'>,
   categories: TagCategory[],
 ): QuestionFormValues {
   const rows = Object.entries(question.tags).flatMap(([categoryKey, tagKeys]) => {

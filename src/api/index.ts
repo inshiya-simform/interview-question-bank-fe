@@ -20,4 +20,7 @@ export * from './type/questions/create-question';
 export * from './type/questions/questions-list';
 export * from './type/questions/shared';
 export * from './type/questions/update-question';
+export * from './type/reviews/review-decision';
+export * from './type/reviews/shared';
+export * from './type/reviews/submission';
 export * from './type/tags/tags-list';
