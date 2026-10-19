@@ -9,6 +9,7 @@ export * from './type/admin/create-staff';
 export * from './type/admin/client-access-list';
 export * from './type/admin/grant-client-access';
 export * from './type/admin/shared';
+export * from './type/admin/users-list';
 export * from './type/auth/current-user';
 export * from './type/auth/login';
 export * from './type/auth/permissions';

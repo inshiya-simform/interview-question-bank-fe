@@ -16,6 +16,15 @@ import { grantClientAccessSchema } from '../type/admin/grant-client-access';
 import type { GrantClientAccessPayload } from '../type/admin/grant-client-access';
 import { adminUserSchema, clientAccessSchema } from '../type/admin/shared';
 import type { AdminUser, ClientAccess } from '../type/admin/shared';
+import { adminUsersParamsSchema, adminUsersResponseSchema } from '../type/admin/users-list';
+import type { AdminUsersParams, AdminUsersResponse } from '../type/admin/users-list';
+
+export async function getAdminUsers(params: AdminUsersParams): Promise<AdminUsersResponse> {
+  const { data } = await apiClient.get(API_ENDPOINTS.ADMIN.USERS, {
+    params: adminUsersParamsSchema.parse(params),
+  });
+  return adminUsersResponseSchema.parse(data);
+}
 
 export async function getClientAccessList(
   params: ClientAccessListParams,

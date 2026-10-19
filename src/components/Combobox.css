@@ -1,0 +1,39 @@
+.combo__panel {
+  position: fixed;
+  z-index: 1000;
+  margin: var(--space-1) 0 0;
+  padding: var(--space-1);
+  max-height: 14rem;
+  overflow-y: auto;
+  list-style: none;
+  background: var(--color-bg-deep);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.combo__option {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+
+.combo__option--active,
+.combo__option:hover {
+  background: var(--color-bg-raised);
+}
+
+.combo__option[aria-selected='true'] {
+  font-weight: 600;
+}
+
+.combo__hint,
+.combo__status {
+  font-size: 0.8125rem;
+  color: var(--color-muted);
+}
+
+.combo__status {
+  padding: var(--space-2) var(--space-3);
+}

@@ -19,6 +19,8 @@ export const QUERY_KEYS = {
   QUESTION_HISTORY: (userId: string, id: string) => ['questions', 'history', userId, id] as const,
   CLIENTS: (userId: string) => ['clients', userId] as const,
   TAGS: (userId: string) => ['tags', userId] as const,
+  ADMIN_USERS_LIST: ['admin', 'users'] as const,
+  ADMIN_USERS: (userId: string, search: string) => ['admin', 'users', userId, search] as const,
   CLIENT_ACCESS_LIST: ['admin', 'client-access'] as const,
   CLIENT_ACCESS: (userId: string, params?: ClientAccessListParams) =>
     ['admin', 'client-access', userId, params] as const,
