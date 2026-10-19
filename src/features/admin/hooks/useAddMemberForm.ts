@@ -7,7 +7,7 @@ import { useZodForm } from '@/hooks/useZodForm';
 export function useAddMemberForm() {
   const mutation = useCreateStaffMutation();
 
-  const form = useZodForm(createStaffSchema, { email: '', role: ROLES.AUTHOR }, (values, reset) =>
+  const form = useZodForm(createStaffSchema, { email: '', role: ROLES.REVIEWER }, (values, reset) =>
     mutation.mutate(createStaffSchema.parse(values), {
       onSuccess: () => {
         toast.success(MESSAGES.STAFF_ADDED);
