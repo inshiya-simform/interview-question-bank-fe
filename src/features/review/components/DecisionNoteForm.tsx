@@ -6,11 +6,12 @@ import './DecisionNoteForm.css';
 
 interface DecisionNoteFormProps {
   mode: DecisionMode;
+  isPending: boolean;
   onSubmit: (text: string) => void;
   onCancel: () => void;
 }
 
-export function DecisionNoteForm({ mode, onSubmit, onCancel }: DecisionNoteFormProps) {
+export function DecisionNoteForm({ mode, isPending, onSubmit, onCancel }: DecisionNoteFormProps) {
   const { label, hint, submit, text, error, count, handleChange, handleSubmit } =
     useDecisionNoteForm(mode, onSubmit);
 
@@ -25,7 +26,9 @@ export function DecisionNoteForm({ mode, onSubmit, onCancel }: DecisionNoteFormP
         <Button variant="secondary" onClick={onCancel}>
           {REVIEW_COPY.CANCEL}
         </Button>
-        <Button type="submit">{submit}</Button>
+        <Button type="submit" isLoading={isPending}>
+          {submit}
+        </Button>
       </div>
     </form>
   );

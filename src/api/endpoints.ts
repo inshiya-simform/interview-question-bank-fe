@@ -9,6 +9,12 @@ export const API_ENDPOINTS = {
     BASE: '/questions',
     BY_ID: (id: string) => `/questions/${id}`,
     CHECK_DUPLICATE: '/questions/check-duplicate',
+    COUNTS: '/questions/counts',
+    SUBMISSIONS: '/questions/submissions',
+    HISTORY: (id: string) => `/questions/${id}/history`,
+    APPROVE: (id: string) => `/questions/${id}/approve`,
+    REQUEST_CHANGES: (id: string) => `/questions/${id}/request-changes`,
+    REJECT: (id: string) => `/questions/${id}/reject`,
   },
   CLIENTS: {
     BASE: '/clients',

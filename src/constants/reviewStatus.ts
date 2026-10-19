@@ -7,23 +7,14 @@ export const REVIEW_STATUS = {
 
 export type ReviewStatus = (typeof REVIEW_STATUS)[keyof typeof REVIEW_STATUS];
 
-// Whether a submission is a brand-new question or an edit of a live one.
-export const REVIEW_KIND = {
-  NEW: 'NEW',
-  EDIT: 'EDIT',
-} as const;
-
-export type ReviewKind = (typeof REVIEW_KIND)[keyof typeof REVIEW_KIND];
-
-export const REVIEW_HISTORY_EVENT = {
-  SUBMITTED: 'SUBMITTED',
-  EDITED: 'EDITED',
+// Actions the history endpoint is known to report; unknown ones fall back to the raw value.
+export const QUESTION_HISTORY_ACTION = {
+  CREATED: 'CREATED',
+  UPDATED: 'UPDATED',
   APPROVED: 'APPROVED',
   CHANGES_REQUESTED: 'CHANGES_REQUESTED',
   REJECTED: 'REJECTED',
 } as const;
-
-export type ReviewHistoryEvent = (typeof REVIEW_HISTORY_EVENT)[keyof typeof REVIEW_HISTORY_EVENT];
 
 // Tab value for "no status filter" on the My submissions page.
 export const ALL_STATUSES = '';

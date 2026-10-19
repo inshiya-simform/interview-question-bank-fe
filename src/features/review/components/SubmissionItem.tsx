@@ -1,19 +1,20 @@
+import type { ReviewedQuestion } from '@/api';
 import { Button } from '@/components';
 import { REVIEW_COPY } from '@/constants';
 import { useSubmissionItem } from '../hooks/useSubmissionItem';
-import type { MockSubmission } from '../mock/seed';
 import { ChangeRequestBanner } from './ChangeRequestBanner';
 import { ReviewStatusChip } from './ReviewStatusChip';
 import { ReviewTags } from './ReviewTags';
 
 interface SubmissionItemProps {
-  submission: MockSubmission;
-  onEdit: (id: string) => void;
+  submission: ReviewedQuestion;
+  onEdit: (submission: ReviewedQuestion) => void;
 }
 
 export function SubmissionItem({ submission, onEdit }: SubmissionItemProps) {
-  const { submittedOn, isEdit, showsDecision, canEdit } = useSubmissionItem(submission);
-  const { id, status, decision, content } = submission;
+  const { content, decision, submittedOn, isEdit, showsDecision, canEdit } =
+    useSubmissionItem(submission);
+  const { status } = submission;
 
   return (
     <li className="ritem">
@@ -31,7 +32,7 @@ export function SubmissionItem({ submission, onEdit }: SubmissionItemProps) {
             className="ritem__action"
             variant="secondary"
             aria-label={REVIEW_COPY.EDIT_AND_RESUBMIT_QUESTION(content.text)}
-            onClick={() => onEdit(id)}
+            onClick={() => onEdit(submission)}
           >
             {REVIEW_COPY.EDIT_AND_RESUBMIT}
           </Button>

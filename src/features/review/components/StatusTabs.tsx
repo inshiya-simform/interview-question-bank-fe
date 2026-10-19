@@ -17,7 +17,11 @@ export function StatusTabs({ tabs, active, counts, onChange }: StatusTabsProps) 
         <button
           key={tab}
           type="button"
-          className={cn('stabs__tab', tab === active && 'stabs__tab--active')}
+          className={cn(
+            'stabs__tab',
+            tab && `stabs__tab--${tab.toLowerCase()}`,
+            tab === active && 'stabs__tab--active',
+          )}
           aria-pressed={tab === active}
           onClick={() => onChange(tab)}
         >

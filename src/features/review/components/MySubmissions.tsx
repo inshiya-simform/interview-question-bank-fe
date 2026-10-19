@@ -1,28 +1,31 @@
+import type { ReviewedQuestion } from '@/api';
 import { REVIEW_COPY } from '@/constants';
 import { useMySubmissions } from '../hooks/useMySubmissions';
 import { ReviewListFrame } from './ReviewListFrame';
 import { SubmissionItem } from './SubmissionItem';
 
 interface MySubmissionsProps {
-  onEdit: (id: string) => void;
+  onEdit: (submission: ReviewedQuestion) => void;
 }
 
 export function MySubmissions({ onEdit }: MySubmissionsProps) {
-  const { tabs, activeTab, counts, items, total, page, totalPages, setStatus, setPage } =
-    useMySubmissions();
+  const { items, setStatus, setPage, ...list } = useMySubmissions();
 
   return (
     <ReviewListFrame
       title={REVIEW_COPY.MY_TITLE}
       emptyText={REVIEW_COPY.EMPTY_MINE}
-      tabs={tabs}
-      activeTab={activeTab}
-      counts={counts}
+      tabs={list.tabs}
+      activeTab={list.activeTab}
+      counts={list.counts}
       onTabChange={setStatus}
-      total={total}
-      page={page}
-      totalPages={totalPages}
+      total={list.total}
+      page={list.page}
+      totalPages={list.totalPages}
       onPageChange={setPage}
+      isLoading={list.isLoading}
+      isError={list.isError}
+      onRetry={list.refetch}
     >
       <ul className="rlist">
         {items.map((submission) => (

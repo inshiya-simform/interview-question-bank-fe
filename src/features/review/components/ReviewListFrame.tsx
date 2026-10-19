@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { Pagination } from '@/components';
+import { Alert, Button, Loader, Pagination } from '@/components';
 import type { StatusTab } from '@/constants';
 import { REVIEW_COPY } from '@/constants';
 import { StatusTabs } from './StatusTabs';
@@ -16,6 +16,9 @@ interface ReviewListFrameProps {
   page: number;
   totalPages: number;
   onPageChange: (page: number) => void;
+  isLoading: boolean;
+  isError: boolean;
+  onRetry: () => void;
   children: ReactNode;
 }
 
@@ -31,8 +34,13 @@ export function ReviewListFrame({
   page,
   totalPages,
   onPageChange,
+  isLoading,
+  isError,
+  onRetry,
   children,
 }: ReviewListFrameProps) {
+  const hasData = !isLoading && !isError;
+
   return (
     <section className="rframe" aria-labelledby="rframe-title">
       <h1 id="rframe-title" className="rframe__title">
@@ -42,7 +50,16 @@ export function ReviewListFrame({
       <p className="rframe__count" aria-live="polite">
         {REVIEW_COPY.RESULT_COUNT(total)}
       </p>
-      {total === 0 ? <p className="rframe__empty">{emptyText}</p> : children}
+      {isLoading && <Loader label={REVIEW_COPY.LOADING} />}
+      {isError && !hasData && (
+        <div className="rframe__error">
+          <Alert>{REVIEW_COPY.LOAD_ERROR}</Alert>
+          <Button variant="secondary" onClick={onRetry}>
+            {REVIEW_COPY.RETRY}
+          </Button>
+        </div>
+      )}
+      {hasData && (total === 0 ? <p className="rframe__empty">{emptyText}</p> : children)}
       {totalPages > 1 && (
         <Pagination
           page={page}

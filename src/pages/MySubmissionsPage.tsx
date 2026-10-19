@@ -4,13 +4,13 @@ import { useMySubmissionsPage } from './useMySubmissionsPage';
 import './ReviewPage.css';
 
 export function MySubmissionsPage() {
-  const { editingId, openEdit, closeEdit } = useMySubmissionsPage();
+  const { editing, openEdit, closeEdit } = useMySubmissionsPage();
 
   return (
     <main className="review-page">
       <ReviewNav />
       <MySubmissions onEdit={openEdit} />
-      <SubmissionEditDrawer submissionId={editingId} onClose={closeEdit} />
+      <SubmissionEditDrawer submission={editing} onClose={closeEdit} />
     </main>
   );
 }

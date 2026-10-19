@@ -1,41 +1,44 @@
+import type { ReviewedQuestion } from '@/api';
 import { Drawer } from '@/components';
 import { QUESTIONS_COPY, REVIEW_COPY, REVIEW_STATUS } from '@/constants';
+import { toDecision } from '@/features/review';
 import { useSubmissionEditDrawer } from '../hooks/useSubmissionEditDrawer';
 import { QuestionDrawerNotice } from './QuestionDrawerNotice';
 import { NOTICE } from '../constants';
 import { QuestionForm } from './QuestionForm';
 
 interface SubmissionEditDrawerProps {
-  submissionId: string | null;
+  submission: ReviewedQuestion | null;
   onClose: () => void;
 }
 
-export function SubmissionEditDrawer({ submissionId, onClose }: SubmissionEditDrawerProps) {
-  const { submission, initialValues, isReady, resubmit } = useSubmissionEditDrawer(
-    submissionId,
+export function SubmissionEditDrawer({ submission, onClose }: SubmissionEditDrawerProps) {
+  const { initialValues, isReady, isSubmitting, resubmit } = useSubmissionEditDrawer(
+    submission,
     onClose,
   );
+  const decision = submission ? toDecision(submission) : null;
   const hasChangeRequest =
-    submission?.status === REVIEW_STATUS.CHANGES_REQUESTED && Boolean(submission.decision);
+    submission?.status === REVIEW_STATUS.CHANGES_REQUESTED && Boolean(decision);
   // Only an edit of a live question carries the "stays visible" guarantee.
-  const notice = hasChangeRequest ? NOTICE.CHANGES : submission?.live ? NOTICE.LIVE_EDIT : null;
+  const notice = hasChangeRequest ? NOTICE.CHANGES : submission?.isLive ? NOTICE.LIVE_EDIT : null;
 
   return (
     <Drawer
-      isOpen={submissionId !== null}
+      isOpen={submission !== null}
       onClose={onClose}
       title={REVIEW_COPY.EDIT_DRAWER_TITLE}
       closeLabel={QUESTIONS_COPY.CLOSE}
     >
       {isReady && submission && (
         <>
-          <QuestionDrawerNotice notice={notice} decision={submission.decision} />
+          <QuestionDrawerNotice notice={notice} decision={decision} />
           <QuestionForm
             key={submission.id}
             initialValues={initialValues}
             onSubmit={resubmit}
             onCancel={onClose}
-            isSubmitting={false}
+            isSubmitting={isSubmitting}
             submitLabel={QUESTIONS_COPY.RESUBMIT}
             submittingLabel={QUESTIONS_COPY.RESUBMITTING}
           />

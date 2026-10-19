@@ -1,31 +1,39 @@
 import { toast } from 'react-toastify';
+import type { ReviewedQuestion } from '@/api';
+import { useUpdateQuestionMutation } from '@/api/hooks';
 import { MESSAGES } from '@/constants';
-import { resubmitSubmission, useSubmissions } from '@/features/review';
 import type { QuestionFormValues } from '../schema';
-import { buildInitialValues } from '../utils';
+import { buildInitialValues, buildQuestionPayload } from '../utils';
 import { useQuestionOptions } from './useQuestionOptions';
 
-// MOCK: resubmits into the local review store until the real update endpoint is wired.
-export function useSubmissionEditDrawer(submissionId: string | null, onClose: () => void) {
-  const submissions = useSubmissions();
+// Resubmitting is a regular update; the list refetches because the update invalidates the
+// questions query prefix.
+export function useSubmissionEditDrawer(submission: ReviewedQuestion | null, onClose: () => void) {
   const options = useQuestionOptions();
-  const submission = submissions.find((item) => item.id === submissionId);
+  const update = useUpdateQuestionMutation();
 
   const resubmit = (values: QuestionFormValues, onSuccess: () => void) => {
     if (!submission) return;
-    resubmitSubmission(submission.id, { text: values.question, answerNotes: values.answer });
-    toast.success(MESSAGES.QUESTION_RESUBMITTED);
-    onSuccess();
-    onClose();
+    update.mutate(
+      { id: submission.id, payload: buildQuestionPayload(values) },
+      {
+        onSuccess: () => {
+          toast.success(MESSAGES.QUESTION_RESUBMITTED);
+          onSuccess();
+          onClose();
+        },
+      },
+    );
   };
 
   return {
-    submission,
+    // An edit awaiting review is what the submitter last wrote, so the form continues from it.
     initialValues: submission
-      ? buildInitialValues(submission.content, options.categories)
+      ? buildInitialValues(submission.draft ?? submission, options.categories)
       : undefined,
     // Initial values depend on the category list, so wait for it before mounting the form.
-    isReady: submission !== undefined && !options.isLoading,
+    isReady: submission !== null && !options.isLoading,
+    isSubmitting: update.isPending,
     resubmit,
   };
 }

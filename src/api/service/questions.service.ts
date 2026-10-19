@@ -18,6 +18,19 @@ import {
   questionListResponseSchema,
 } from '../type/questions/questions-list';
 import { questionSchema } from '../type/questions/shared';
+import { questionCountsResponseSchema } from '../type/reviews/question-counts';
+import type { QuestionCountsResponse } from '../type/reviews/question-counts';
+import { questionHistoryResponseSchema } from '../type/reviews/question-history';
+import type { QuestionHistoryResponse } from '../type/reviews/question-history';
+import { rejectPayloadSchema, requestChangesPayloadSchema } from '../type/reviews/review-decision';
+import type { RejectPayload, RequestChangesPayload } from '../type/reviews/review-decision';
+import {
+  submissionListParamsSchema,
+  submissionListResponseSchema,
+} from '../type/reviews/submission-list';
+import type { SubmissionListParams, SubmissionListResponse } from '../type/reviews/submission-list';
+import { reviewedQuestionSchema } from '../type/reviews/reviewed-question';
+import type { ReviewedQuestion } from '../type/reviews/reviewed-question';
 import {
   updateQuestionPayloadSchema,
   updateQuestionResponseSchema,
@@ -80,4 +93,51 @@ export async function checkDuplicateQuestion(
     checkDuplicatePayloadSchema.parse(payload),
   );
   return checkDuplicateResponseSchema.parse(data);
+}
+
+export async function getQuestionCounts(): Promise<QuestionCountsResponse> {
+  const { data } = await apiClient.get(API_ENDPOINTS.QUESTIONS.COUNTS);
+  return questionCountsResponseSchema.parse(data);
+}
+
+export async function getSubmissions(
+  params: SubmissionListParams = {},
+): Promise<SubmissionListResponse> {
+  const { status, ...rest } = submissionListParamsSchema.parse(params);
+  const { data } = await apiClient.get(API_ENDPOINTS.QUESTIONS.SUBMISSIONS, {
+    params: { ...rest, status: status?.length ? joinCsv(status) : undefined },
+  });
+  return submissionListResponseSchema.parse(data);
+}
+
+export async function getQuestionHistory(id: string): Promise<QuestionHistoryResponse> {
+  const { data } = await apiClient.get(API_ENDPOINTS.QUESTIONS.HISTORY(id));
+  return questionHistoryResponseSchema.parse(data);
+}
+
+export async function approveQuestion(id: string): Promise<ReviewedQuestion> {
+  const { data } = await apiClient.post(API_ENDPOINTS.QUESTIONS.APPROVE(id));
+  return reviewedQuestionSchema.parse(data);
+}
+
+export async function requestQuestionChanges(
+  id: string,
+  payload: RequestChangesPayload,
+): Promise<ReviewedQuestion> {
+  const { data } = await apiClient.post(
+    API_ENDPOINTS.QUESTIONS.REQUEST_CHANGES(id),
+    requestChangesPayloadSchema.parse(payload),
+  );
+  return reviewedQuestionSchema.parse(data);
+}
+
+export async function rejectQuestion(
+  id: string,
+  payload: RejectPayload,
+): Promise<ReviewedQuestion> {
+  const { data } = await apiClient.post(
+    API_ENDPOINTS.QUESTIONS.REJECT(id),
+    rejectPayloadSchema.parse(payload),
+  );
+  return reviewedQuestionSchema.parse(data);
 }
