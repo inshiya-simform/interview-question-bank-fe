@@ -1,5 +1,5 @@
 import type { CurrentUser, Question } from '@/api';
-import { PERMISSIONS, REVIEW_STATUS } from '@/constants';
+import { PERMISSIONS, REVIEW_STATUS, ROLES } from '@/constants';
 
 // Cosmetic gating only: the API enforces who may actually edit.
 export function canEditQuestion(
@@ -12,4 +12,9 @@ export function canEditQuestion(
   if (question.review?.status === REVIEW_STATUS.REJECTED) return false;
   if (permissions.includes(PERMISSIONS.QUESTION_EDIT_ANY)) return true;
   return permissions.includes(PERMISSIONS.QUESTION_EDIT_OWN) && user.id === question.authorId;
+}
+
+// Cosmetic gating only: the API rejects review actions from anyone but reviewers.
+export function canReviewQuestion(user: Pick<CurrentUser, 'role'> | undefined): boolean {
+  return user?.role === ROLES.REVIEWER;
 }

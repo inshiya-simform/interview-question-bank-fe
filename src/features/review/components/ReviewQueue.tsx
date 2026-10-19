@@ -5,34 +5,25 @@ import { ReviewListFrame } from './ReviewListFrame';
 import { ReviewQueueRow } from './ReviewQueueRow';
 
 export function ReviewQueue() {
-  const {
-    tabs,
-    activeTab,
-    counts,
-    items,
-    total,
-    page,
-    totalPages,
-    selectedId,
-    setStatus,
-    setPage,
-    openReview,
-    closeReview,
-  } = useReviewQueue();
+  const { items, selectedId, selected, setStatus, setPage, openReview, closeReview, ...list } =
+    useReviewQueue();
 
   return (
     <>
       <ReviewListFrame
         title={REVIEW_COPY.QUEUE_TITLE}
         emptyText={REVIEW_COPY.EMPTY_QUEUE}
-        tabs={tabs}
-        activeTab={activeTab}
-        counts={counts}
+        tabs={list.tabs}
+        activeTab={list.activeTab}
+        counts={list.counts}
         onTabChange={setStatus}
-        total={total}
-        page={page}
-        totalPages={totalPages}
+        total={list.total}
+        page={list.page}
+        totalPages={list.totalPages}
         onPageChange={setPage}
+        isLoading={list.isLoading}
+        isError={list.isError}
+        onRetry={list.refetch}
       >
         <ul className="rlist">
           {items.map((submission) => (
@@ -40,7 +31,7 @@ export function ReviewQueue() {
           ))}
         </ul>
       </ReviewListFrame>
-      <ReviewDrawer submissionId={selectedId} onClose={closeReview} />
+      <ReviewDrawer isOpen={selectedId !== null} submission={selected} onClose={closeReview} />
     </>
   );
 }

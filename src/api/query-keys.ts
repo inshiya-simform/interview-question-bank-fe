@@ -1,5 +1,6 @@
 import type { ClientAccessListParams } from './type/admin/client-access-list';
 import type { QuestionListParams } from './type/questions/questions-list';
+import type { SubmissionListParams } from './type/reviews/submission-list';
 
 // Option lists depend on the viewer's permissions, so keys carry the user id.
 export const QUERY_KEYS = {
@@ -12,6 +13,10 @@ export const QUERY_KEYS = {
   QUESTION_ITEM: (userId: string, id: string) => ['questions', 'item', userId, id] as const,
   DUPLICATE_CHECK: (userId: string, text: string) =>
     ['questions', 'duplicate-check', userId, text] as const,
+  SUBMISSIONS: (userId: string, params?: SubmissionListParams) =>
+    ['questions', 'submissions', userId, params] as const,
+  QUESTION_COUNTS: (userId: string) => ['questions', 'counts', userId] as const,
+  QUESTION_HISTORY: (userId: string, id: string) => ['questions', 'history', userId, id] as const,
   CLIENTS: (userId: string) => ['clients', userId] as const,
   TAGS: (userId: string) => ['tags', userId] as const,
   CLIENT_ACCESS_LIST: ['admin', 'client-access'] as const,

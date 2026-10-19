@@ -15,3 +15,9 @@ export const rejectFormSchema = z.object({
 });
 
 export type DecisionNoteValues = z.infer<typeof requestChangesFormSchema>;
+
+export const requestChangesPayloadSchema = z.object({ note: requestChangesFormSchema.shape.text });
+export const rejectPayloadSchema = z.object({ note: rejectFormSchema.shape.text });
+
+export type RequestChangesPayload = z.infer<typeof requestChangesPayloadSchema>;
+export type RejectPayload = z.infer<typeof rejectPayloadSchema>;

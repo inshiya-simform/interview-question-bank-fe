@@ -6,18 +6,26 @@ import { DecisionNoteForm } from './DecisionNoteForm';
 
 interface DecisionNoteModalProps {
   mode: DecisionMode | null;
+  isPending: boolean;
   onClose: () => void;
   onSubmit: (text: string) => void;
 }
 
-export function DecisionNoteModal({ mode, onClose, onSubmit }: DecisionNoteModalProps) {
+export function DecisionNoteModal({ mode, isPending, onClose, onSubmit }: DecisionNoteModalProps) {
   const title =
     mode === DECISION_MODE.REJECT ? REVIEW_COPY.REJECT_TITLE : REVIEW_COPY.CHANGES_TITLE;
 
   return (
     <Modal isOpen={mode !== null} onClose={onClose} title={title}>
       {/* Mounted only while open so every dialog starts with an empty note. */}
-      {mode !== null && <DecisionNoteForm mode={mode} onSubmit={onSubmit} onCancel={onClose} />}
+      {mode !== null && (
+        <DecisionNoteForm
+          mode={mode}
+          isPending={isPending}
+          onSubmit={onSubmit}
+          onCancel={onClose}
+        />
+      )}
     </Modal>
   );
 }

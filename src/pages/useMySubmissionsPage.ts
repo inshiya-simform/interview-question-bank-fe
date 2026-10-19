@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import type { ReviewedQuestion } from '@/api';
 
+// The submission is kept as the form's starting point while the drawer is open.
 export function useMySubmissionsPage() {
-  const [editingId, setEditingId] = useState<string | null>(null);
-  return { editingId, openEdit: setEditingId, closeEdit: () => setEditingId(null) };
+  const [editing, setEditing] = useState<ReviewedQuestion | null>(null);
+  return { editing, openEdit: setEditing, closeEdit: () => setEditing(null) };
 }

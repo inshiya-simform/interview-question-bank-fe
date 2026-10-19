@@ -1,5 +1,5 @@
-import { REVIEW_HISTORY_EVENT, REVIEW_STATUS } from './reviewStatus';
-import type { ReviewHistoryEvent, ReviewStatus } from './reviewStatus';
+import { QUESTION_HISTORY_ACTION, REVIEW_STATUS } from './reviewStatus';
+import type { ReviewStatus } from './reviewStatus';
 import { PASSWORD_MIN_LENGTH, REVIEW_NOTE_MAX_LENGTH } from './validation';
 
 export const MESSAGES = {
@@ -216,12 +216,12 @@ export const REVIEW_STATUS_GLYPH: Record<ReviewStatus, string> = {
   [REVIEW_STATUS.REJECTED]: '✕',
 };
 
-export const REVIEW_HISTORY_LABEL: Record<ReviewHistoryEvent, string> = {
-  [REVIEW_HISTORY_EVENT.SUBMITTED]: 'Submitted',
-  [REVIEW_HISTORY_EVENT.EDITED]: 'Edit submitted',
-  [REVIEW_HISTORY_EVENT.APPROVED]: 'Approved',
-  [REVIEW_HISTORY_EVENT.CHANGES_REQUESTED]: 'Changes requested',
-  [REVIEW_HISTORY_EVENT.REJECTED]: 'Rejected',
+export const QUESTION_HISTORY_LABEL: Record<string, string> = {
+  [QUESTION_HISTORY_ACTION.CREATED]: 'Created',
+  [QUESTION_HISTORY_ACTION.UPDATED]: 'Updated',
+  [QUESTION_HISTORY_ACTION.APPROVED]: 'Approved',
+  [QUESTION_HISTORY_ACTION.CHANGES_REQUESTED]: 'Changes requested',
+  [QUESTION_HISTORY_ACTION.REJECTED]: 'Rejected',
 };
 
 export const REVIEW_COPY = {
@@ -237,6 +237,9 @@ export const REVIEW_COPY = {
   RESULT_COUNT: (total: number) => `${total} ${total === 1 ? 'item' : 'items'} found`,
   EMPTY_MINE: 'You have not submitted any questions yet.',
   EMPTY_QUEUE: 'No questions to show.',
+  LOADING: 'Loading questions',
+  LOAD_ERROR: 'Could not load questions.',
+  RETRY: 'Try again',
   PAGINATION_LABEL: 'Pagination',
   PREVIOUS_PAGE: 'Previous',
   NEXT_PAGE: 'Next',
@@ -274,6 +277,8 @@ export const REVIEW_COPY = {
   REJECT: 'Reject',
   DECISIONS_LABEL: 'Decision',
   HISTORY_TITLE: 'History',
+  HISTORY_EMPTY: 'No history yet.',
+  HISTORY_ERROR: 'History could not be loaded.',
   HISTORY_ENTRY: (name: string, date: string) => `${name} · ${date}`,
   CANCEL: 'Cancel',
   CHANGES_TITLE: 'Request changes',
