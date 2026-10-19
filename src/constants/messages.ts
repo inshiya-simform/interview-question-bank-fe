@@ -71,7 +71,7 @@ export const ADMIN_COPY = {
   SECTION_LABEL: 'Super admin',
   NAV_LABEL: 'Super admin navigation',
   NAV_CLIENTS: 'Client access',
-  NAV_MEMBERS: 'Authors & reviewers',
+  NAV_MEMBERS: 'Reviewers',
   CLIENTS_TITLE: 'Client access',
   CLIENTS_SUBTITLE: "Choose which users can see each client's restricted questions.",
   COLUMN_CLIENT: 'Client',
@@ -102,8 +102,8 @@ export const ADMIN_COPY = {
   CANCEL: 'Cancel',
   ADDING: 'Adding...',
   REMOVE_USER: (email: string, client: string) => `Remove ${email} from ${client}`,
-  MEMBERS_TITLE: 'Add an author or reviewer',
-  MEMBERS_SUBTITLE: 'Give someone an elevated role. They sign in with the email you enter.',
+  MEMBERS_TITLE: 'Add a reviewer',
+  MEMBERS_SUBTITLE: 'Give someone the reviewer role. They sign in with the email you enter.',
   FIELD_EMAIL: 'Email address',
   FIELD_ROLE: 'Role',
   PLACEHOLDER_EMAIL: 'name@company.com',
@@ -113,14 +113,10 @@ export const ADMIN_COPY = {
   SUBMITTING: 'Adding...',
   PERMISSIONS_TITLE: 'What each role can do',
   PERMISSIONS_NOTE:
-    'Both roles only see client-restricted questions after being given access on the Client access page.',
+    'Reviewers only see client-restricted questions after being given access on the Client access page.',
 } as const;
 
 export const STAFF_ROLE_COPY = {
-  AUTHOR: {
-    DESCRIPTION: 'Adds questions and edits their own entries.',
-    CAPABILITY: 'Add questions and edit entries they created.',
-  },
   REVIEWER: {
     DESCRIPTION: 'Edits any entry in the bank.',
     CAPABILITY: 'Edit any question, whoever wrote it.',

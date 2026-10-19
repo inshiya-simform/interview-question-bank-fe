@@ -14,12 +14,11 @@ SPA that consumes its REST API.
 
 ### Actors and permissions
 
-| Role                     | Can do                                                      |
-| ------------------------ | ----------------------------------------------------------- |
-| Author                   | Add questions, edit **own** entries, read what they may see |
-| Reviewer                 | Edit **any** entry, read what they may see                  |
-| User                     | Read-only on questions they may see                         |
-| Client-scoped permission | Grants a user visibility into one client's questions        |
+| Role                     | Can do                                               |
+| ------------------------ | ---------------------------------------------------- |
+| Reviewer                 | Edit **any** entry, read what they may see           |
+| User                     | Read-only on questions they may see                  |
+| Client-scoped permission | Grants a user visibility into one client's questions |
 
 ### Frontend implications of the spec
 
