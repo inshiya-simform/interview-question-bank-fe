@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import type { Question } from '@/api';
 import { useCreateQuestionMutation, useUpdateQuestionMutation } from '@/api/hooks';
-import { MESSAGES } from '@/constants';
+import { MESSAGES, REVIEW_STATUS } from '@/constants';
 import type { QuestionFormValues } from '../schema';
 import { buildQuestionPayload } from '../utils';
 
@@ -25,8 +26,17 @@ export function useQuestionsHome() {
   const saveQuestion = (values: QuestionFormValues, onSuccess: () => void) => {
     const payload = buildQuestionPayload(values);
     const options = {
-      onSuccess: () => {
-        toast.success(editingId ? MESSAGES.QUESTION_UPDATED : MESSAGES.QUESTION_ADDED);
+      onSuccess: (question: Question) => {
+        // The backend decides the status; anything not already approved is awaiting review.
+        const isPublished = question.review?.status === REVIEW_STATUS.APPROVED;
+        const message = editingId
+          ? isPublished
+            ? MESSAGES.QUESTION_UPDATED
+            : MESSAGES.QUESTION_RESUBMITTED
+          : isPublished
+            ? MESSAGES.QUESTION_ADDED
+            : MESSAGES.QUESTION_SUBMITTED;
+        toast.success(message);
         onSuccess();
         closeDrawer();
       },

@@ -4,6 +4,7 @@ export { Button } from './Button';
 export { Drawer } from './Drawer';
 export { ErrorFallback } from './ErrorFallback';
 export { Loader } from './Loader';
+export { Modal } from './Modal';
 export { MultiSelect } from './MultiSelect';
 export { Pagination } from './Pagination';
 export { PasswordField } from './PasswordField';

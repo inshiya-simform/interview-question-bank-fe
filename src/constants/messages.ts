@@ -1,4 +1,6 @@
-import { PASSWORD_MIN_LENGTH } from './validation';
+import { REVIEW_HISTORY_EVENT, REVIEW_STATUS } from './reviewStatus';
+import type { ReviewHistoryEvent, ReviewStatus } from './reviewStatus';
+import { PASSWORD_MIN_LENGTH, REVIEW_NOTE_MAX_LENGTH } from './validation';
 
 export const MESSAGES = {
   EMAIL_REQUIRED: 'Email is required',
@@ -22,6 +24,14 @@ export const MESSAGES = {
   STAFF_ADDED: 'Member added',
   CLIENT_ADDED: 'Client added',
   CLIENT_ACCESS_UPDATED: 'Client access updated',
+  QUESTION_SUBMITTED: 'Submitted for review',
+  QUESTION_RESUBMITTED: 'Resubmitted for review',
+  QUESTION_APPROVED: 'Question approved',
+  CHANGES_REQUESTED: 'Changes requested',
+  QUESTION_REJECTED: 'Question rejected',
+  CHANGE_NOTE_REQUIRED: 'Add a note so the submitter knows what to change',
+  CHANGE_NOTE_TOO_LONG: `Keep the note under ${REVIEW_NOTE_MAX_LENGTH} characters`,
+  REJECT_REASON_TOO_LONG: `Keep the reason under ${REVIEW_NOTE_MAX_LENGTH} characters`,
 } as const;
 
 export const COMMON_COPY = {
@@ -143,11 +153,11 @@ export const QUESTIONS_COPY = {
   EDIT: 'Edit',
   EDIT_QUESTION: (text: string) => `Edit question: ${text}`,
   QUESTION_LOAD_ERROR: 'Could not load this question.',
-  SAVE: 'Save',
-  SAVING: 'Saving...',
   CLOSE: 'Close',
   CANCEL: 'Cancel',
-  SUBMIT: 'Add',
+  SUBMIT: 'Submit for review',
+  RESUBMIT: 'Resubmit for review',
+  RESUBMITTING: 'Submitting...',
   FIELD_QUESTION: 'Question',
   FIELD_ANSWER: 'Answer notes',
   FIELD_CATEGORIES: 'Categories',
@@ -165,7 +175,11 @@ export const QUESTIONS_COPY = {
   OPTIONS_LOADING: 'Loading form options',
   OPTIONS_ERROR: 'Could not load categories and clients.',
   OPTIONS_RETRY: 'Try again',
-  SUBMITTING: 'Adding...',
+  SUBMITTING: 'Submitting...',
+  NOTICE_NEW: 'Your question will be reviewed before it appears for others.',
+  NOTICE_EDIT_LIVE_TITLE: 'Editing a live question',
+  NOTICE_EDIT_LIVE:
+    'The current version stays visible to everyone until a reviewer approves your changes.',
   HINT_TAGS: 'Tags depend on the selected category.',
   SELECTED_COUNT: (count: number) => `${count} selected`,
   NO_ANSWER: 'No answer notes.',
@@ -180,3 +194,101 @@ export const QUESTIONS_COPY = {
   DUPLICATE_REASON_LABEL: 'Why is it different?',
   DUPLICATE_REASON_PLACEHOLDER: 'Explain how this differs from the similar questions above',
 } as const;
+
+export const REVIEW_STATUS_LABEL: Record<ReviewStatus, string> = {
+  [REVIEW_STATUS.PENDING_REVIEW]: 'Pending review',
+  [REVIEW_STATUS.CHANGES_REQUESTED]: 'Changes requested',
+  [REVIEW_STATUS.APPROVED]: 'Approved',
+  [REVIEW_STATUS.REJECTED]: 'Rejected',
+};
+
+export const REVIEW_EDIT_STATUS_LABEL: Record<ReviewStatus, string> = {
+  [REVIEW_STATUS.PENDING_REVIEW]: 'Edit pending review',
+  [REVIEW_STATUS.CHANGES_REQUESTED]: 'Edit: changes requested',
+  [REVIEW_STATUS.APPROVED]: 'Edit approved',
+  [REVIEW_STATUS.REJECTED]: 'Edit rejected',
+};
+
+export const REVIEW_STATUS_GLYPH: Record<ReviewStatus, string> = {
+  [REVIEW_STATUS.PENDING_REVIEW]: '◔',
+  [REVIEW_STATUS.CHANGES_REQUESTED]: '!',
+  [REVIEW_STATUS.APPROVED]: '✓',
+  [REVIEW_STATUS.REJECTED]: '✕',
+};
+
+export const REVIEW_HISTORY_LABEL: Record<ReviewHistoryEvent, string> = {
+  [REVIEW_HISTORY_EVENT.SUBMITTED]: 'Submitted',
+  [REVIEW_HISTORY_EVENT.EDITED]: 'Edit submitted',
+  [REVIEW_HISTORY_EVENT.APPROVED]: 'Approved',
+  [REVIEW_HISTORY_EVENT.CHANGES_REQUESTED]: 'Changes requested',
+  [REVIEW_HISTORY_EVENT.REJECTED]: 'Rejected',
+};
+
+export const REVIEW_COPY = {
+  NAV_LABEL: 'Main navigation',
+  NAV_QUESTIONS: 'Questions',
+  NAV_MY_SUBMISSIONS: 'My submissions',
+  NAV_REVIEW_QUEUE: 'Review queue',
+  NAV_COUNT: (count: number) => `${count} need attention`,
+  MY_TITLE: 'My submissions',
+  QUEUE_TITLE: 'Review queue',
+  TABS_LABEL: 'Filter by status',
+  TAB_ALL: 'All',
+  RESULT_COUNT: (total: number) => `${total} ${total === 1 ? 'item' : 'items'} found`,
+  EMPTY_MINE: 'You have not submitted any questions yet.',
+  EMPTY_QUEUE: 'No questions to show.',
+  PAGINATION_LABEL: 'Pagination',
+  PREVIOUS_PAGE: 'Previous',
+  NEXT_PAGE: 'Next',
+  PAGE_NUMBER: (page: number) => `Page ${page}`,
+  PAGE_STATUS: (page: number, totalPages: number) => `Page ${page} of ${totalPages}`,
+  KIND_NEW: 'New',
+  KIND_EDIT: 'Edit',
+  SUBMITTED_ON: (date: string) => `Submitted ${date}`,
+  LIVE_VERSION_NOTE: 'The current version is live',
+  BY_SUBMITTER: (name: string) => `By ${name}`,
+  REVIEW: 'Review',
+  REVIEW_QUESTION: (text: string) => `Review question: ${text}`,
+  EDIT_AND_RESUBMIT: 'Edit and resubmit',
+  EDIT_AND_RESUBMIT_QUESTION: (text: string) => `Edit and resubmit: ${text}`,
+  BANNER_CHANGES: 'Changes requested',
+  BANNER_REJECTED: 'Rejected',
+  NO_REASON: 'No reason given.',
+  BANNER_META: (name: string, date: string) => `${name} · ${date}`,
+  DRAWER_TITLE: 'Review question',
+  EDIT_DRAWER_TITLE: 'Edit and resubmit',
+  CLOSE: 'Close',
+  NOT_FOUND: 'This question is no longer in the queue.',
+  SECTION_LIVE: 'Live version',
+  SECTION_EDIT: 'Submitted edit',
+  SECTION_SUBMISSION: 'Submission',
+  FIELD_QUESTION: 'Question',
+  FIELD_ANSWER: 'Answer notes',
+  FIELD_TAGS: 'Tags',
+  FIELD_CLIENT: 'Client',
+  NONE: 'None',
+  DIFF_ADDED: 'added:',
+  DIFF_REMOVED: 'removed:',
+  APPROVE: 'Approve',
+  REQUEST_CHANGES: 'Request changes',
+  REJECT: 'Reject',
+  DECISIONS_LABEL: 'Decision',
+  HISTORY_TITLE: 'History',
+  HISTORY_ENTRY: (name: string, date: string) => `${name} · ${date}`,
+  CANCEL: 'Cancel',
+  CHANGES_TITLE: 'Request changes',
+  CHANGES_FIELD: 'Note for the submitter',
+  CHANGES_HINT: 'The submitter sees this note exactly as written.',
+  CHANGES_SUBMIT: 'Send to submitter',
+  REJECT_TITLE: 'Reject question',
+  REJECT_FIELD: 'Reason for the submitter (optional)',
+  REJECT_HINT:
+    'The submitter sees this reason exactly as written. Leave empty to reject without one.',
+  REJECT_SUBMIT: 'Reject',
+  CHARACTER_COUNT: (count: number, max: number) => `${count} / ${max}`,
+} as const;
+
+export const STATUS_TAB_LABEL: Record<string, string> = {
+  '': REVIEW_COPY.TAB_ALL,
+  ...REVIEW_STATUS_LABEL,
+};

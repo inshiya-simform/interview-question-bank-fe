@@ -1,5 +1,6 @@
 import { Button } from '@/components';
 import { HOME_COPY, QUESTIONS_COPY } from '@/constants';
+import { ReviewNav } from '@/features/review';
 import { AddQuestionButton, QuestionDrawer, QuestionList } from '@/features/questions';
 import { useHomePage } from './useHomePage';
 import './HomePage.css';
@@ -19,6 +20,7 @@ export function HomePage() {
 
   return (
     <main className="home">
+      <ReviewNav />
       <section className="home__panel" aria-label={HOME_COPY.WELCOME(name)}>
         <AddQuestionButton onClick={openDrawer}>+ {QUESTIONS_COPY.ADD_QUESTION}</AddQuestionButton>
         <div className="home__welcome">

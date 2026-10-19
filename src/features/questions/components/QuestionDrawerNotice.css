@@ -1,0 +1,7 @@
+.qnotice {
+  margin: 0 0 var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border: 1px dashed var(--color-muted);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+}

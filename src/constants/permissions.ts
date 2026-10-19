@@ -3,6 +3,7 @@ export const PERMISSIONS = {
   QUESTION_CREATE: 'question:create',
   QUESTION_EDIT_OWN: 'question:edit_own',
   QUESTION_EDIT_ANY: 'question:edit_any',
+  QUESTION_REVIEW: 'question:review',
   USER_READ: 'user:read',
   USER_CREATE_STAFF: 'user:create_staff',
   CLIENT_READ_ALL: 'client:read_all',

@@ -2,6 +2,7 @@ import { Alert, Button, Drawer, Loader } from '@/components';
 import { QUESTIONS_COPY } from '@/constants';
 import { useQuestionDrawer } from '../hooks/useQuestionDrawer';
 import type { QuestionFormValues } from '../schema';
+import { QuestionDrawerNotice } from './QuestionDrawerNotice';
 import { QuestionForm } from './QuestionForm';
 
 interface QuestionDrawerProps {
@@ -19,7 +20,7 @@ export function QuestionDrawer({
   onClose,
   onSubmit,
 }: QuestionDrawerProps) {
-  const { isEditing, initialValues, isLoading, isError, isReady, refetch } =
+  const { isEditing, notice, decision, initialValues, isLoading, isError, isReady, refetch } =
     useQuestionDrawer(editingId);
 
   return (
@@ -38,6 +39,7 @@ export function QuestionDrawer({
           </Button>
         </div>
       )}
+      {isReady && <QuestionDrawerNotice notice={notice} decision={decision} />}
       {isReady && (
         // Keyed so each question (or a fresh add) starts from its own initial values.
         <QuestionForm
@@ -47,8 +49,8 @@ export function QuestionDrawer({
           onCancel={onClose}
           isSubmitting={isSubmitting}
           checkDuplicates={!isEditing}
-          submitLabel={isEditing ? QUESTIONS_COPY.SAVE : QUESTIONS_COPY.SUBMIT}
-          submittingLabel={isEditing ? QUESTIONS_COPY.SAVING : QUESTIONS_COPY.SUBMITTING}
+          submitLabel={isEditing ? QUESTIONS_COPY.RESUBMIT : QUESTIONS_COPY.SUBMIT}
+          submittingLabel={isEditing ? QUESTIONS_COPY.RESUBMITTING : QUESTIONS_COPY.SUBMITTING}
         />
       )}
     </Drawer>

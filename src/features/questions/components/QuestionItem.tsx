@@ -2,6 +2,7 @@ import { Badge } from '@/components';
 import { QUESTIONS_COPY } from '@/constants';
 import { cn } from '@/utils/cn';
 import type { Question } from '@/api';
+import { ReviewStatusChip } from '@/features/review';
 import { useQuestionItem } from '../hooks/useQuestionItem';
 import { EditQuestionButton } from './EditQuestionButton';
 import './QuestionItem.css';
@@ -12,7 +13,7 @@ interface QuestionItemProps {
 }
 
 export function QuestionItem({ question, onEdit }: QuestionItemProps) {
-  const { isOpen, toggle, triggerId, panelId, canEdit } = useQuestionItem(question);
+  const { isOpen, toggle, triggerId, panelId, canEdit, reviewChip } = useQuestionItem(question);
 
   return (
     <li className={cn('qitem', isOpen && 'qitem--open')}>
@@ -30,6 +31,7 @@ export function QuestionItem({ question, onEdit }: QuestionItemProps) {
             <span className="qitem__chevron" aria-hidden="true" />
           </button>
         </h3>
+        {reviewChip && <ReviewStatusChip status={reviewChip.status} isEdit={reviewChip.isEdit} />}
         {canEdit && (
           <EditQuestionButton
             variant="secondary"
