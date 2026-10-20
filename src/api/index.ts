@@ -16,6 +16,7 @@ export * from './type/auth/permissions';
 export * from './type/auth/register';
 export * from './type/auth/shared';
 export * from './type/clients/clients-list';
+export * from './type/import/shared';
 export * from './type/questions/check-duplicate';
 export * from './type/questions/create-question';
 export * from './type/questions/questions-list';

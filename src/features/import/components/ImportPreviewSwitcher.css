@@ -1,0 +1,20 @@
+.ipreview {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-2) var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.ipreview .field {
+  min-width: min(100%, 18rem);
+}
+
+.ipreview__hint {
+  margin: 0;
+  padding-bottom: var(--space-2);
+  color: var(--color-muted);
+  font-size: 0.8125rem;
+}

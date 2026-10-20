@@ -19,3 +19,6 @@ export const LazyMySubmissionsPage = lazy(() =>
 export const LazyReviewQueuePage = lazy(() =>
   import('./ReviewQueuePage').then((m) => ({ default: m.ReviewQueuePage })),
 );
+export const LazyImportPage = lazy(() =>
+  import('./ImportPage').then((m) => ({ default: m.ImportPage })),
+);
