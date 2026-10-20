@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { Alert, Button, Loader, Pagination } from '@/components';
+import { Alert, Button, Loader, PageHeader, Pagination } from '@/components';
 import type { StatusTab } from '@/constants';
 import { REVIEW_COPY } from '@/constants';
 import { StatusTabs } from './StatusTabs';
@@ -7,6 +7,7 @@ import './ReviewListFrame.css';
 
 interface ReviewListFrameProps {
   title: string;
+  subtitle: string;
   emptyText: string;
   tabs: readonly StatusTab[];
   activeTab: StatusTab;
@@ -25,6 +26,7 @@ interface ReviewListFrameProps {
 // Shared shell for My submissions and the review queue.
 export function ReviewListFrame({
   title,
+  subtitle,
   emptyText,
   tabs,
   activeTab,
@@ -43,9 +45,7 @@ export function ReviewListFrame({
 
   return (
     <section className="rframe" aria-labelledby="rframe-title">
-      <h1 id="rframe-title" className="rframe__title">
-        {title}
-      </h1>
+      <PageHeader title={title} subtitle={subtitle} titleId="rframe-title" />
       <StatusTabs tabs={tabs} active={activeTab} counts={counts} onChange={onTabChange} />
       <p className="rframe__count" aria-live="polite">
         {REVIEW_COPY.RESULT_COUNT(total)}

@@ -1,38 +1,83 @@
 .auth {
   min-height: 100svh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.auth__panel {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-5);
-  padding: var(--space-5) var(--space-4);
+  justify-content: space-between;
+  gap: var(--space-6);
+  padding: var(--space-6) var(--space-5);
+  background: var(--color-brand-bg);
+  color: var(--color-on-accent);
 }
 
 .auth__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
   font-weight: 700;
-  letter-spacing: 0.02em;
-  color: var(--color-muted);
+}
+
+.auth__mark {
+  display: grid;
+  place-items: center;
+  width: 2.125rem;
+  height: 2.125rem;
+  border-radius: var(--radius-md);
+  background: var(--color-on-accent);
+  color: var(--color-brand-bg);
+}
+
+.auth__pitch {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-width: 28rem;
+}
+
+.auth__headline {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.auth__text {
+  margin: 0;
+  color: var(--color-brand-text);
+  line-height: 1.6;
+}
+
+.auth__main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6) var(--space-4);
+  background: var(--color-bg-deep);
 }
 
 .auth__card {
   width: 100%;
-  max-width: 26rem;
+  max-width: 25rem;
   display: flex;
   flex-direction: column;
   gap: var(--space-5);
-  padding: var(--space-6);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  background: var(--color-bg-deep);
 }
 
 .auth__title {
-  font-size: 1.5rem;
+  font-size: 1.625rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
 .auth__subtitle {
   margin: var(--space-1) 0 0;
   color: var(--color-muted);
+  font-size: 0.875rem;
 }
 
 .auth__footer {
@@ -42,8 +87,31 @@
   color: var(--color-muted);
 }
 
-@media (max-width: 30rem) {
-  .auth__card {
-    padding: var(--space-5) var(--space-4);
+.auth__footer a {
+  font-weight: 600;
+}
+
+@media (min-width: 64rem) {
+  .auth {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .auth__panel {
+    padding: var(--space-7);
+  }
+
+  .auth__headline {
+    font-size: 2.25rem;
+  }
+}
+
+/* The brand pitch is decoration on small screens; keep just the brand mark row. */
+@media (max-width: 63.99rem) {
+  .auth__pitch {
+    display: none;
+  }
+
+  .auth__panel {
+    padding: var(--space-4);
   }
 }

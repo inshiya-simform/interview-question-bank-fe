@@ -1,11 +1,10 @@
-import { ReviewNav, ReviewQueue } from '@/features/review';
+import { ReviewQueue } from '@/features/review';
 import './ReviewPage.css';
 
 export function ReviewQueuePage() {
   return (
-    <main className="review-page">
-      <ReviewNav />
+    <div className="review-page">
       <ReviewQueue />
-    </main>
+    </div>
   );
 }

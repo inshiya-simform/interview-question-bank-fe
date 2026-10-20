@@ -3,5 +3,6 @@
   padding: var(--space-3) var(--space-4);
   border: 1px dashed var(--color-muted);
   border-radius: var(--radius-md);
+  background: var(--color-bg);
   font-size: 0.875rem;
 }

@@ -1,3 +1,4 @@
+import { PageHeader } from '@/components';
 import { IMPORT_COPY } from '@/constants';
 import { useImportFlow } from '../hooks/useImportFlow';
 import { ImportDropzone } from './ImportDropzone';
@@ -15,10 +16,7 @@ export function ImportScreen() {
 
   return (
     <div className="iscreen">
-      <div>
-        <h1>{IMPORT_COPY.TITLE}</h1>
-        <p className="iscreen__subtitle">{IMPORT_COPY.SUBTITLE}</p>
-      </div>
+      <PageHeader title={IMPORT_COPY.TITLE} subtitle={IMPORT_COPY.SUBTITLE} />
       <p className="sr-only" role="status" aria-live="polite">
         {flow.announcement}
       </p>

@@ -1,54 +1,13 @@
 .home {
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
-  max-width: 60rem;
-  margin: 0 auto;
-  padding: var(--space-5) var(--space-4);
+  gap: var(--space-5);
 }
 
-.home__panel {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: start;
-  gap: var(--space-4);
-  padding: var(--space-5);
-  background: var(--color-bg-deep);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-}
-
-.home__welcome {
-  grid-column: 2;
-  text-align: center;
-}
-
-.home__subtitle {
-  margin: var(--space-1) 0 0;
-  color: var(--color-muted);
-}
-
-@media (max-width: 40rem) {
-  .home__panel {
-    grid-template-columns: 1fr;
-  }
-
-  .home__welcome {
-    grid-column: auto;
-    order: -1;
-    text-align: left;
-  }
-}
-
-.home__actions {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
-
-@media (max-width: 40rem) {
-  .home__actions {
-    flex-direction: row;
-    flex-wrap: wrap;
+/* The shell content pads the top by --space-6 and the bottom by --space-7; fill what is left so
+   the question list can scroll on its own beneath the header and filters. */
+@media (min-width: 64rem) {
+  .home {
+    height: calc(100svh - var(--space-6) - var(--space-7));
   }
 }

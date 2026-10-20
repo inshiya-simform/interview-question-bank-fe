@@ -3,6 +3,10 @@
   flex-wrap: wrap;
   align-items: flex-start;
   gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg);
 }
 
 .add-user__email {
@@ -10,7 +14,7 @@
   max-width: 24rem;
 }
 
-/* Buttons sit level with the input, below the field label (0.875rem × 1.5 line + gap). */
+/* Buttons sit level with the input, below the field label (0.8125rem × 1.5 line + gap). */
 .add-user > .btn {
-  margin-top: calc(1.3125rem + var(--space-2));
+  margin-top: calc(1.21875rem + var(--space-2));
 }

@@ -7,9 +7,15 @@
   list-style: none;
 }
 
+/* The page header already names the page; keep this heading for assistive tech only. */
 .qlist__title {
-  margin-bottom: var(--space-4);
-  font-size: 1.125rem;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .qlist__empty {
@@ -19,8 +25,9 @@
 
 .qlist__count {
   min-height: 1.5rem;
-  margin: 0 0 var(--space-3);
-  color: var(--color-muted);
+  margin: var(--space-4) 0 var(--space-3);
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
 }
 
 .qlist__error {
@@ -32,4 +39,27 @@
 
 .qlist + .pagination {
   margin-top: var(--space-4);
+}
+
+/* On wide screens the page header and filters stay put and only the results scroll. */
+@media (min-width: 64rem) {
+  .qsection {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .qlist__scroll {
+    flex: 1;
+    min-height: 0;
+    /* Room for the card shadows and focus rings that overflow would otherwise clip. */
+    margin: 0 calc(var(--space-2) * -1);
+    padding: var(--space-1) var(--space-2) var(--space-2);
+    overflow-y: auto;
+  }
+}
+
+.qlist__scroll .loader {
+  min-height: 12rem;
 }

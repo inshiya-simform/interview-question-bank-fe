@@ -1,102 +1,20 @@
 .admin-shell {
   display: flex;
   flex-wrap: wrap;
+  align-content: flex-start;
   min-height: 100svh;
 }
 
-.admin-shell__sidebar {
-  flex: 1 1 14rem;
-  max-width: 16rem;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-6);
-  padding: var(--space-5) var(--space-4);
-  background: var(--color-bg-deep);
-  border-right: 1px solid var(--color-border);
-}
-
-.admin-shell__brand {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-  padding: 0 var(--space-2);
-}
-
-.admin-shell__app {
-  font-size: 1.125rem;
-  font-weight: 700;
-}
-
-.admin-shell__section {
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-muted);
-}
-
-.admin-shell__nav {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-}
-
-.admin-shell__link {
-  display: flex;
-  align-items: center;
-  min-height: 2.75rem;
-  padding: 0 var(--space-3);
-  border: 1px solid transparent;
-  border-radius: var(--radius-md);
-  color: var(--color-muted);
-  text-decoration: none;
-}
-
-.admin-shell__link:hover {
-  color: var(--color-text);
-}
-
-.admin-shell__link[aria-current='page'] {
-  background: var(--color-bg);
-  border-color: var(--color-border);
-  color: var(--color-text);
-  font-weight: 600;
-}
-
-.admin-shell__user {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-  margin-top: auto;
-  padding: var(--space-4) var(--space-2) 0;
-  border-top: 1px solid var(--color-border);
-}
-
-.admin-shell__name {
-  font-size: 0.875rem;
-  font-weight: 600;
-}
-
-.admin-shell__email {
-  margin-bottom: var(--space-2);
-  font-size: 0.75rem;
-  color: var(--color-muted);
-  overflow-wrap: anywhere;
-}
-
 .admin-shell__content {
-  flex: 999 1 35rem;
+  flex: 999 1 20rem;
   min-width: 0;
   display: flex;
   flex-direction: column;
   gap: var(--space-5);
-  padding: var(--space-6) var(--space-6);
+  padding: var(--space-6) var(--space-6) var(--space-7);
 }
 
-@media (max-width: 40rem) {
-  .admin-shell__sidebar {
-    max-width: none;
-  }
-
+@media (max-width: 47.99rem) {
   .admin-shell__content {
     padding: var(--space-5) var(--space-4);
   }

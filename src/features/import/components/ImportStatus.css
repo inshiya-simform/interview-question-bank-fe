@@ -6,6 +6,7 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   background: var(--color-bg-deep);
+  box-shadow: var(--shadow-sm);
 }
 
 .istatus--strong {
@@ -46,7 +47,7 @@
 
 .istatus__link,
 .istatus__link:hover {
-  color: var(--color-bg-deep);
+  color: var(--color-on-accent);
   text-decoration: none;
 }
 
@@ -54,7 +55,7 @@
   width: 2rem;
   height: 2rem;
   border: 3px solid var(--color-border);
-  border-top-color: var(--color-text);
+  border-top-color: var(--color-accent);
   border-radius: 50%;
   animation: istatus-spin 0.8s linear infinite;
 }

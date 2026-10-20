@@ -1,11 +1,10 @@
-/* One shape for all variants; only the hue differs. */
+/* One shape for all variants; only the tint differs. */
 .badge {
   display: inline-flex;
   align-items: center;
-  padding: 0 var(--space-3);
+  padding: 0 var(--space-2);
   min-height: 1.5rem;
-  border-radius: 999px;
-  color: var(--color-bg-deep);
+  border-radius: var(--radius-sm);
   font-size: 0.75rem;
   font-weight: 600;
   line-height: 1;
@@ -13,13 +12,17 @@
 }
 
 .badge--category {
-  background: var(--badge-category);
+  background: var(--badge-category-bg);
+  color: var(--badge-category-fg);
 }
 
 .badge--tag {
-  background: var(--badge-tag);
+  background: var(--badge-tag-bg);
+  color: var(--badge-tag-fg);
+  font-weight: 500;
 }
 
 .badge--client {
-  background: var(--badge-client);
+  background: var(--badge-client-bg);
+  color: var(--badge-client-fg);
 }

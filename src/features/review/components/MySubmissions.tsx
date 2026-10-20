@@ -14,6 +14,7 @@ export function MySubmissions({ onEdit }: MySubmissionsProps) {
   return (
     <ReviewListFrame
       title={REVIEW_COPY.MY_TITLE}
+      subtitle={REVIEW_COPY.MY_SUBTITLE}
       emptyText={REVIEW_COPY.EMPTY_MINE}
       tabs={list.tabs}
       activeTab={list.activeTab}

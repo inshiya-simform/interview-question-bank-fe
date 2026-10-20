@@ -7,6 +7,8 @@
   padding: var(--space-5);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
+  background: var(--color-bg-deep);
+  box-shadow: var(--shadow-sm);
 }
 
 .role-panel__title {
@@ -27,20 +29,19 @@
 }
 
 .role-panel__role {
-  font-weight: 700;
-  letter-spacing: 0.04em;
+  font-weight: 600;
 }
 
 .role-panel__capability {
   margin: 0;
-  font-size: 0.875rem;
-  opacity: 0.8;
+  color: var(--color-muted);
+  font-size: 0.8125rem;
 }
 
 .role-panel__note {
   margin: 0;
   padding-top: var(--space-4);
   border-top: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
   font-size: 0.8125rem;
-  opacity: 0.8;
 }

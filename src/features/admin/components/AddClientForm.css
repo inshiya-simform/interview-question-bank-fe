@@ -7,6 +7,7 @@
   background: var(--color-bg-deep);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
 }
 
 .client-form__name {
@@ -14,7 +15,7 @@
   max-width: 28rem;
 }
 
-/* Buttons sit level with the input, below the field label (0.875rem × 1.5 line + gap). */
+/* Buttons sit level with the input, below the field label (0.8125rem × 1.5 line + gap). */
 .client-form > .btn {
-  margin-top: calc(1.3125rem + var(--space-2));
+  margin-top: calc(1.21875rem + var(--space-2));
 }

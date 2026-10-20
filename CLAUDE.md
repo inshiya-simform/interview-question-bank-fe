@@ -268,26 +268,29 @@ FallbackComponent={ErrorFallback}>` (outermost) and `<Suspense fallback={<Loader
 
 - Keep styles consistent with the existing approach (global CSS in `src/index.css` plus co-located
   styles, e.g. `Button.tsx` + `Button.css`); no inline style objects for static styling.
-- **The entire project uses this five-colour palette and nothing else.** It is defined once in
-  `src/index.css` as `--palette-1..5`, and exposed through semantic tokens:
+- **Colours come from one light theme, defined once in `src/index.css`.** Raw hex values live only
+  in the `--palette-*` tokens; the semantic tokens map onto them:
 
-  | Palette token | Hex       | Semantic token                    | Used for                                 |
-  | ------------- | --------- | --------------------------------- | ---------------------------------------- |
-  | `--palette-1` | `#0D1B2A` | `--color-bg-deep`                 | Cards, panels, primary-button text       |
-  | `--palette-2` | `#1B263B` | `--color-bg`, `--color-bg-raised` | Page background, input backgrounds       |
-  | `--palette-3` | `#415A77` | `--color-border`                  | Borders, dividers                        |
-  | `--palette-4` | `#778DA9` | `--color-muted`                   | Secondary text, hints, hover, focus ring |
-  | `--palette-5` | `#E0E1DD` | `--color-text`                    | Primary text, primary-button background  |
+  | Semantic token                                       | Used for                                          |
+  | ---------------------------------------------------- | ------------------------------------------------- |
+  | `--color-bg`                                         | Page background                                   |
+  | `--color-bg-deep`, `--color-bg-raised`               | Cards, panels, drawers, inputs (white surfaces)   |
+  | `--color-hover`                                      | Hover fills                                       |
+  | `--color-border`, `--color-border-strong`            | Card/divider borders, input and secondary borders |
+  | `--color-text`, `--color-text-secondary`             | Primary and secondary text                        |
+  | `--color-muted`                                      | Hints, captions, icons                            |
+  | `--color-accent`, `-hover`, `-soft`, `-ink`          | Primary actions, selection, links, focus ring     |
+  | `--color-on-accent`                                  | Text on accent backgrounds                        |
+  | `--color-notice-*`, `--color-chip`, `--color-code-*` | Warm notices, neutral chips, code blocks          |
+  | `--color-brand-*`                                    | Login brand panel                                 |
+  | `--badge-*`, `--status-*`                            | Badge and review-status tints (bg + fg pairs)     |
 
 - Components and feature CSS reference the **semantic tokens** (`var(--color-text)`), never raw hex
-  values and never the palette tokens directly. To retheme, change the token mapping in `index.css`.
-- Contrast: `--color-muted` is only guaranteed readable on `--color-bg-deep`; avoid it for small
-  text on lighter palette backgrounds.
-- **Single exception:** the category/tag/client `Badge` hues (`--badge-category`, `--badge-tag`,
-  `--badge-client` in `index.css`) were explicitly requested and sit outside the palette.
-- **No other colours outside the palette, including status colours.** Errors, warnings and success are
-  conveyed with palette colours plus non-colour cues (heavier border, bold text, a `!` prefix, icons),
-  never with red/green/amber.
+  values and never the `--palette-*` tokens directly. To retheme, change the token mapping in
+  `index.css`.
+- Contrast: pair each `-bg` tint with its `-fg` token; `--color-muted` is for secondary text only.
+- **Status is never conveyed by colour alone.** Errors, warnings and review status also carry a
+  non-colour cue (heavier border, bold text, a `!` prefix, a glyph or label).
 - Spacing (`--space-*`), radii (`--radius-*`), and fonts are also tokens in `index.css`; reuse them.
 
 ### Shared components (`src/components/`)
