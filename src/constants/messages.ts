@@ -149,6 +149,7 @@ export const QUESTIONS_COPY = {
   PLACEHOLDER_FILTER_CLIENT: 'All clients',
   HINT_TAGS_DISABLED: 'Select a category to filter by tags',
   CLEAR_FILTERS: 'Clear filters',
+  EXPORT: 'Export CSV',
   PAGINATION_LABEL: 'Questions pagination',
   PREVIOUS_PAGE: 'Previous',
   NEXT_PAGE: 'Next',

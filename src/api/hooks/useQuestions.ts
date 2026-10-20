@@ -4,6 +4,7 @@ import {
   approveQuestion,
   checkDuplicateQuestion,
   createQuestion,
+  exportQuestions,
   getQuestion,
   getQuestionCounts,
   getQuestionHistory,
@@ -112,4 +113,9 @@ export function useRejectQuestionMutation() {
       rejectQuestion(id, payload),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEYS.QUESTIONS_LIST }),
   });
+}
+
+// A download is a user-triggered action, so it is a mutation rather than a cached query.
+export function useExportQuestionsMutation() {
+  return useMutation({ mutationFn: exportQuestions });
 }

@@ -9,6 +9,7 @@ export const API_ENDPOINTS = {
     BASE: '/questions',
     BY_ID: (id: string) => `/questions/${id}`,
     IMPORT: '/questions/import',
+    EXPORT: '/questions/export',
     TEMPLATE: '/questions/import/template',
     CHECK_DUPLICATE: '/questions/check-duplicate',
     COUNTS: '/questions/counts',

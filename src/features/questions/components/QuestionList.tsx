@@ -25,6 +25,8 @@ export function QuestionList({ onEdit }: QuestionListProps) {
     isError,
     hasData,
     refetch,
+    exportCsv,
+    isExporting,
   } = useQuestionList();
 
   return (
@@ -41,9 +43,14 @@ export function QuestionList({ onEdit }: QuestionListProps) {
         onChange={updateFilters}
         onClear={clearFilters}
       />
-      <p className="qlist__count" aria-live="polite">
-        {hasData ? QUESTIONS_COPY.RESULT_COUNT(total) : ''}
-      </p>
+      <div className="qlist__summary">
+        <p className="qlist__count" aria-live="polite">
+          {hasData ? QUESTIONS_COPY.RESULT_COUNT(total) : ''}
+        </p>
+        <Button variant="secondary" isLoading={isExporting} onClick={exportCsv}>
+          {QUESTIONS_COPY.EXPORT}
+        </Button>
+      </div>
       <div className="qlist__scroll">
         {isLoading && <Loader label={QUESTIONS_COPY.LOADING} />}
         {isError && !hasData && (

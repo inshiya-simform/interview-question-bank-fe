@@ -22,6 +22,7 @@ export * from './type/import/import-template';
 export * from './type/import/shared';
 export * from './type/questions/check-duplicate';
 export * from './type/questions/create-question';
+export * from './type/questions/export-questions';
 export * from './type/questions/questions-list';
 export * from './type/questions/shared';
 export * from './type/questions/update-question';
