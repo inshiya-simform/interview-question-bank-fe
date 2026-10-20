@@ -1,11 +1,12 @@
 .admin-shell {
   display: flex;
   flex-wrap: wrap;
+  align-content: flex-start;
   min-height: 100svh;
 }
 
 .admin-shell__content {
-  flex: 999 1 35rem;
+  flex: 999 1 20rem;
   min-width: 0;
   display: flex;
   flex-direction: column;

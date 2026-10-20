@@ -160,11 +160,34 @@
   }
 }
 
+/* Phones: a compact top bar with brand and account on one row and the links wrapping beneath. */
 @media (max-width: 47.99rem) {
   .sidebar {
-    flex-basis: auto;
-    gap: var(--space-4);
+    flex: 1 1 100%;
+    flex-flow: row wrap;
+    align-items: center;
+    min-width: 0;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
     border-right: 0;
     border-bottom: 1px solid var(--color-border);
+  }
+
+  .sidebar__brand {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .sidebar__user {
+    margin-top: 0;
+    padding: var(--space-2);
+    border: 0;
+  }
+
+  .sidebar__nav {
+    flex: 1 1 100%;
+    flex-flow: row wrap;
+    gap: var(--space-1);
+    order: 3;
   }
 }

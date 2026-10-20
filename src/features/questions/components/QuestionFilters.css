@@ -1,6 +1,6 @@
 .qfilters {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   align-items: start;
   gap: var(--space-4);
   padding: var(--space-4);
@@ -14,7 +14,20 @@
   grid-column: 1 / -1;
 }
 
-/* Sits level with the inputs rather than with their labels. */
-.qfilters > .btn {
-  align-self: end;
+@media (min-width: 40rem) {
+  .qfilters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* Sits level with the inputs, below the field label (0.8125rem × 1.5 line + gap). Aligning to
+     the row end would drop it under the inputs whenever the Tags hint is showing. */
+  .qfilters > .btn {
+    margin-top: calc(1.21875rem + var(--space-2));
+  }
+}
+
+@media (min-width: 64rem) {
+  .qfilters {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+  }
 }

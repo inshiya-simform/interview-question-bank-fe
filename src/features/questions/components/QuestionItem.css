@@ -12,12 +12,13 @@
 
 .qitem__top {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--space-3);
 }
 
 .qitem__heading {
-  flex: 1;
+  flex: 1 1 14rem;
   min-width: 0;
   font-size: 0.9375rem;
 }
