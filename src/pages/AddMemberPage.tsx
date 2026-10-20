@@ -1,6 +1,6 @@
 import { PageHeader } from '@/components';
 import { ADMIN_COPY } from '@/constants';
-import { AddMemberForm, RolePermissionsPanel } from '@/features/admin';
+import { AddMemberForm, MembersTable, RolePermissionsPanel } from '@/features/admin';
 import './AddMemberPage.css';
 
 export function AddMemberPage() {
@@ -11,6 +11,7 @@ export function AddMemberPage() {
         <AddMemberForm />
         <RolePermissionsPanel />
       </div>
+      <MembersTable />
     </>
   );
 }

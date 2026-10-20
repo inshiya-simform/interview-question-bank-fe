@@ -1,3 +1,4 @@
+import type { AdminUsersParams } from './type/admin/users-list';
 import type { ClientAccessListParams } from './type/admin/client-access-list';
 import type { QuestionListParams } from './type/questions/questions-list';
 import type { SubmissionListParams } from './type/reviews/submission-list';
@@ -21,6 +22,8 @@ export const QUERY_KEYS = {
   TAGS: (userId: string) => ['tags', userId] as const,
   ADMIN_USERS_LIST: ['admin', 'users'] as const,
   ADMIN_USERS: (userId: string, search: string) => ['admin', 'users', userId, search] as const,
+  ADMIN_USERS_TABLE: (userId: string, params?: AdminUsersParams) =>
+    ['admin', 'users', 'table', userId, params] as const,
   CLIENT_ACCESS_LIST: ['admin', 'client-access'] as const,
   CLIENT_ACCESS: (userId: string, params?: ClientAccessListParams) =>
     ['admin', 'client-access', userId, params] as const,
