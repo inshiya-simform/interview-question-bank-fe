@@ -1,5 +1,5 @@
 .import-entry,
 .import-entry:hover {
-  color: var(--color-text);
+  color: var(--color-text-secondary);
   text-decoration: none;
 }

@@ -9,7 +9,7 @@
 .pagination__status {
   margin: 0;
   color: var(--color-muted);
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
 }
 
 .pagination__pages {
@@ -20,18 +20,18 @@
 }
 
 .pagination .btn {
-  min-height: 2.375rem;
-  padding: 0 var(--space-4);
-  font-size: 1rem;
+  min-height: 2.125rem;
+  padding: 0 var(--space-3);
+  font-size: 0.8125rem;
 }
 
 .pagination .pagination__page {
-  min-width: 2.75rem;
+  min-width: 2.25rem;
   padding: 0 var(--space-2);
 }
 
 .pagination__gap {
-  min-width: 2.75rem;
+  min-width: 2.25rem;
   text-align: center;
   color: var(--color-muted);
 }

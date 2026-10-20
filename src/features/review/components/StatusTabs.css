@@ -1,54 +1,49 @@
 .stabs {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-2);
+  gap: var(--space-1);
+  border-bottom: 1px solid var(--color-border);
 }
 
-/* Ghost pill: outlined in the tab's hue; --tab-hue is set per status below. */
+/* Underlined tabs; selection is shown by the underline and heavier text, not colour alone. */
 .stabs__tab {
-  --tab-hue: var(--status-all);
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  min-height: 2.25rem;
+  min-height: 2.625rem;
+  margin-bottom: -1px;
   padding: 0 var(--space-4);
-  border: 1px solid var(--tab-hue);
-  border-radius: 999px;
+  border: 0;
+  border-bottom: 2px solid transparent;
   background: transparent;
-  color: var(--tab-hue);
+  color: var(--color-muted);
   font: inherit;
-  font-weight: 600;
+  font-size: 0.875rem;
+  font-weight: 500;
   cursor: pointer;
 }
 
-.stabs__tab--pending_review {
-  --tab-hue: var(--status-pending);
-}
-
-.stabs__tab--changes_requested {
-  --tab-hue: var(--status-changes);
-}
-
-.stabs__tab--approved {
-  --tab-hue: var(--status-approved);
-}
-
-.stabs__tab--rejected {
-  --tab-hue: var(--status-rejected);
-}
-
 .stabs__tab:hover {
-  background: color-mix(in srgb, var(--tab-hue) 15%, transparent);
+  color: var(--color-text);
 }
 
-/* Selection fills the ghost pill and bolds the text. */
 .stabs__tab--active,
 .stabs__tab--active:hover {
-  background: var(--tab-hue);
-  color: var(--color-bg-deep);
-  font-weight: 800;
+  border-bottom-color: var(--color-accent);
+  color: var(--color-accent-ink);
+  font-weight: 700;
 }
 
 .stabs__count {
+  padding: 1px var(--space-2);
+  border-radius: 999px;
+  background: var(--color-chip);
+  color: var(--color-text-secondary);
   font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.stabs__tab--active .stabs__count {
+  background: var(--color-accent-soft);
+  color: var(--color-accent-ink);
 }

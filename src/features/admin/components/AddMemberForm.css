@@ -8,6 +8,7 @@
   background: var(--color-bg-deep);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
 }
 
 .member-form__roles {
@@ -22,7 +23,8 @@
 .member-form__legend {
   margin-bottom: var(--space-3);
   padding: 0;
-  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  font-size: 0.8125rem;
   font-weight: 600;
 }
 

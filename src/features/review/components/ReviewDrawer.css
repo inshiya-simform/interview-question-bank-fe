@@ -19,6 +19,7 @@
 
 .rcontent__value {
   margin: var(--space-1) 0 0;
+  color: var(--color-text-secondary);
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
@@ -55,9 +56,10 @@
 }
 
 .rdiff__pane {
-  padding: var(--space-2) var(--space-3);
+  padding: var(--space-3);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
+  background: var(--color-bg);
 }
 
 .rdiff__text {
@@ -67,12 +69,19 @@
 }
 
 .rdiff__text del {
+  padding: 0 2px;
+  border-radius: 3px;
+  background: var(--color-chip);
   color: var(--color-muted);
   text-decoration: line-through;
 }
 
 .rdiff__text ins {
-  border-bottom: 2px solid var(--color-text);
+  padding: 0 2px;
+  border-bottom: 2px solid var(--color-accent);
+  border-radius: 3px 3px 0 0;
+  background: var(--color-accent-soft);
+  color: var(--color-accent-ink);
   font-weight: 700;
   text-decoration: none;
 }
@@ -117,8 +126,8 @@
 }
 
 .rhistory__entry:first-child::before {
-  border-color: var(--color-text);
-  background: var(--color-text);
+  border-color: var(--color-accent);
+  background: var(--color-accent);
 }
 
 .rhistory__meta {

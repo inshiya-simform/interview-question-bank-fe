@@ -13,7 +13,7 @@
 }
 
 .access-row__name {
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 600;
 }
 
@@ -32,11 +32,13 @@
 }
 
 .btn.access-row__add {
-  min-height: 2.25rem;
+  min-height: 2rem;
   padding: 0 var(--space-3);
   border-style: dashed;
   border-color: var(--color-muted);
   border-radius: 999px;
-  font-size: 0.875rem;
-  font-weight: 400;
+  background: transparent;
+  color: var(--color-accent);
+  font-size: 0.8125rem;
+  font-weight: 600;
 }

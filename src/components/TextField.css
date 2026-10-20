@@ -5,9 +5,9 @@
 }
 
 .field__label {
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 600;
-  color: var(--color-text);
+  color: var(--color-text-secondary);
 }
 
 .field__control {
@@ -17,18 +17,21 @@
 
 .field__input {
   width: 100%;
-  min-height: 2.75rem;
+  min-height: 2.5rem;
   padding: 0 var(--space-3);
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-md);
   background: var(--color-bg-raised);
   color: var(--color-text);
   font: inherit;
-  transition: border-color 0.15s;
+  font-size: 0.875rem;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
 }
 
 .field__input--with-adornment {
-  padding-right: 3rem;
+  padding-right: 3.5rem;
 }
 
 .field__input::placeholder {
@@ -39,6 +42,12 @@
   border-color: var(--color-muted);
 }
 
+.field__input:focus-visible {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-soft);
+  outline: none;
+}
+
 .field__input[aria-invalid='true'] {
   border-color: var(--color-text);
   box-shadow: 0 0 0 1px var(--color-text);
@@ -46,7 +55,7 @@
 
 .field__message {
   margin: 0;
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   color: var(--color-muted);
 }
 
@@ -81,5 +90,6 @@
 
 .field__input--area {
   padding: var(--space-3);
+  line-height: 1.5;
   resize: vertical;
 }

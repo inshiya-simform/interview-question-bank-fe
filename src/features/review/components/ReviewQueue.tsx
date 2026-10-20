@@ -12,6 +12,7 @@ export function ReviewQueue() {
     <>
       <ReviewListFrame
         title={REVIEW_COPY.QUEUE_TITLE}
+        subtitle={REVIEW_COPY.QUEUE_SUBTITLE}
         emptyText={REVIEW_COPY.EMPTY_QUEUE}
         tabs={list.tabs}
         activeTab={list.activeTab}

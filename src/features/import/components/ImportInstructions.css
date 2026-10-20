@@ -6,6 +6,7 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   background: var(--color-bg-deep);
+  box-shadow: var(--shadow-sm);
 }
 
 .iinfo__head {
@@ -31,16 +32,20 @@
 
 .iinfo__limits li {
   padding: var(--space-1) var(--space-3);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  font-size: 0.875rem;
-  font-weight: 600;
+  border-radius: 999px;
+  background: var(--badge-category-bg);
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  font-weight: 500;
 }
 
 .iinfo__label {
   margin: 0 0 var(--space-2);
-  font-size: 0.875rem;
+  color: var(--color-muted);
+  font-size: 0.75rem;
   font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .iinfo__code {
@@ -49,9 +54,10 @@
   overflow-x: auto;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  background: var(--color-bg);
+  background: var(--color-code-bg);
+  color: var(--color-code-text);
   font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
 }
 
 .iinfo__note {

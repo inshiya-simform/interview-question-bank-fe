@@ -5,6 +5,7 @@ import { ErrorFallback, Loader } from '@/components';
 import { PERMISSIONS, ROUTES } from '@/constants';
 import { RequireSuperAdmin, SuperAdminHomeRedirect, SuperAdminLayout } from '@/features/admin';
 import { GuestOnly, RequireAuth, RequirePermission } from '@/features/auth';
+import { AppLayout } from '@/features/shell';
 import {
   LazyAddMemberPage,
   LazyClientAccessPage,
@@ -22,15 +23,17 @@ export function App() {
       <Suspense fallback={<Loader />}>
         <Routes>
           <Route element={<RequireAuth />}>
-            <Route element={<SuperAdminHomeRedirect />}>
-              <Route path={ROUTES.HOME} element={<LazyHomePage />} />
-            </Route>
-            <Route element={<RequirePermission permissions={[PERMISSIONS.QUESTION_CREATE]} />}>
-              <Route path={ROUTES.MY_QUESTIONS} element={<LazyMySubmissionsPage />} />
-            </Route>
-            <Route path={ROUTES.IMPORT} element={<LazyImportPage />} />
-            <Route element={<RequirePermission permissions={[PERMISSIONS.QUESTION_REVIEW]} />}>
-              <Route path={ROUTES.REVIEW_QUEUE} element={<LazyReviewQueuePage />} />
+            <Route element={<AppLayout />}>
+              <Route element={<SuperAdminHomeRedirect />}>
+                <Route path={ROUTES.HOME} element={<LazyHomePage />} />
+              </Route>
+              <Route element={<RequirePermission permissions={[PERMISSIONS.QUESTION_CREATE]} />}>
+                <Route path={ROUTES.MY_QUESTIONS} element={<LazyMySubmissionsPage />} />
+              </Route>
+              <Route path={ROUTES.IMPORT} element={<LazyImportPage />} />
+              <Route element={<RequirePermission permissions={[PERMISSIONS.QUESTION_REVIEW]} />}>
+                <Route path={ROUTES.REVIEW_QUEUE} element={<LazyReviewQueuePage />} />
+              </Route>
             </Route>
             <Route element={<RequireSuperAdmin />}>
               <Route element={<SuperAdminLayout />}>

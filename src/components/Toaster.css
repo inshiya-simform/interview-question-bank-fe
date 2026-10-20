@@ -1,6 +1,8 @@
-/* Re-map react-toastify's colours onto the project palette; status is shown by the heavier
+/* Re-map react-toastify's colours onto the design tokens; status is shown by the heavier
    border and the "!" prefix, not by colour. */
 .Toastify {
+  --toastify-color-light: var(--color-bg-deep);
+  --toastify-text-color-light: var(--color-text);
   --toastify-color-dark: var(--color-bg-deep);
   --toastify-text-color-dark: var(--color-text);
   --toastify-color-error: var(--color-text);
@@ -11,6 +13,7 @@
   border: 1px solid var(--color-border);
   border-left: 4px solid var(--color-text);
   border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
   font-size: 0.875rem;
 }
 

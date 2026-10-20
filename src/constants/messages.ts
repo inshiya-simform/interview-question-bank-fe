@@ -44,6 +44,9 @@ export const COMMON_COPY = {
 
 export const AUTH_COPY = {
   APP_NAME: 'Interview Question Bank',
+  BRAND_HEADLINE: 'Every good interview starts with a good question.',
+  BRAND_TEXT:
+    'One shared library of screening and interview questions, tagged by technology, seniority and type, with a review step that keeps quality high.',
   LOGIN_TITLE: 'Welcome back',
   LOGIN_SUBTITLE: 'Log in to find and share interview questions.',
   LOGIN_SUBMIT: 'Log in',
@@ -62,8 +65,12 @@ export const AUTH_COPY = {
   HIDE_PASSWORD: 'Hide password',
 } as const;
 
+export const SHELL_COPY = {
+  TAGLINE: 'Interview library',
+} as const;
+
 export const HOME_COPY = {
-  WELCOME: (name: string) => `Welcome, ${name}`,
+  TITLE: 'Question bank',
   SUBTITLE: 'Browse and contribute interview questions.',
   LOGOUT: 'Log out',
 } as const;
@@ -225,12 +232,14 @@ export const QUESTION_HISTORY_LABEL: Record<string, string> = {
 
 export const REVIEW_COPY = {
   NAV_LABEL: 'Main navigation',
-  NAV_QUESTIONS: 'Questions',
+  NAV_QUESTIONS: 'Question bank',
   NAV_MY_SUBMISSIONS: 'My submissions',
   NAV_REVIEW_QUEUE: 'Review queue',
   NAV_COUNT: (count: number) => `${count} need attention`,
   MY_TITLE: 'My submissions',
+  MY_SUBTITLE: 'Track the questions you have added or edited and respond to reviewer feedback.',
   QUEUE_TITLE: 'Review queue',
+  QUEUE_SUBTITLE: 'Approve, return or reject questions submitted by your team.',
   TABS_LABEL: 'Filter by status',
   TAB_ALL: 'All',
   RESULT_COUNT: (total: number) => `${total} ${total === 1 ? 'item' : 'items'} found`,
