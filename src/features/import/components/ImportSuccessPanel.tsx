@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
-import type { ImportSuccess } from '@/api';
+import type { ImportQuestionsResponse } from '@/api';
 import { Button } from '@/components';
 import { IMPORT_COPY, IMPORT_PREVIEW_LIMIT, ROUTES } from '@/constants';
 import './ImportStatus.css';
 
 interface ImportSuccessPanelProps {
-  result: ImportSuccess;
+  result: ImportQuestionsResponse;
   onImportAnother: () => void;
 }
 

@@ -1,20 +1,15 @@
-import type { ImportFailure, ImportRowError } from '@/api';
+import { ApiError } from '@/api/errors';
+import { importValidationErrorBodySchema, type ImportRowError } from '@/api';
 import {
   IMPORT_CLIENT_ERROR,
   IMPORT_COPY,
   IMPORT_LIMITS,
-  IMPORT_PREVIEW_STATE,
   type ImportClientError,
-  type ImportPreviewState,
 } from '@/constants';
-import { toCsvText } from '@/utils/csvText';
 
-export interface SelectedFile {
-  name: string;
-  size: number;
-}
-
-export function findClientError(files: readonly SelectedFile[]): ImportClientError | null {
+export function findClientError(
+  files: readonly Pick<File, 'name' | 'size'>[],
+): ImportClientError | null {
   const [file] = files;
   if (files.length > 1) return IMPORT_CLIENT_ERROR.MULTIPLE;
   if (!file) return null;
@@ -39,22 +34,12 @@ export function groupErrorsByRow(details: readonly ImportRowError[]): ErrorGroup
 
 export const rowLabel = (row: number) => (row === 1 ? IMPORT_COPY.HEADER_ROW : String(row));
 
-export const isValidationFailure = (
-  failure: ImportFailure,
-): failure is ImportFailure & {
-  details: ImportRowError[];
-} => (failure.details?.length ?? 0) > 0;
-
-export function buildErrorListCsv(details: readonly ImportRowError[]): string {
-  const { ROW, COLUMN, PROBLEM } = IMPORT_COPY.TABLE_HEADERS;
-  return toCsvText([
-    [ROW, COLUMN, PROBLEM],
-    ...details.map((error) => [rowLabel(error.row), error.column ?? '', error.message]),
-  ]);
+// The API rejects a bad file with per-row details in the error body.
+export function getValidationDetails(error: unknown): ImportRowError[] {
+  if (!(error instanceof ApiError)) return [];
+  const parsed = importValidationErrorBodySchema.safeParse(error.body);
+  return parsed.success ? parsed.data.error.details : [];
 }
 
 export const buildTagsText = (categories: readonly { slug: string; tags: readonly string[] }[]) =>
   categories.map((category) => `${category.slug}: ${category.tags.join(', ')}`).join('\n');
-
-export const parsePreviewState = (value: string): ImportPreviewState | undefined =>
-  Object.values(IMPORT_PREVIEW_STATE).find((state) => state === value);

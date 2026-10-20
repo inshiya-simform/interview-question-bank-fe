@@ -6,9 +6,6 @@ export const IMPORT_COPY = {
   ENTRY: 'Import from CSV',
   TITLE: 'Import questions from CSV',
   SUBTITLE: 'Add many questions at once. They are sent for review like any other submission.',
-  PREVIEW_LABEL: 'Mock preview state',
-  PREVIEW_HINT: 'Design preview only. Pick a state to see how it looks.',
-  PREVIEW_PLACEHOLDER: 'Choose a state',
 
   INSTRUCTIONS_TITLE: 'How to import',
   DOWNLOAD_TEMPLATE: 'Download template',
@@ -80,38 +77,7 @@ export const IMPORT_COPY = {
   HEADER_ROW: 'Header',
   ROW_LABEL: (row: number) => `Row ${row}`,
   CHOOSE_DIFFERENT: 'Choose a different file',
-  DOWNLOAD_ERRORS: 'Download error list',
   DUPLICATE_HELP_LABEL: 'How to import a question that is genuinely different',
   DUPLICATE_HELP:
     'If this question is genuinely different, set confirm_distinct to true and add a distinct_reason in the CSV, then upload again.',
 } as const;
-
-export const IMPORT_PREVIEW_STATE = {
-  EMPTY: 'empty',
-  SELECTED: 'selected',
-  NOT_CSV: 'notCsv',
-  TOO_LARGE: 'tooLarge',
-  MULTIPLE: 'multiple',
-  UPLOADING: 'uploading',
-  SUCCESS: 'success',
-  FAILURE_AUTH: 'failureAuth',
-  FAILURE_SIZE: 'failureSize',
-  VALIDATION: 'validation',
-  VALIDATION_HEADER: 'validationHeader',
-} as const;
-
-export type ImportPreviewState = (typeof IMPORT_PREVIEW_STATE)[keyof typeof IMPORT_PREVIEW_STATE];
-
-export const IMPORT_PREVIEW_LABELS: Record<ImportPreviewState, string> = {
-  empty: 'Empty',
-  selected: 'File selected',
-  notCsv: 'Client error: not a .csv',
-  tooLarge: 'Client error: over 2 MB',
-  multiple: 'Client error: more than one file',
-  uploading: 'Uploading',
-  success: 'Success',
-  failureAuth: 'Failure: not authorized',
-  failureSize: 'Failure: file too large',
-  validation: 'Validation errors (rows)',
-  validationHeader: 'Validation errors (header)',
-};

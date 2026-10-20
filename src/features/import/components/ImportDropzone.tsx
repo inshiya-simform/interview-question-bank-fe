@@ -2,12 +2,12 @@ import { Button } from '@/components';
 import { IMPORT_COPY, IMPORT_LIMITS } from '@/constants';
 import { cn } from '@/utils/cn';
 import { useImportDropzone } from '../hooks/useImportDropzone';
-import type { SelectedFile } from '../utils';
+
 import './ImportDropzone.css';
 
 interface ImportDropzoneProps {
   disabled: boolean;
-  onFiles: (files: readonly SelectedFile[]) => void;
+  onFiles: (files: readonly File[]) => void;
 }
 
 export function ImportDropzone({ disabled, onFiles }: ImportDropzoneProps) {

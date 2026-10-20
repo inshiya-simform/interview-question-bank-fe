@@ -1,11 +1,10 @@
 import { Button } from '@/components';
 import { IMPORT_COPY, type ImportClientError } from '@/constants';
 import { formatFileSize } from '@/utils/fileSize';
-import type { SelectedFile } from '../utils';
 import './ImportFileRow.css';
 
 interface ImportFileRowProps {
-  file: SelectedFile | null;
+  file: File | null;
   clientError: ImportClientError | null;
   canImport: boolean;
   isBusy: boolean;

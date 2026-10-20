@@ -1,6 +1,7 @@
 export * from './service/admin.service';
 export * from './service/auth.service';
 export * from './service/clients.service';
+export * from './service/import.service';
 export * from './service/questions.service';
 export * from './service/tags.service';
 export * from './token-storage';
@@ -16,6 +17,8 @@ export * from './type/auth/permissions';
 export * from './type/auth/register';
 export * from './type/auth/shared';
 export * from './type/clients/clients-list';
+export * from './type/import/import-questions';
+export * from './type/import/import-template';
 export * from './type/import/shared';
 export * from './type/questions/check-duplicate';
 export * from './type/questions/create-question';
