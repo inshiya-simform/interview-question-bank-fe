@@ -16,4 +16,10 @@ export const ADMIN_SEARCH_PARAMS = {
   SEARCH: 'q',
 } as const;
 
+export const MEMBER_SEARCH_PARAMS = {
+  PAGE: 'page',
+  SEARCH: 'q',
+  ROLE: 'role',
+} as const;
+
 export const CSV_SEPARATOR = ',';

@@ -16,6 +16,7 @@ import {
   revokeClientAccess,
 } from '../service/admin.service';
 import type { ClientAccessListParams } from '../type/admin/client-access-list';
+import type { AdminUsersParams } from '../type/admin/users-list';
 
 export function useClientAccessQuery(userId: string | undefined, params: ClientAccessListParams) {
   return useQuery({
@@ -26,11 +27,25 @@ export function useClientAccessQuery(userId: string | undefined, params: ClientA
   });
 }
 
+export function useAdminUsersQuery(userId: string | undefined, params: AdminUsersParams) {
+  return useQuery({
+    queryKey: QUERY_KEYS.ADMIN_USERS_TABLE(userId ?? '', params),
+    queryFn: () => getAdminUsers(params),
+    enabled: Boolean(userId),
+    placeholderData: keepPreviousData,
+  });
+}
+
 export function useAdminUsersInfiniteQuery(userId: string | undefined, search: string) {
   return useInfiniteQuery({
     queryKey: QUERY_KEYS.ADMIN_USERS(userId ?? '', search),
     queryFn: ({ pageParam }) =>
-      getAdminUsers({ page: pageParam, limit: ADMIN_USERS_PAGE_SIZE, search: search || undefined }),
+      getAdminUsers({
+        page: pageParam,
+        limit: ADMIN_USERS_PAGE_SIZE,
+        search: search || undefined,
+        excludeAdmin: true,
+      }),
     initialPageParam: 1,
     getNextPageParam: ({ page, limit, total }) => (page * limit < total ? page + 1 : undefined),
     enabled: Boolean(userId),
