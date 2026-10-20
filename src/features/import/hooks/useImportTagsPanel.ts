@@ -1,6 +1,7 @@
+import { useTagsQuery } from '@/api/hooks';
 import { IMPORT_COPY } from '@/constants';
+import { useSession } from '@/features/auth';
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
-import { MOCK_TAG_CATEGORIES } from '../mock';
 import { buildTagsText } from '../utils';
 
 const FEEDBACK = {
@@ -10,11 +11,17 @@ const FEEDBACK = {
 } as const;
 
 export function useImportTagsPanel() {
+  const { user } = useSession();
+  const { data } = useTagsQuery(user?.id);
   const { status, copy } = useCopyToClipboard();
+  const categories = (data?.categories ?? []).map((category) => ({
+    slug: category.slug,
+    tags: category.tags.map((tag) => tag.slug),
+  }));
 
   return {
-    categories: MOCK_TAG_CATEGORIES,
+    categories,
     feedback: FEEDBACK[status],
-    copyTags: () => copy(buildTagsText(MOCK_TAG_CATEGORIES)),
+    copyTags: () => copy(buildTagsText(categories)),
   };
 }

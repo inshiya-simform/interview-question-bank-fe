@@ -6,15 +6,17 @@ import { ImportErrorTable } from './ImportErrorTable';
 import './ImportStatus.css';
 
 interface ImportValidationErrorsProps {
+  message: string;
   details: readonly ImportRowError[];
   onChooseDifferent: () => void;
 }
 
 export function ImportValidationErrors({
+  message,
   details,
   onChooseDifferent,
 }: ImportValidationErrorsProps) {
-  const { groups, summary, downloadErrors } = useImportValidationErrors(details);
+  const { groups, summary } = useImportValidationErrors(details);
 
   return (
     <div className="istatus istatus--strong">
@@ -22,15 +24,13 @@ export function ImportValidationErrors({
         <span aria-hidden="true">! </span>
         {IMPORT_COPY.VALIDATION_HEADING}
       </h2>
+      {message && <p className="istatus__text">{message}</p>}
       <p className="istatus__text">
         <strong>{summary}</strong>
       </p>
       <ImportErrorTable groups={groups} />
       <div className="istatus__actions">
         <Button onClick={onChooseDifferent}>{IMPORT_COPY.CHOOSE_DIFFERENT}</Button>
-        <Button variant="secondary" onClick={downloadErrors}>
-          {IMPORT_COPY.DOWNLOAD_ERRORS}
-        </Button>
       </div>
     </div>
   );

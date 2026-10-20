@@ -28,6 +28,6 @@ apiClient.interceptors.response.use(
       queryClient.clear();
       window.location.assign(ROUTES.LOGIN);
     }
-    return Promise.reject(new ApiError(status, extractErrorMessage(status, data)));
+    return Promise.reject(new ApiError(status, extractErrorMessage(status, data), data));
   },
 );

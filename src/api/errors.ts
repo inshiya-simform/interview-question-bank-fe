@@ -11,11 +11,14 @@ export const errorBodySchema = z.looseObject({
 
 export class ApiError extends Error {
   status: number;
+  // Raw error body, kept so features can read structured details (e.g. CSV row errors).
+  body: unknown;
 
-  constructor(status: number, message: string) {
+  constructor(status: number, message: string, body?: unknown) {
     super(message);
     this.name = 'ApiError';
     this.status = status;
+    this.body = body;
   }
 }
 

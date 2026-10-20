@@ -1,11 +1,9 @@
 import { useRef, useState } from 'react';
 import type { ChangeEvent, DragEvent } from 'react';
-import type { SelectedFile } from '../utils';
 
-const toSelected = (files: FileList): SelectedFile[] =>
-  Array.from(files, (file) => ({ name: file.name, size: file.size }));
+const toSelected = (files: FileList): File[] => Array.from(files);
 
-export function useImportDropzone(onFiles: (files: readonly SelectedFile[]) => void) {
+export function useImportDropzone(onFiles: (files: readonly File[]) => void) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
 

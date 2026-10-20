@@ -4,7 +4,6 @@ import { ImportDropzone } from './ImportDropzone';
 import { ImportFailureBanner } from './ImportFailureBanner';
 import { ImportFileRow } from './ImportFileRow';
 import { ImportInstructions } from './ImportInstructions';
-import { ImportPreviewSwitcher } from './ImportPreviewSwitcher';
 import { ImportSuccessPanel } from './ImportSuccessPanel';
 import { ImportUploading } from './ImportUploading';
 import { ImportValidationErrors } from './ImportValidationErrors';
@@ -12,8 +11,7 @@ import './ImportScreen.css';
 
 export function ImportScreen() {
   const flow = useImportFlow();
-  const { phase, file, clientError, success, failure } = flow;
-  const isUploading = phase === 'uploading';
+  const { file, clientError, success, failureMessage, isUploading } = flow;
 
   return (
     <div className="iscreen">
@@ -21,7 +19,6 @@ export function ImportScreen() {
         <h1>{IMPORT_COPY.TITLE}</h1>
         <p className="iscreen__subtitle">{IMPORT_COPY.SUBTITLE}</p>
       </div>
-      <ImportPreviewSwitcher value={flow.preview} onChange={flow.setPreview} />
       <p className="sr-only" role="status" aria-live="polite">
         {flow.announcement}
       </p>
@@ -30,7 +27,11 @@ export function ImportScreen() {
         <ImportSuccessPanel result={success} onImportAnother={flow.reset} />
       )}
       {flow.view === 'validation' && (
-        <ImportValidationErrors details={flow.validationDetails} onChooseDifferent={flow.reset} />
+        <ImportValidationErrors
+          message={flow.validationMessage}
+          details={flow.validationDetails}
+          onChooseDifferent={flow.reset}
+        />
       )}
       {flow.view === 'form' && (
         <>
@@ -46,7 +47,9 @@ export function ImportScreen() {
             />
           )}
           {isUploading && <ImportUploading />}
-          {failure && <ImportFailureBanner failure={failure} onRetry={flow.startImport} />}
+          {failureMessage && (
+            <ImportFailureBanner message={failureMessage} onRetry={flow.startImport} />
+          )}
           <p className="iscreen__notice">{IMPORT_COPY.REVIEW_NOTICE}</p>
         </>
       )}

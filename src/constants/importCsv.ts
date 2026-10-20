@@ -6,14 +6,6 @@ export const IMPORT_LIMITS = {
   ANSWER_NOTES_MAX: 10000,
 } as const;
 
-export const IMPORT_FAILURE_CODE = {
-  VALIDATION_FAILED: 'VALIDATION_FAILED',
-  UNAUTHORIZED: 'UNAUTHORIZED',
-  FILE_TOO_LARGE: 'FILE_TOO_LARGE',
-} as const;
-
-export type ImportFailureCode = (typeof IMPORT_FAILURE_CODE)[keyof typeof IMPORT_FAILURE_CODE];
-
 export const IMPORT_CLIENT_ERROR = {
   NOT_CSV: 'notCsv',
   TOO_LARGE: 'tooLarge',
@@ -34,9 +26,8 @@ export const IMPORT_COLUMNS = [
 export const IMPORT_TEMPLATE_HEADER = IMPORT_COLUMNS.map((column) => column.name);
 
 export const IMPORT_TEMPLATE_FILENAME = 'question-import-template.csv';
-export const IMPORT_ERRORS_FILENAME = 'question-import-errors.csv';
 export const IMPORT_CSV_MIME = 'text/csv;charset=utf-8';
-export const IMPORT_MOCK_DELAY_MS = 2500;
+export const IMPORT_CSV_ACCEPT = 'text/csv';
 export const IMPORT_PREVIEW_LIMIT = 5;
 
 // Matches the API's duplicate messages so they can carry the "this is different" hint.

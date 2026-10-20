@@ -6,7 +6,7 @@ import { ImportTagsPanel } from './ImportTagsPanel';
 import './ImportInstructions.css';
 
 export function ImportInstructions() {
-  const { exampleCsv, downloadTemplate } = useImportInstructions();
+  const { exampleCsv, isDownloading, downloadTemplate } = useImportInstructions();
 
   return (
     <section className="iinfo" aria-labelledby="import-instructions-title">
@@ -14,7 +14,7 @@ export function ImportInstructions() {
         <h2 id="import-instructions-title" className="iinfo__title">
           {IMPORT_COPY.INSTRUCTIONS_TITLE}
         </h2>
-        <Button variant="secondary" onClick={downloadTemplate}>
+        <Button variant="secondary" isLoading={isDownloading} onClick={downloadTemplate}>
           {IMPORT_COPY.DOWNLOAD_TEMPLATE}
         </Button>
       </div>
