@@ -40,3 +40,26 @@
 .qlist + .pagination {
   margin-top: var(--space-4);
 }
+
+/* On wide screens the page header and filters stay put and only the results scroll. */
+@media (min-width: 64rem) {
+  .qsection {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .qlist__scroll {
+    flex: 1;
+    min-height: 0;
+    /* Room for the card shadows and focus rings that overflow would otherwise clip. */
+    margin: 0 calc(var(--space-2) * -1);
+    padding: var(--space-1) var(--space-2) var(--space-2);
+    overflow-y: auto;
+  }
+}
+
+.qlist__scroll .loader {
+  min-height: 12rem;
+}

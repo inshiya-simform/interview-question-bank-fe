@@ -3,3 +3,11 @@
   flex-direction: column;
   gap: var(--space-5);
 }
+
+/* The shell content pads the top by --space-6 and the bottom by --space-7; fill what is left so
+   the question list can scroll on its own beneath the header and filters. */
+@media (min-width: 64rem) {
+  .home {
+    height: calc(100svh - var(--space-6) - var(--space-7));
+  }
+}
