@@ -9,6 +9,7 @@ import {
   LazyAddMemberPage,
   LazyClientAccessPage,
   LazyHomePage,
+  LazyImportPage,
   LazyLoginPage,
   LazyMySubmissionsPage,
   LazyRegisterPage,
@@ -27,6 +28,7 @@ export function App() {
             <Route element={<RequirePermission permissions={[PERMISSIONS.QUESTION_CREATE]} />}>
               <Route path={ROUTES.MY_QUESTIONS} element={<LazyMySubmissionsPage />} />
             </Route>
+            <Route path={ROUTES.IMPORT} element={<LazyImportPage />} />
             <Route element={<RequirePermission permissions={[PERMISSIONS.QUESTION_REVIEW]} />}>
               <Route path={ROUTES.REVIEW_QUEUE} element={<LazyReviewQueuePage />} />
             </Route>

@@ -1,0 +1,32 @@
+.dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-6) var(--space-4);
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-deep);
+  text-align: center;
+}
+
+.dropzone--active {
+  border-style: solid;
+  border-color: var(--color-text);
+  background: var(--color-bg);
+}
+
+.dropzone--disabled {
+  opacity: 0.6;
+}
+
+.dropzone__title {
+  margin: 0;
+  font-weight: 600;
+}
+
+.dropzone__or {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.875rem;
+}
