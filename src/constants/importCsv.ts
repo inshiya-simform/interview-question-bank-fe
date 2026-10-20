@@ -26,6 +26,7 @@ export const IMPORT_COLUMNS = [
 export const IMPORT_TEMPLATE_HEADER = IMPORT_COLUMNS.map((column) => column.name);
 
 export const IMPORT_TEMPLATE_FILENAME = 'question-import-template.csv';
+export const EXPORT_FILENAME = 'questions.csv';
 export const IMPORT_CSV_MIME = 'text/csv;charset=utf-8';
 export const IMPORT_CSV_ACCEPT = 'text/csv';
 export const IMPORT_PREVIEW_LIMIT = 5;

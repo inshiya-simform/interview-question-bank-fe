@@ -1,3 +1,6 @@
+import { z } from 'zod';
+import { EXPORT_FILENAME, IMPORT_CSV_ACCEPT } from '@/constants';
+import { parseContentDispositionFilename } from '@/utils/contentDisposition';
 import { joinCsv } from '@/utils/csv';
 import { apiClient } from '../client';
 import { API_ENDPOINTS } from '../endpoints';
@@ -13,6 +16,8 @@ import {
   createQuestionPayloadSchema,
   createQuestionResponseSchema,
 } from '../type/questions/create-question';
+import { exportFileSchema, exportQuestionsParamsSchema } from '../type/questions/export-questions';
+import type { ExportFile, ExportQuestionsParams } from '../type/questions/export-questions';
 import {
   questionListParamsSchema,
   questionListResponseSchema,
@@ -67,6 +72,24 @@ export async function getQuestions(params: QuestionListParams = {}): Promise<Que
     },
   });
   return questionListResponseSchema.parse(data);
+}
+
+export async function exportQuestions(params: ExportQuestionsParams = {}): Promise<ExportFile> {
+  const { tags, categories, ...rest } = exportQuestionsParamsSchema.parse(params);
+  const { data, headers } = await apiClient.get(API_ENDPOINTS.QUESTIONS.EXPORT, {
+    headers: { Accept: IMPORT_CSV_ACCEPT },
+    responseType: 'text',
+    params: {
+      ...rest,
+      tags: tags?.length ? joinCsv(tags) : undefined,
+      categories: categories?.length ? joinCsv(categories) : undefined,
+      search: rest.search || undefined,
+    },
+  });
+  return exportFileSchema.parse({
+    filename: parseContentDispositionFilename(headers['content-disposition']) ?? EXPORT_FILENAME,
+    content: z.string().parse(data),
+  });
 }
 
 export async function getQuestion(id: string): Promise<Question> {
