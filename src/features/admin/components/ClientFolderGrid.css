@@ -1,0 +1,54 @@
+.folders {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.folders__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.folders__search {
+  flex: 1 1 16rem;
+  max-width: 28rem;
+}
+
+.folders__count {
+  min-height: 1.5rem;
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+}
+
+.folders__empty {
+  margin: 0;
+  color: var(--color-muted);
+}
+
+.folders__error {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.folders__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.folders__grid > li {
+  display: flex;
+}
+
+.folders__grid .folder-card {
+  flex: 1;
+}

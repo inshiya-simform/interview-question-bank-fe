@@ -10,6 +10,9 @@ export const LazyRegisterPage = lazy(() =>
 export const LazyClientAccessPage = lazy(() =>
   import('./ClientAccessPage').then((m) => ({ default: m.ClientAccessPage })),
 );
+export const LazyClientFolderPage = lazy(() =>
+  import('./ClientFolderPage').then((m) => ({ default: m.ClientFolderPage })),
+);
 export const LazyAddMemberPage = lazy(() =>
   import('./AddMemberPage').then((m) => ({ default: m.AddMemberPage })),
 );

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { clientAccessSchema } from './shared';
+import { clientSchema } from '../clients/clients-list';
 
 // Outbound query params: validated before sending.
 export const clientAccessListParamsSchema = z.object({
@@ -9,7 +9,7 @@ export const clientAccessListParamsSchema = z.object({
 });
 
 export const clientAccessListResponseSchema = z.object({
-  clients: z.array(clientAccessSchema),
+  clients: z.array(clientSchema),
   page: z.number(),
   limit: z.number(),
   total: z.number(),

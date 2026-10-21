@@ -11,16 +11,4 @@ export const adminUserSchema = z.object({
   clients: z.array(clientSchema),
 });
 
-export const clientAccessUserSchema = z.object({
-  id: z.string(),
-  email: z.string(),
-  name: z.string(),
-});
-
-export const clientAccessSchema = clientSchema.extend({
-  userCount: z.number(),
-  users: z.array(clientAccessUserSchema),
-});
-
 export type AdminUser = z.infer<typeof adminUserSchema>;
-export type ClientAccess = z.infer<typeof clientAccessSchema>;

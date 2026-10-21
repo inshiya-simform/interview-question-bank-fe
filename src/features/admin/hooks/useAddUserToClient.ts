@@ -5,10 +5,7 @@ import { MESSAGES, SEARCH_DEBOUNCE_MS } from '@/constants';
 import { useSession } from '@/features/auth';
 import { useDebounce } from '@/hooks/useDebounce';
 
-export function useAddUserToClient(
-  existingUserIds: readonly string[],
-  onAdd: (email: string) => void,
-) {
+export function useAddUserToClient(onAdd: (email: string) => void) {
   const { user } = useSession();
   const [query, setQuery] = useState('');
   const search = useDebounce(query.trim(), SEARCH_DEBOUNCE_MS);
@@ -17,13 +14,11 @@ export function useAddUserToClient(
   const [error, setError] = useState<string | undefined>();
 
   const users = usersQuery.data?.pages.flatMap((page) => page.users) ?? [];
-  const options = users
-    .filter((candidate) => !existingUserIds.includes(candidate.id))
-    .map((candidate) => ({
-      value: candidate.id,
-      label: candidate.email,
-      description: candidate.name,
-    }));
+  const options = users.map((candidate) => ({
+    value: candidate.id,
+    label: candidate.email,
+    description: candidate.name,
+  }));
 
   // The email is kept apart from the list because a new search can drop the selected user from it.
   const handleChange = (next: string) => {

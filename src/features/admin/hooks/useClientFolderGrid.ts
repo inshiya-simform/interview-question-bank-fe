@@ -4,7 +4,7 @@ import { useSession } from '@/features/auth';
 import { toListParams } from '../filters';
 import { useClientAccessFilters } from './useClientAccessFilters';
 
-export function useClientAccessTable() {
+export function useClientFolderGrid() {
   const { user } = useSession();
   const filterState = useClientAccessFilters();
   const query = useClientAccessQuery(user?.id, toListParams(filterState.filters));
