@@ -1,47 +1,64 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useBulkApproveMutation, useBulkRejectMutation } from '@/api/hooks';
-import type { BulkDecisionResponse } from '@/api';
-import { BULK_FAILURE_CODE, MESSAGES } from '@/constants';
+import type { BulkDecisionResponse, ReviewedQuestion } from '@/api';
+import { MESSAGES, REVIEW_COPY } from '@/constants';
+import { bulkFailureReason } from '../conflicts';
+import { toSubmittedContent } from '../selectors';
 
-const countByCode = (failed: BulkDecisionResponse['failed'], code: string) =>
-  failed.filter((item) => item.code === code).length;
-
-// Failures are reported per cause so the reviewer knows why a question was skipped.
-function notifyFailures(failed: BulkDecisionResponse['failed']) {
-  const conflicts = countByCode(failed, BULK_FAILURE_CODE.CONFLICT);
-  const notFound = countByCode(failed, BULK_FAILURE_CODE.NOT_FOUND);
-  const other = failed.length - conflicts - notFound;
-  if (conflicts > 0) toast.error(MESSAGES.BULK_FAILED_CONFLICT(conflicts));
-  if (notFound > 0) toast.error(MESSAGES.BULK_FAILED_NOT_FOUND(notFound));
-  if (other > 0) toast.error(MESSAGES.BULK_FAILED_OTHER(other));
+export interface BulkFailure {
+  id: string;
+  text: string;
+  reason: string;
 }
 
 // API errors are toasted centrally, so only the per-question outcome is handled here.
-export function useBulkDecision(selectedIds: readonly string[], onDone: () => void) {
+export function useBulkDecision(
+  items: readonly ReviewedQuestion[],
+  selectedIds: readonly string[],
+  onDone: () => void,
+) {
   const [isRejecting, setIsRejecting] = useState(false);
+  const [failures, setFailures] = useState<BulkFailure[]>([]);
   const approveMutation = useBulkApproveMutation();
   const rejectMutation = useBulkRejectMutation();
+
+  // The version of each question the reviewer was looking at, so edits since then are refused.
+  const expectedUpdatedAt = Object.fromEntries(
+    items.filter((item) => selectedIds.includes(item.id)).map((item) => [item.id, item.updatedAt]),
+  );
+
+  const toFailure = (failed: BulkDecisionResponse['failed'][number]): BulkFailure => {
+    const item = items.find((candidate) => candidate.id === failed.id);
+    return {
+      id: failed.id,
+      text: item ? toSubmittedContent(item).text : REVIEW_COPY.BULK_FAILED_UNKNOWN_QUESTION,
+      reason: bulkFailureReason(failed),
+    };
+  };
 
   const handleResult = (
     result: BulkDecisionResponse,
     successMessage: (count: number) => string,
   ) => {
-    if (result.succeeded.length > 0) toast.success(successMessage(result.succeeded.length));
-    notifyFailures(result.failed);
+    const reviewed = result.succeeded.length;
+    const skipped = result.failed.length;
+    if (skipped === 0) toast.success(successMessage(reviewed));
+    else toast.info(MESSAGES.BULK_SUMMARY(reviewed, skipped));
+    setFailures(result.failed.map(toFailure));
     setIsRejecting(false);
     onDone();
   };
 
   const approve = () =>
     approveMutation.mutate(
-      { ids: [...selectedIds] },
+      { ids: [...selectedIds], expectedUpdatedAt },
       { onSuccess: (result) => handleResult(result, MESSAGES.BULK_APPROVED) },
     );
 
   const reject = (note: string) =>
     rejectMutation.mutate(
-      { ids: [...selectedIds], note },
+      { ids: [...selectedIds], note, expectedUpdatedAt },
       { onSuccess: (result) => handleResult(result, MESSAGES.BULK_REJECTED) },
     );
 
@@ -49,6 +66,8 @@ export function useBulkDecision(selectedIds: readonly string[], onDone: () => vo
     isPending: approveMutation.isPending || rejectMutation.isPending,
     isRejectPending: rejectMutation.isPending,
     isRejecting,
+    failures,
+    dismissFailures: () => setFailures([]),
     approve,
     openReject: () => setIsRejecting(true),
     closeReject: () => setIsRejecting(false),

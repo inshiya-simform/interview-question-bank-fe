@@ -18,6 +18,8 @@ export const API_ENDPOINTS = {
     APPROVE: (id: string) => `/questions/${id}/approve`,
     REQUEST_CHANGES: (id: string) => `/questions/${id}/request-changes`,
     REJECT: (id: string) => `/questions/${id}/reject`,
+    REVIEW_STATE: (id: string) => `/questions/${id}/review-state`,
+    REVIEW_LOCK: (id: string) => `/questions/${id}/review-lock`,
     BULK_APPROVE: '/questions/bulk/approve',
     BULK_REJECT: '/questions/bulk/reject',
   },

@@ -5,6 +5,7 @@ import {
   bulkApproveQuestions,
   bulkRejectQuestions,
   checkDuplicateQuestion,
+  claimReviewLock,
   createQuestion,
   exportQuestions,
   getQuestion,
@@ -12,11 +13,17 @@ import {
   getQuestionHistory,
   getSubmissions,
   getQuestions,
+  getReviewState,
   rejectQuestion,
+  releaseReviewLock,
   requestQuestionChanges,
   updateQuestion,
 } from '../service/questions.service';
-import type { RejectPayload, RequestChangesPayload } from '../type/reviews/review-decision';
+import type {
+  ApprovePayload,
+  RejectPayload,
+  RequestChangesPayload,
+} from '../type/reviews/review-decision';
 import type { SubmissionListParams } from '../type/reviews/submission-list';
 import type { UpdateQuestionPayload } from '../type/questions/update-question';
 import type { QuestionListParams } from '../type/questions/questions-list';
@@ -73,12 +80,17 @@ export function useQuestionCountsQuery(userId: string | undefined, enabled = tru
   });
 }
 
-export function useSubmissionsQuery(userId: string | undefined, params: SubmissionListParams) {
+export function useSubmissionsQuery(
+  userId: string | undefined,
+  params: SubmissionListParams,
+  refetchIntervalMs?: number,
+) {
   return useQuery({
     queryKey: QUERY_KEYS.SUBMISSIONS(userId ?? '', params),
     queryFn: () => getSubmissions(params),
     enabled: Boolean(userId),
     placeholderData: keepPreviousData,
+    refetchInterval: refetchIntervalMs,
   });
 }
 
@@ -94,7 +106,8 @@ export function useQuestionHistoryQuery(userId: string | undefined, id: string |
 export function useApproveQuestionMutation() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => approveQuestion(id),
+    mutationFn: ({ id, payload }: { id: string; payload?: ApprovePayload }) =>
+      approveQuestion(id, payload),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEYS.QUESTIONS_LIST }),
   });
 }
@@ -137,4 +150,33 @@ export function useBulkRejectMutation() {
 // A download is a user-triggered action, so it is a mutation rather than a cached query.
 export function useExportQuestionsMutation() {
   return useMutation({ mutationFn: exportQuestions });
+}
+
+// Polls the review state while the tab is visible. When the reviewer holds the lock the poll is
+// the lock POST, which doubles as the heartbeat and also returns the state. `holdsLock` is left
+// out of the key on purpose so claiming the lock does not reset the cached state.
+export function useReviewLockPollQuery(
+  userId: string | undefined,
+  id: string | null,
+  options: { enabled: boolean; holdsLock: boolean; intervalMs: number },
+) {
+  const { enabled, holdsLock, intervalMs } = options;
+  return useQuery({
+    queryKey: QUERY_KEYS.REVIEW_STATE(userId ?? '', id ?? ''),
+    queryFn: () => (holdsLock ? claimReviewLock(id ?? '') : getReviewState(id ?? '')),
+    refetchInterval: intervalMs,
+    refetchIntervalInBackground: false,
+    staleTime: 0,
+    gcTime: 0,
+    retry: false,
+    enabled: enabled && Boolean(userId) && id !== null,
+  });
+}
+
+export function useClaimReviewLockMutation() {
+  return useMutation({ mutationFn: (id: string) => claimReviewLock(id) });
+}
+
+export function useReleaseReviewLockMutation() {
+  return useMutation({ mutationFn: (id: string) => releaseReviewLock(id) });
 }

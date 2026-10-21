@@ -18,6 +18,7 @@ export const QUERY_KEYS = {
     ['questions', 'submissions', userId, params] as const,
   QUESTION_COUNTS: (userId: string) => ['questions', 'counts', userId] as const,
   QUESTION_HISTORY: (userId: string, id: string) => ['questions', 'history', userId, id] as const,
+  REVIEW_STATE: (userId: string, id: string) => ['questions', 'review-state', userId, id] as const,
   CLIENTS: (userId: string) => ['clients', userId] as const,
   TAGS: (userId: string) => ['tags', userId] as const,
   ADMIN_USERS_LIST: ['admin', 'users'] as const,

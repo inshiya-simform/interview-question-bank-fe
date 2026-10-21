@@ -2,13 +2,17 @@ import { useState } from 'react';
 import type { ReviewedQuestion } from '@/api';
 import { REVIEW_STATUS } from '@/constants';
 
-// Only questions awaiting a decision can be selected. Ids that left the current page or
-// changed status are dropped on read, so the selection never outlives the visible list.
-export function useBulkSelection(items: readonly ReviewedQuestion[]) {
+// Only questions awaiting a decision, and not held by another reviewer, can be selected. Ids that
+// left the current page or changed status are dropped on read, so the selection never outlives
+// the visible list.
+export function useBulkSelection(
+  items: readonly ReviewedQuestion[],
+  isLockedByOther: (item: ReviewedQuestion) => boolean,
+) {
   const [picked, setPicked] = useState<ReadonlySet<string>>(new Set());
 
   const selectableIds = items
-    .filter((item) => item.status === REVIEW_STATUS.PENDING_REVIEW)
+    .filter((item) => item.status === REVIEW_STATUS.PENDING_REVIEW && !isLockedByOther(item))
     .map((item) => item.id);
   const selectedIds = selectableIds.filter((id) => picked.has(id));
   const isAllSelected = selectableIds.length > 0 && selectedIds.length === selectableIds.length;

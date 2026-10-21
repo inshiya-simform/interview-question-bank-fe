@@ -1,6 +1,11 @@
 import { z } from 'zod';
 import { questionClientSchema } from '../questions/shared';
-import { reviewContentSchema, reviewPersonSchema, reviewStatusSchema } from './shared';
+import {
+  reviewContentSchema,
+  reviewLockSchema,
+  reviewPersonSchema,
+  reviewStatusSchema,
+} from './shared';
 
 // Full question as returned by the review decision endpoints.
 export const reviewedQuestionSchema = z.object({
@@ -22,6 +27,8 @@ export const reviewedQuestionSchema = z.object({
   hasDraft: z.boolean(),
   // Pending edit of a live question.
   draft: reviewContentSchema.nullish(),
+  // Only sent to reviewers.
+  reviewLock: reviewLockSchema.nullish(),
 });
 
 export type ReviewedQuestion = z.infer<typeof reviewedQuestionSchema>;

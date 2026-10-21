@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { reviewInfoSchema } from '../reviews/shared';
+import { reviewInfoSchema, reviewLockSchema } from '../reviews/shared';
 
 export const questionClientSchema = z.object({
   id: z.string(),
@@ -15,6 +15,8 @@ export const questionSchema = z.object({
   tags: z.record(z.string(), z.array(z.string())),
   // Present only for people allowed to see review state.
   review: reviewInfoSchema.nullish(),
+  // Only sent to reviewers.
+  reviewLock: reviewLockSchema.nullish(),
   authorId: z.string(),
   createdAt: z.string(),
   updatedAt: z.string(),

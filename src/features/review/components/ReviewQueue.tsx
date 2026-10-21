@@ -4,16 +4,26 @@ import { useBulkDecision } from '../hooks/useBulkDecision';
 import { useBulkSelection } from '../hooks/useBulkSelection';
 import { useReviewQueue } from '../hooks/useReviewQueue';
 import { BulkActionBar } from './BulkActionBar';
+import { BulkFailureList } from './BulkFailureList';
 import { DecisionNoteModal } from './DecisionNoteModal';
 import { ReviewDrawer } from './ReviewDrawer';
 import { ReviewListFrame } from './ReviewListFrame';
 import { ReviewQueueRow } from './ReviewQueueRow';
 
 export function ReviewQueue() {
-  const { items, selectedId, selected, setStatus, setPage, openReview, closeReview, ...list } =
-    useReviewQueue();
-  const bulk = useBulkSelection(items);
-  const decision = useBulkDecision(bulk.selectedIds, bulk.clear);
+  const {
+    items,
+    selected,
+    setStatus,
+    setPage,
+    openReview,
+    closeReview,
+    reloadSelected,
+    lockOwnerOf,
+    ...list
+  } = useReviewQueue();
+  const bulk = useBulkSelection(items, (item) => Boolean(lockOwnerOf(item)));
+  const decision = useBulkDecision(items, bulk.selectedIds, bulk.clear);
 
   return (
     <>
@@ -46,12 +56,16 @@ export function ReviewQueue() {
             isPending={decision.isPending}
           />
         )}
+        {decision.failures.length > 0 && (
+          <BulkFailureList failures={decision.failures} onDismiss={decision.dismissFailures} />
+        )}
         <ul className="rlist">
           {items.map((submission) => (
             <ReviewQueueRow
               key={submission.id}
               submission={submission}
               onReview={openReview}
+              lockOwner={lockOwnerOf(submission)}
               isSelected={bulk.isSelected(submission.id)}
               onToggle={bulk.toggle}
             />
@@ -64,7 +78,12 @@ export function ReviewQueue() {
         onClose={decision.closeReject}
         onSubmit={decision.reject}
       />
-      <ReviewDrawer isOpen={selectedId !== null} submission={selected} onClose={closeReview} />
+      <ReviewDrawer
+        isOpen={selected !== undefined}
+        submission={selected}
+        onClose={closeReview}
+        onReload={() => void reloadSelected()}
+      />
     </>
   );
 }

@@ -20,3 +20,10 @@ function format(formatter: Intl.DateTimeFormat, value: string): string {
 
 export const formatDateTime = (value: string): string => format(dateTimeFormat, value);
 export const formatDate = (value: string): string => format(dateFormat, value);
+
+// Timestamps from different endpoints may differ in formatting but still be the same instant.
+export const isSameInstant = (a: string, b: string): boolean =>
+  new Date(a).getTime() === new Date(b).getTime();
+
+const timeFormat = new Intl.DateTimeFormat(undefined, { hour: '2-digit', minute: '2-digit' });
+export const formatTime = (value: string): string => format(timeFormat, value);
