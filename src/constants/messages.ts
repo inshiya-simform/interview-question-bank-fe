@@ -312,6 +312,15 @@ export const REVIEW_COPY = {
     'The submitter sees this reason exactly as written. Leave empty to reject without one.',
   REJECT_SUBMIT: 'Reject',
   CHARACTER_COUNT: (count: number, max: number) => `${count} / ${max}`,
+  BULK_BAR_LABEL: 'Bulk actions',
+  BULK_SELECT_ALL: 'Select all on this page',
+  BULK_SELECTED: (count: number) => `${count} selected`,
+  BULK_SELECT_HINT: 'Select questions to approve or reject them together.',
+  BULK_SELECT_ROW: (text: string) => `Select question: ${text}`,
+  BULK_CLEAR: 'Clear selection',
+  BULK_APPROVE: 'Approve selected',
+  BULK_REJECT: 'Reject selected',
+  BULK_CHANGES_NOTE: 'Changes can only be requested one question at a time.',
 } as const;
 
 export const STATUS_TAB_LABEL: Record<string, string> = {

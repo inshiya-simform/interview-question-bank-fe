@@ -10,16 +10,32 @@ import { ReviewTags } from './ReviewTags';
 interface ReviewQueueRowProps {
   submission: ReviewedQuestion;
   onReview: (id: string) => void;
+  isSelected: boolean;
+  onToggle: (id: string) => void;
 }
 
-export function ReviewQueueRow({ submission, onReview }: ReviewQueueRowProps) {
+export function ReviewQueueRow({
+  submission,
+  onReview,
+  isSelected,
+  onToggle,
+}: ReviewQueueRowProps) {
   const { id, status, author } = submission;
   const content = toSubmittedContent(submission);
   const isEdit = isEditSubmission(submission);
 
   return (
-    <li className="ritem">
+    <li className={cn('ritem', isSelected && 'ritem--selected')}>
       <div className="ritem__top">
+        {status === REVIEW_STATUS.PENDING_REVIEW && (
+          <input
+            type="checkbox"
+            className="rcheck"
+            checked={isSelected}
+            aria-label={REVIEW_COPY.BULK_SELECT_ROW(content.text)}
+            onChange={() => onToggle(id)}
+          />
+        )}
         <span className={cn('ritem__kind', !isEdit && 'ritem__kind--new')}>
           {isEdit ? REVIEW_COPY.KIND_EDIT : REVIEW_COPY.KIND_NEW}
         </span>
