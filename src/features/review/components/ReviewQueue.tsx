@@ -1,5 +1,7 @@
 import { REVIEW_COPY } from '@/constants';
+import { useBulkSelection } from '../hooks/useBulkSelection';
 import { useReviewQueue } from '../hooks/useReviewQueue';
+import { BulkActionBar } from './BulkActionBar';
 import { ReviewDrawer } from './ReviewDrawer';
 import { ReviewListFrame } from './ReviewListFrame';
 import { ReviewQueueRow } from './ReviewQueueRow';
@@ -7,6 +9,7 @@ import { ReviewQueueRow } from './ReviewQueueRow';
 export function ReviewQueue() {
   const { items, selectedId, selected, setStatus, setPage, openReview, closeReview, ...list } =
     useReviewQueue();
+  const bulk = useBulkSelection(items);
 
   return (
     <>
@@ -26,9 +29,25 @@ export function ReviewQueue() {
         isError={list.isError}
         onRetry={list.refetch}
       >
+        {bulk.selectableIds.length > 0 && (
+          <BulkActionBar
+            selectableCount={bulk.selectableIds.length}
+            selectedCount={bulk.selectedIds.length}
+            isAllSelected={bulk.isAllSelected}
+            isIndeterminate={bulk.isIndeterminate}
+            onToggleAll={bulk.toggleAll}
+            onClear={bulk.clear}
+          />
+        )}
         <ul className="rlist">
           {items.map((submission) => (
-            <ReviewQueueRow key={submission.id} submission={submission} onReview={openReview} />
+            <ReviewQueueRow
+              key={submission.id}
+              submission={submission}
+              onReview={openReview}
+              isSelected={bulk.isSelected(submission.id)}
+              onToggle={bulk.toggle}
+            />
           ))}
         </ul>
       </ReviewListFrame>
