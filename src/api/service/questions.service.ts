@@ -27,6 +27,16 @@ import { questionCountsResponseSchema } from '../type/reviews/question-counts';
 import type { QuestionCountsResponse } from '../type/reviews/question-counts';
 import { questionHistoryResponseSchema } from '../type/reviews/question-history';
 import type { QuestionHistoryResponse } from '../type/reviews/question-history';
+import {
+  bulkApprovePayloadSchema,
+  bulkDecisionResponseSchema,
+  bulkRejectPayloadSchema,
+} from '../type/reviews/bulk-decision';
+import type {
+  BulkApprovePayload,
+  BulkDecisionResponse,
+  BulkRejectPayload,
+} from '../type/reviews/bulk-decision';
 import { rejectPayloadSchema, requestChangesPayloadSchema } from '../type/reviews/review-decision';
 import type { RejectPayload, RequestChangesPayload } from '../type/reviews/review-decision';
 import {
@@ -163,4 +173,24 @@ export async function rejectQuestion(
     rejectPayloadSchema.parse(payload),
   );
   return reviewedQuestionSchema.parse(data);
+}
+
+export async function bulkApproveQuestions(
+  payload: BulkApprovePayload,
+): Promise<BulkDecisionResponse> {
+  const { data } = await apiClient.post(
+    API_ENDPOINTS.QUESTIONS.BULK_APPROVE,
+    bulkApprovePayloadSchema.parse(payload),
+  );
+  return bulkDecisionResponseSchema.parse(data);
+}
+
+export async function bulkRejectQuestions(
+  payload: BulkRejectPayload,
+): Promise<BulkDecisionResponse> {
+  const { data } = await apiClient.post(
+    API_ENDPOINTS.QUESTIONS.BULK_REJECT,
+    bulkRejectPayloadSchema.parse(payload),
+  );
+  return bulkDecisionResponseSchema.parse(data);
 }

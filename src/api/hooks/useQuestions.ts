@@ -2,6 +2,8 @@ import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tansta
 import { QUERY_KEYS } from '../query-keys';
 import {
   approveQuestion,
+  bulkApproveQuestions,
+  bulkRejectQuestions,
   checkDuplicateQuestion,
   createQuestion,
   exportQuestions,
@@ -111,6 +113,23 @@ export function useRejectQuestionMutation() {
   return useMutation({
     mutationFn: ({ id, payload }: { id: string; payload: RejectPayload }) =>
       rejectQuestion(id, payload),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEYS.QUESTIONS_LIST }),
+  });
+}
+
+// Partial success is still a 2xx, so refresh the lists whichever ids went through.
+export function useBulkApproveMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: bulkApproveQuestions,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEYS.QUESTIONS_LIST }),
+  });
+}
+
+export function useBulkRejectMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: bulkRejectQuestions,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEYS.QUESTIONS_LIST }),
   });
 }
