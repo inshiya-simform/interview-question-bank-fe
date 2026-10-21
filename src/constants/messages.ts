@@ -32,6 +32,12 @@ export const MESSAGES = {
   QUESTION_REJECTED: 'Question rejected',
   CHANGE_NOTE_REQUIRED: 'Add a note so the submitter knows what to change',
   CHANGE_NOTE_TOO_LONG: `Keep the note under ${REVIEW_NOTE_MAX_LENGTH} characters`,
+  BULK_APPROVED: (count: number) => `${count} ${count === 1 ? 'question' : 'questions'} approved`,
+  BULK_REJECTED: (count: number) => `${count} ${count === 1 ? 'question' : 'questions'} rejected`,
+  BULK_FAILED_CONFLICT: (count: number) =>
+    `${count} skipped: only questions pending review can be approved or rejected`,
+  BULK_FAILED_NOT_FOUND: (count: number) => `${count} skipped: question not found`,
+  BULK_FAILED_OTHER: (count: number) => `${count} could not be processed`,
   REJECT_REASON_TOO_LONG: `Keep the reason under ${REVIEW_NOTE_MAX_LENGTH} characters`,
 } as const;
 

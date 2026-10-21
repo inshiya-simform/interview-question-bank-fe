@@ -26,6 +26,7 @@ export * from './type/questions/export-questions';
 export * from './type/questions/questions-list';
 export * from './type/questions/shared';
 export * from './type/questions/update-question';
+export * from './type/reviews/bulk-decision';
 export * from './type/reviews/question-counts';
 export * from './type/reviews/question-history';
 export * from './type/reviews/review-decision';

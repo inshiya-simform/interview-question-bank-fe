@@ -10,6 +10,9 @@ interface BulkActionBarProps {
   isIndeterminate: boolean;
   onToggleAll: () => void;
   onClear: () => void;
+  onApprove: () => void;
+  onReject: () => void;
+  isPending: boolean;
 }
 
 export function BulkActionBar({
@@ -19,6 +22,9 @@ export function BulkActionBar({
   isIndeterminate,
   onToggleAll,
   onClear,
+  onApprove,
+  onReject,
+  isPending,
 }: BulkActionBarProps) {
   const { checkboxRef, hasSelection } = useBulkActionBar(selectedCount, isIndeterminate);
 
@@ -48,10 +54,12 @@ export function BulkActionBar({
             {REVIEW_COPY.BULK_CLEAR}
           </Button>
         )}
-        <Button variant="secondary" disabled={!hasSelection}>
+        <Button variant="secondary" disabled={!hasSelection || isPending} onClick={onReject}>
           {REVIEW_COPY.BULK_REJECT}
         </Button>
-        <Button disabled={!hasSelection}>{REVIEW_COPY.BULK_APPROVE}</Button>
+        <Button disabled={!hasSelection} isLoading={isPending} onClick={onApprove}>
+          {REVIEW_COPY.BULK_APPROVE}
+        </Button>
       </div>
       <p className="rbulk__note">{REVIEW_COPY.BULK_CHANGES_NOTE}</p>
     </div>

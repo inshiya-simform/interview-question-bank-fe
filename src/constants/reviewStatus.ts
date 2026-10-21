@@ -16,6 +16,12 @@ export const QUESTION_HISTORY_ACTION = {
   REJECTED: 'REJECTED',
 } as const;
 
+// Per-question failure codes the bulk decision endpoints are known to report.
+export const BULK_FAILURE_CODE = {
+  CONFLICT: 'CONFLICT',
+  NOT_FOUND: 'NOT_FOUND',
+} as const;
+
 // Tab value for "no status filter" on the My submissions page.
 export const ALL_STATUSES = '';
 
