@@ -31,3 +31,15 @@ apiClient.interceptors.response.use(
     return Promise.reject(new ApiError(status, extractErrorMessage(status, data), data));
   },
 );
+
+// Fire-and-forget DELETE that survives page unload, where an axios request would be cancelled.
+export function sendKeepaliveDelete(path: string): void {
+  const token = getAuthToken();
+  if (!token) return;
+  // Best effort during unload: there is nobody left to handle a failure.
+  fetch(`${import.meta.env.VITE_API_URL}${path}`, {
+    method: 'DELETE',
+    keepalive: true,
+    headers: { Authorization: `Bearer ${token}` },
+  }).catch(() => undefined);
+}

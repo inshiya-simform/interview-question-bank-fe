@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { EXPORT_FILENAME, IMPORT_CSV_ACCEPT } from '@/constants';
 import { parseContentDispositionFilename } from '@/utils/contentDisposition';
 import { joinCsv } from '@/utils/csv';
-import { apiClient } from '../client';
+import { apiClient, sendKeepaliveDelete } from '../client';
 import { API_ENDPOINTS } from '../endpoints';
 import {
   checkDuplicatePayloadSchema,
@@ -37,8 +37,18 @@ import type {
   BulkDecisionResponse,
   BulkRejectPayload,
 } from '../type/reviews/bulk-decision';
-import { rejectPayloadSchema, requestChangesPayloadSchema } from '../type/reviews/review-decision';
-import type { RejectPayload, RequestChangesPayload } from '../type/reviews/review-decision';
+import {
+  approvePayloadSchema,
+  rejectPayloadSchema,
+  requestChangesPayloadSchema,
+} from '../type/reviews/review-decision';
+import type {
+  ApprovePayload,
+  RejectPayload,
+  RequestChangesPayload,
+} from '../type/reviews/review-decision';
+import { reviewStateSchema } from '../type/reviews/review-state';
+import type { ReviewState } from '../type/reviews/review-state';
 import {
   submissionListParamsSchema,
   submissionListResponseSchema,
@@ -148,8 +158,14 @@ export async function getQuestionHistory(id: string): Promise<QuestionHistoryRes
   return questionHistoryResponseSchema.parse(data);
 }
 
-export async function approveQuestion(id: string): Promise<ReviewedQuestion> {
-  const { data } = await apiClient.post(API_ENDPOINTS.QUESTIONS.APPROVE(id));
+export async function approveQuestion(
+  id: string,
+  payload: ApprovePayload = {},
+): Promise<ReviewedQuestion> {
+  const { data } = await apiClient.post(
+    API_ENDPOINTS.QUESTIONS.APPROVE(id),
+    approvePayloadSchema.parse(payload),
+  );
   return reviewedQuestionSchema.parse(data);
 }
 
@@ -193,4 +209,24 @@ export async function bulkRejectQuestions(
     bulkRejectPayloadSchema.parse(payload),
   );
   return bulkDecisionResponseSchema.parse(data);
+}
+
+export async function getReviewState(id: string): Promise<ReviewState> {
+  const { data } = await apiClient.get(API_ENDPOINTS.QUESTIONS.REVIEW_STATE(id));
+  return reviewStateSchema.parse(data);
+}
+
+// Claims the lock, or extends it when already held; either way the API returns the current state.
+export async function claimReviewLock(id: string): Promise<ReviewState> {
+  const { data } = await apiClient.post(API_ENDPOINTS.QUESTIONS.REVIEW_LOCK(id), {});
+  return reviewStateSchema.parse(data);
+}
+
+// 204 with no body; safe to call when the lock is not held.
+export async function releaseReviewLock(id: string): Promise<void> {
+  await apiClient.delete(API_ENDPOINTS.QUESTIONS.REVIEW_LOCK(id));
+}
+
+export function releaseReviewLockKeepalive(id: string): void {
+  sendKeepaliveDelete(API_ENDPOINTS.QUESTIONS.REVIEW_LOCK(id));
 }

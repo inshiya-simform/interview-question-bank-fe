@@ -32,6 +32,13 @@ export const reviewInfoSchema = z.object({
   decision: reviewDecisionSchema.nullish(),
 });
 
+// Soft lock held by the reviewer currently looking at a submission.
+export const reviewLockSchema = z.object({
+  lockedBy: reviewPersonSchema,
+  expiresAt: z.string(),
+});
+
+export type ReviewLock = z.infer<typeof reviewLockSchema>;
 export type ReviewPerson = z.infer<typeof reviewPersonSchema>;
 export type ReviewDecision = z.infer<typeof reviewDecisionSchema>;
 export type ReviewContent = z.infer<typeof reviewContentSchema>;

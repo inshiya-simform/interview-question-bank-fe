@@ -34,10 +34,16 @@ export const MESSAGES = {
   CHANGE_NOTE_TOO_LONG: `Keep the note under ${REVIEW_NOTE_MAX_LENGTH} characters`,
   BULK_APPROVED: (count: number) => `${count} ${count === 1 ? 'question' : 'questions'} approved`,
   BULK_REJECTED: (count: number) => `${count} ${count === 1 ? 'question' : 'questions'} rejected`,
-  BULK_FAILED_CONFLICT: (count: number) =>
-    `${count} skipped: only questions pending review can be approved or rejected`,
-  BULK_FAILED_NOT_FOUND: (count: number) => `${count} skipped: question not found`,
-  BULK_FAILED_OTHER: (count: number) => `${count} could not be processed`,
+  REVIEW_LOCKED: (name: string) => `${name} is reviewing this question`,
+  REVIEW_ALREADY_DECIDED: (status: string, name: string | null) =>
+    name ? `Already ${status.toLowerCase()} by ${name}` : `Already ${status.toLowerCase()}`,
+  REVIEW_EDITED_SINCE_LOADED:
+    'This question was edited after you opened it. Reload and review again',
+  REVIEW_LOCK_LOST: (name: string) => `${name} has taken over this review`,
+  REVIEW_DECIDED_BY_OTHER: 'Reviewed by someone else',
+  BULK_REASON_CONFLICT: 'Only questions pending review can be approved or rejected',
+  BULK_REASON_NOT_FOUND: 'Question not found',
+  BULK_SUMMARY: (reviewed: number, skipped: number) => `${reviewed} reviewed, ${skipped} skipped`,
   REJECT_REASON_TOO_LONG: `Keep the reason under ${REVIEW_NOTE_MAX_LENGTH} characters`,
 } as const;
 
@@ -326,6 +332,25 @@ export const REVIEW_COPY = {
   BULK_CLEAR: 'Clear selection',
   BULK_APPROVE: 'Approve selected',
   BULK_REJECT: 'Reject selected',
+  BEING_REVIEWED_BY: (name: string) => `Being reviewed by ${name}`,
+  BANNER_LOCKED: (name: string) => `${name} is reviewing this question. It is read-only for you.`,
+  BANNER_LOCKED_UNTIL: (name: string, time: string) =>
+    `${name} is reviewing this question. Try again after ${time}.`,
+  BANNER_LOCK_LOST: (name: string) => `${name} has taken over this review. It is now read-only.`,
+  BANNER_LOCK_LOST_GENERIC: 'You no longer hold this review. It is now read-only.',
+  BANNER_LOCK_FREE: 'Nobody is reviewing this question right now.',
+  BANNER_DECIDED_OTHER: 'Reviewed by someone else. Actions are disabled.',
+  BANNER_ALREADY: (status: string, name: string | null) =>
+    name
+      ? `Already ${status.toLowerCase()} by ${name}. Actions are disabled.`
+      : `Already ${status.toLowerCase()}. Actions are disabled.`,
+  BANNER_EDITED: 'The author edited this question after you opened it.',
+  CLAIM: 'Claim it',
+  RELOAD: 'Reload',
+  BULK_FAILED_LIST_TITLE: 'Skipped questions',
+  BULK_FAILED_DISMISS: 'Dismiss',
+  BULK_FAILED_UNKNOWN_QUESTION: 'Unknown question',
+  BULK_SELECT_LOCKED: (name: string) => `Locked: ${name} is reviewing this question`,
   BULK_CHANGES_NOTE: 'Changes can only be requested one question at a time.',
 } as const;
 

@@ -6,6 +6,7 @@ interface ReviewDecisionBarProps {
   onRequestChanges: () => void;
   onReject: () => void;
   isPending: boolean;
+  isDisabled: boolean;
 }
 
 export function ReviewDecisionBar({
@@ -13,16 +14,17 @@ export function ReviewDecisionBar({
   onRequestChanges,
   onReject,
   isPending,
+  isDisabled,
 }: ReviewDecisionBarProps) {
   return (
     <div role="group" aria-label={REVIEW_COPY.DECISIONS_LABEL} className="rdecision">
-      <Button variant="secondary" onClick={onReject} disabled={isPending}>
+      <Button variant="secondary" onClick={onReject} disabled={isPending || isDisabled}>
         {REVIEW_COPY.REJECT}
       </Button>
-      <Button variant="secondary" onClick={onRequestChanges} disabled={isPending}>
+      <Button variant="secondary" onClick={onRequestChanges} disabled={isPending || isDisabled}>
         {REVIEW_COPY.REQUEST_CHANGES}
       </Button>
-      <Button onClick={onApprove} isLoading={isPending}>
+      <Button onClick={onApprove} isLoading={isPending} disabled={isDisabled}>
         {REVIEW_COPY.APPROVE}
       </Button>
     </div>

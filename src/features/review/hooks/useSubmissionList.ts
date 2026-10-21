@@ -7,14 +7,22 @@ import { countsFromApi } from '../selectors';
 import { useReviewFilters } from './useReviewFilters';
 
 // Shared by My submissions and the review queue: the URL drives a server-side query.
-export function useSubmissionList(tabs: readonly StatusTab[], fallback: StatusTab) {
+export function useSubmissionList(
+  tabs: readonly StatusTab[],
+  fallback: StatusTab,
+  refetchIntervalMs?: number,
+) {
   const { user } = useSession();
   const { filters, setStatus, setPage } = useReviewFilters(tabs, fallback);
-  const { data, isPending, isError, refetch } = useSubmissionsQuery(user?.id, {
-    page: filters.page,
-    limit: REVIEW_PAGE_SIZE,
-    status: tabToStatuses(filters.status),
-  });
+  const { data, isPending, isError, refetch } = useSubmissionsQuery(
+    user?.id,
+    {
+      page: filters.page,
+      limit: REVIEW_PAGE_SIZE,
+      status: tabToStatuses(filters.status),
+    },
+    refetchIntervalMs,
+  );
   const { data: countsData } = useQuestionCountsQuery(user?.id);
 
   const total = data?.total ?? 0;
@@ -31,6 +39,9 @@ export function useSubmissionList(tabs: readonly StatusTab[], fallback: StatusTa
     isLoading: isPending,
     isError,
     refetch: () => void refetch(),
+    // Resolves with the fresh page so callers can pick up a question's latest content.
+    reload: async () => (await refetch()).data?.questions ?? [],
+    userId: user?.id,
     setStatus,
     setPage,
   };

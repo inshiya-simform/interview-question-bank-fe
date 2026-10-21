@@ -1,0 +1,15 @@
+.rfail__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.rfail__list {
+  margin: var(--space-2) 0 0;
+  padding-left: var(--space-5);
+}
+
+.rfail__text {
+  font-weight: 600;
+}
