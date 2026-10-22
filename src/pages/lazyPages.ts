@@ -7,6 +7,12 @@ export const LazyLoginPage = lazy(() =>
 export const LazyRegisterPage = lazy(() =>
   import('./RegisterPage').then((m) => ({ default: m.RegisterPage })),
 );
+export const LazyForgotPasswordPage = lazy(() =>
+  import('./ForgotPasswordPage').then((m) => ({ default: m.ForgotPasswordPage })),
+);
+export const LazyResetPasswordPage = lazy(() =>
+  import('./ResetPasswordPage').then((m) => ({ default: m.ResetPasswordPage })),
+);
 export const LazyClientAccessPage = lazy(() =>
   import('./ClientAccessPage').then((m) => ({ default: m.ClientAccessPage })),
 );

@@ -10,11 +10,13 @@ import {
   LazyAddMemberPage,
   LazyClientAccessPage,
   LazyClientFolderPage,
+  LazyForgotPasswordPage,
   LazyHomePage,
   LazyImportPage,
   LazyLoginPage,
   LazyMySubmissionsPage,
   LazyRegisterPage,
+  LazyResetPasswordPage,
   LazyReviewQueuePage,
 } from '@/pages/lazyPages';
 
@@ -47,7 +49,9 @@ export function App() {
           <Route element={<GuestOnly />}>
             <Route path={ROUTES.LOGIN} element={<LazyLoginPage />} />
             <Route path={ROUTES.REGISTER} element={<LazyRegisterPage />} />
+            <Route path={ROUTES.FORGOT_PASSWORD} element={<LazyForgotPasswordPage />} />
           </Route>
+          <Route path={ROUTES.RESET_PASSWORD} element={<LazyResetPasswordPage />} />
         </Routes>
       </Suspense>
     </ErrorBoundary>

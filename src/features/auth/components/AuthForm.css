@@ -3,3 +3,17 @@
   flex-direction: column;
   gap: var(--space-4);
 }
+
+.auth-form__aside {
+  margin: calc(var(--space-2) * -1) 0 0;
+  text-align: right;
+  font-size: 0.875rem;
+}
+
+.auth-form__aside a {
+  font-weight: 600;
+}
+
+.auth-form__action {
+  text-decoration: none;
+}

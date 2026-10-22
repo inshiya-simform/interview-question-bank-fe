@@ -4,6 +4,7 @@ export * from './importCopy';
 export * from './importCsv';
 export * from './messages';
 export * from './pagination';
+export * from './passwordReset';
 export * from './permissions';
 export * from './regex';
 export * from './review';

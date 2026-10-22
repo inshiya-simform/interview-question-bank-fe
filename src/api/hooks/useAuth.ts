@@ -1,6 +1,15 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { QUERY_KEYS } from '../query-keys';
-import { getCurrentUser, getUserPermissions, login, register } from '../service/auth.service';
+import { SILENT_ERROR_META } from '../query-meta';
+import {
+  forgotPassword,
+  getCurrentUser,
+  getUserPermissions,
+  login,
+  register,
+  resetPassword,
+  verifyResetToken,
+} from '../service/auth.service';
 import { setAuthToken } from '../token-storage';
 
 export function useCurrentUserQuery(enabled: boolean) {
@@ -34,4 +43,27 @@ export function useLoginMutation() {
 
 export function useRegisterMutation() {
   return useMutation({ mutationFn: register, onSuccess: useStoreSession() });
+}
+
+export function useForgotPasswordMutation() {
+  return useMutation({ mutationFn: forgotPassword, meta: SILENT_ERROR_META });
+}
+
+// Reset tokens are single-use, so the check must run once per page load and never refetch.
+export function useVerifyResetTokenQuery(token: string | undefined) {
+  return useQuery({
+    queryKey: QUERY_KEYS.RESET_TOKEN_VERIFY(token ?? ''),
+    queryFn: () => verifyResetToken(token ?? ''),
+    enabled: Boolean(token),
+    retry: false,
+    staleTime: Infinity,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    meta: SILENT_ERROR_META,
+  });
+}
+
+export function useResetPasswordMutation() {
+  return useMutation({ mutationFn: resetPassword, meta: SILENT_ERROR_META });
 }
