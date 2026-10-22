@@ -40,14 +40,15 @@ export function useReviewSession(
   const [locked, setLocked] = useState<LockedConflict>();
   const [decided, setDecided] = useState<DecidedConflict>();
   const [claimedUpdatedAt, setClaimedUpdatedAt] = useState<string>();
-  const [isStaleFromAction, setIsStaleFromAction] = useState(false);
 
   const holdsRef = useRef(false);
+  const onReloadRef = useRef(onReload);
   const activeRef = useRef(false);
 
   useEffect(() => {
     holdsRef.current = holds;
-  }, [holds]);
+    onReloadRef.current = onReload;
+  });
 
   const applyConflict = useCallback((conflict: ReviewConflictDetails) => {
     toast.error(conflictMessage(conflict));
@@ -63,7 +64,9 @@ export function useReviewSession(
         setDecided(conflict);
         return;
       case REVIEW_CONFLICT_REASON.EDITED_SINCE_LOADED:
-        setIsStaleFromAction(true);
+        // Reload so the stored updatedAt and the displayed content change together; never resubmit.
+        setClaimedUpdatedAt(undefined);
+        onReloadRef.current();
         return;
       default: {
         const unreachable: never = conflict;
@@ -152,8 +155,7 @@ export function useReviewSession(
   const hasLock = holds && !isDecidedByPoll;
   const latestUpdatedAt = polled?.updatedAt ?? claimedUpdatedAt;
   const isEdited =
-    isStaleFromAction ||
-    (latestUpdatedAt !== undefined && !isSameInstant(latestUpdatedAt, baselineUpdatedAt));
+    latestUpdatedAt !== undefined && !isSameInstant(latestUpdatedAt, baselineUpdatedAt);
 
   // Our own lock in stale poll data must not hide the conflict that revoked it.
   const polledOther = lockOwnerOf(polled?.reviewLock, user?.id);
@@ -184,7 +186,6 @@ export function useReviewSession(
 
   const reload = () => {
     setClaimedUpdatedAt(undefined);
-    setIsStaleFromAction(false);
     onReload();
   };
 

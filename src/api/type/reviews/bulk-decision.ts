@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { rejectPayloadSchema } from './review-decision';
 
 // Maps each question id to the updatedAt the reviewer saw.
-const expectedUpdatedAtSchema = z.record(z.string(), z.string()).optional();
+const expectedUpdatedAtSchema = z.record(z.string(), z.string());
 
 export const bulkApprovePayloadSchema = z.object({
   ids: z.array(z.string()).min(1),

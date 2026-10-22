@@ -160,7 +160,7 @@ export async function getQuestionHistory(id: string): Promise<QuestionHistoryRes
 
 export async function approveQuestion(
   id: string,
-  payload: ApprovePayload = {},
+  payload: ApprovePayload,
 ): Promise<ReviewedQuestion> {
   const { data } = await apiClient.post(
     API_ENDPOINTS.QUESTIONS.APPROVE(id),
