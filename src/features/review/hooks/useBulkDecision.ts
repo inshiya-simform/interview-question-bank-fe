@@ -5,6 +5,7 @@ import type { BulkDecisionResponse, ReviewedQuestion } from '@/api';
 import { MESSAGES, REVIEW_COPY } from '@/constants';
 import { bulkFailureReason } from '../conflicts';
 import { toSubmittedContent } from '../selectors';
+import { buildExpectedUpdatedAt } from '../utils';
 
 export interface BulkFailure {
   id: string;
@@ -22,11 +23,6 @@ export function useBulkDecision(
   const [failures, setFailures] = useState<BulkFailure[]>([]);
   const approveMutation = useBulkApproveMutation();
   const rejectMutation = useBulkRejectMutation();
-
-  // The version of each question the reviewer was looking at, so edits since then are refused.
-  const expectedUpdatedAt = Object.fromEntries(
-    items.filter((item) => selectedIds.includes(item.id)).map((item) => [item.id, item.updatedAt]),
-  );
 
   const toFailure = (failed: BulkDecisionResponse['failed'][number]): BulkFailure => {
     const item = items.find((candidate) => candidate.id === failed.id);
@@ -52,13 +48,17 @@ export function useBulkDecision(
 
   const approve = () =>
     approveMutation.mutate(
-      { ids: [...selectedIds], expectedUpdatedAt },
+      { ids: [...selectedIds], expectedUpdatedAt: buildExpectedUpdatedAt(items, selectedIds) },
       { onSuccess: (result) => handleResult(result, MESSAGES.BULK_APPROVED) },
     );
 
   const reject = (note: string) =>
     rejectMutation.mutate(
-      { ids: [...selectedIds], note, expectedUpdatedAt },
+      {
+        ids: [...selectedIds],
+        note,
+        expectedUpdatedAt: buildExpectedUpdatedAt(items, selectedIds),
+      },
       { onSuccess: (result) => handleResult(result, MESSAGES.BULK_REJECTED) },
     );
 

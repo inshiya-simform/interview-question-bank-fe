@@ -1,5 +1,15 @@
-import type { ReviewContent } from '@/api';
+import type { ReviewContent, ReviewedQuestion } from '@/api';
 import { REVIEW_COPY } from '@/constants';
+
+// One entry per selected card, taken from the list the reviewer is looking at.
+export function buildExpectedUpdatedAt(
+  items: readonly ReviewedQuestion[],
+  selectedIds: readonly string[],
+): Record<string, string> {
+  return Object.fromEntries(
+    items.filter((item) => selectedIds.includes(item.id)).map((item) => [item.id, item.updatedAt]),
+  );
+}
 
 export function formatTags(tags: ReviewContent['tags']): string {
   const groups = Object.entries(tags)

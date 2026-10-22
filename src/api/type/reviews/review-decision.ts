@@ -16,8 +16,8 @@ export const rejectFormSchema = z.object({
 
 export type DecisionNoteValues = z.infer<typeof requestChangesFormSchema>;
 
-// Lets the API reject a decision made on content edited since the reviewer loaded it.
-const expectedUpdatedAtShape = { expectedUpdatedAt: z.string().optional() };
+// Always sent: lets the API refuse a decision made on content edited since the reviewer loaded it.
+const expectedUpdatedAtShape = { expectedUpdatedAt: z.string().min(1) };
 
 export const approvePayloadSchema = z.object(expectedUpdatedAtShape);
 export const requestChangesPayloadSchema = z.object({

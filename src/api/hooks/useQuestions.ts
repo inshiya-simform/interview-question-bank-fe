@@ -106,7 +106,7 @@ export function useQuestionHistoryQuery(userId: string | undefined, id: string |
 export function useApproveQuestionMutation() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, payload }: { id: string; payload?: ApprovePayload }) =>
+    mutationFn: ({ id, payload }: { id: string; payload: ApprovePayload }) =>
       approveQuestion(id, payload),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEYS.QUESTIONS_LIST }),
   });
