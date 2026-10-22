@@ -6,13 +6,20 @@ import { ApiError, extractErrorMessage } from './errors';
 import { clearAuthToken, getAuthToken } from './token-storage';
 
 // Credential endpoints return 401 for bad input, which must not be treated as an expired session.
-const PUBLIC_PATHS: readonly string[] = [API_ENDPOINTS.AUTH.LOGIN, API_ENDPOINTS.AUTH.REGISTER];
+const PUBLIC_PATHS: readonly string[] = [
+  API_ENDPOINTS.AUTH.LOGIN,
+  API_ENDPOINTS.AUTH.REGISTER,
+  API_ENDPOINTS.AUTH.FORGOT_PASSWORD,
+  API_ENDPOINTS.AUTH.VERIFY_RESET_TOKEN,
+  API_ENDPOINTS.AUTH.RESET_PASSWORD,
+];
 
 export const apiClient = axios.create({ baseURL: import.meta.env.VITE_API_URL });
 
 apiClient.interceptors.request.use((config) => {
   const token = getAuthToken();
-  if (token) config.headers.Authorization = `Bearer ${token}`;
+  if (token && !PUBLIC_PATHS.includes(config.url ?? ''))
+    config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
 

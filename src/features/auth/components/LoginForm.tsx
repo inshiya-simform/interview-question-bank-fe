@@ -1,5 +1,6 @@
 import { Alert, Button, PasswordField, TextField } from '@/components';
-import { AUTH_COPY } from '@/constants';
+import { Link } from 'react-router-dom';
+import { AUTH_COPY, PASSWORD_RESET_COPY, ROUTES } from '@/constants';
 import type { LoginPayload } from '@/api';
 import { useLoginForm } from '../hooks/useLoginForm';
 import './AuthForm.css';
@@ -33,6 +34,9 @@ export function LoginForm({ onSubmit, isPending, errorMessage }: LoginFormProps)
         onChange={handleChange}
         error={errors.password}
       />
+      <p className="auth-form__aside">
+        <Link to={ROUTES.FORGOT_PASSWORD}>{PASSWORD_RESET_COPY.LOGIN_FORGOT_LINK}</Link>
+      </p>
       <Button type="submit" fullWidth isLoading={isPending}>
         {AUTH_COPY.LOGIN_SUBMIT}
       </Button>

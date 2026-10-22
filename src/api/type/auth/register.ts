@@ -15,4 +15,11 @@ export const registerSchema = z.object({
     .min(PASSWORD_MIN_LENGTH, MESSAGES.PASSWORD_TOO_SHORT),
 });
 
+export const registerFormSchema = registerSchema
+  .extend({ confirmPassword: z.string().min(1, MESSAGES.CONFIRM_PASSWORD_REQUIRED) })
+  .refine((values) => values.password === values.confirmPassword, {
+    message: MESSAGES.PASSWORDS_DO_NOT_MATCH,
+    path: ['confirmPassword'],
+  });
+
 export type RegisterPayload = z.infer<typeof registerSchema>;

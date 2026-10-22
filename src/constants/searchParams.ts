@@ -22,4 +22,8 @@ export const MEMBER_SEARCH_PARAMS = {
   ROLE: 'role',
 } as const;
 
+export const RESET_PASSWORD_SEARCH_PARAMS = {
+  TOKEN: 'token',
+} as const;
+
 export const CSV_SEPARATOR = ',';

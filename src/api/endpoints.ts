@@ -4,6 +4,9 @@ export const API_ENDPOINTS = {
     LOGIN: '/auth/login',
     ME: '/auth/me',
     PERMISSIONS: '/auth/permissions',
+    FORGOT_PASSWORD: '/auth/forgot-password',
+    VERIFY_RESET_TOKEN: '/auth/reset-password/verify',
+    RESET_PASSWORD: '/auth/reset-password',
   },
   QUESTIONS: {
     BASE: '/questions',

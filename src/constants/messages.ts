@@ -1,13 +1,18 @@
 import { QUESTION_HISTORY_ACTION, REVIEW_STATUS } from './reviewStatus';
 import type { ReviewStatus } from './reviewStatus';
-import { PASSWORD_MIN_LENGTH, REVIEW_NOTE_MAX_LENGTH } from './validation';
+import { PASSWORD_MAX_LENGTH, PASSWORD_MIN_LENGTH, REVIEW_NOTE_MAX_LENGTH } from './validation';
 
 export const MESSAGES = {
   EMAIL_REQUIRED: 'Email is required',
   USER_REQUIRED: 'Select a user',
   EMAIL_INVALID: 'Enter a valid email address',
   PASSWORD_REQUIRED: 'Password is required',
+  CONFIRM_PASSWORD_REQUIRED: 'Please confirm your password',
+  PASSWORDS_DO_NOT_MATCH: 'Passwords do not match',
   PASSWORD_TOO_SHORT: `Password must be at least ${PASSWORD_MIN_LENGTH} characters`,
+  PASSWORD_TOO_LONG: `Password must be at most ${PASSWORD_MAX_LENGTH} characters`,
+  PASSWORD_RESET_SUCCESS: 'Password updated. You can now log in.',
+  TOO_MANY_ATTEMPTS: 'Too many attempts, please try again later.',
   NAME_REQUIRED: 'Name is required',
   NAME_TOO_LONG: 'Name is too long',
   ERROR_NETWORK: 'Unable to reach the server. Check your connection and try again.',
@@ -72,9 +77,30 @@ export const AUTH_COPY = {
   FIELD_EMAIL: 'Email',
   FIELD_PASSWORD: 'Password',
   FIELD_NAME: 'Name',
+  FIELD_CONFIRM_PASSWORD: 'Confirm password',
   PASSWORD_HINT: `At least ${PASSWORD_MIN_LENGTH} characters`,
   SHOW_PASSWORD: 'Show password',
   HIDE_PASSWORD: 'Hide password',
+} as const;
+
+export const PASSWORD_RESET_COPY = {
+  LOGIN_FORGOT_LINK: 'Forgot password?',
+  FORGOT_TITLE: 'Forgot your password?',
+  FORGOT_SUBTITLE: "Enter your email and we'll send you a link to reset it.",
+  FORGOT_SUBMIT: 'Send reset link',
+  FORGOT_SENT_TITLE: 'Check your email',
+  FORGOT_SENT_SUBTITLE: 'Follow the link in the email to choose a new password.',
+  RESET_TITLE: 'Choose a new password',
+  RESET_SUBTITLE: 'Enter a new password for your account.',
+  RESET_SUBMIT: 'Reset password',
+  RESET_VERIFYING: 'Checking your reset link',
+  FIELD_NEW_PASSWORD: 'New password',
+  PASSWORD_HINT: `${PASSWORD_MIN_LENGTH}-${PASSWORD_MAX_LENGTH} characters`,
+  INVALID_LINK_TITLE: 'Link not valid',
+  INVALID_LINK_MESSAGE: 'This link is invalid, expired, or has already been used',
+  REQUEST_NEW_LINK: 'Request a new link',
+  UNAVAILABLE_TITLE: 'Reset unavailable',
+  BACK_TO_LOGIN: 'Back to log in',
 } as const;
 
 export const SHELL_COPY = {

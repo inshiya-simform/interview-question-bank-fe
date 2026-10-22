@@ -1,7 +1,10 @@
 export { AuthLayout } from './components/AuthLayout';
+export { ForgotPasswordForm } from './components/ForgotPasswordForm';
 export { GuestOnly } from './components/GuestOnly';
 export { LoginForm } from './components/LoginForm';
 export { RegisterForm } from './components/RegisterForm';
+export { ResetLinkNotice } from './components/ResetLinkNotice';
+export { ResetPasswordForm } from './components/ResetPasswordForm';
 export { RequireAuth } from './components/RequireAuth';
 export { RequirePermission } from './components/RequirePermission';
 export { useSession } from './hooks/useSession';

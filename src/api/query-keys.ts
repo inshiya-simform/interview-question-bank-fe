@@ -7,6 +7,7 @@ import type { SubmissionListParams } from './type/reviews/submission-list';
 export const QUERY_KEYS = {
   AUTH_ME: ['auth', 'me'] as const,
   AUTH_PERMISSIONS: ['auth', 'permissions'] as const,
+  RESET_TOKEN_VERIFY: (token: string) => ['auth', 'reset-token', token] as const,
   QUESTIONS_LIST: ['questions'] as const,
   QUESTIONS: (userId: string, params?: QuestionListParams) =>
     ['questions', userId, params] as const,
