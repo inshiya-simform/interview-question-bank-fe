@@ -42,6 +42,14 @@ export function RegisterForm({ onSubmit, isPending, errorMessage }: RegisterForm
         onChange={handleChange}
         error={errors.password}
       />
+      <PasswordField
+        label={AUTH_COPY.FIELD_CONFIRM_PASSWORD}
+        name="confirmPassword"
+        autoComplete="new-password"
+        value={values.confirmPassword}
+        onChange={handleChange}
+        error={errors.confirmPassword}
+      />
       <Button type="submit" fullWidth isLoading={isPending}>
         {AUTH_COPY.REGISTER_SUBMIT}
       </Button>
