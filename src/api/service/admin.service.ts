@@ -14,8 +14,10 @@ import { createStaffSchema } from '../type/admin/create-staff';
 import type { CreateStaffPayload } from '../type/admin/create-staff';
 import { grantClientAccessSchema } from '../type/admin/grant-client-access';
 import type { GrantClientAccessPayload } from '../type/admin/grant-client-access';
-import { adminUserSchema, clientAccessSchema } from '../type/admin/shared';
-import type { AdminUser, ClientAccess } from '../type/admin/shared';
+import { adminUserSchema } from '../type/admin/shared';
+import type { AdminUser } from '../type/admin/shared';
+import { clientSchema } from '../type/clients/clients-list';
+import type { Client } from '../type/clients/clients-list';
 import { adminUsersParamsSchema, adminUsersResponseSchema } from '../type/admin/users-list';
 import type { AdminUsersParams, AdminUsersResponse } from '../type/admin/users-list';
 
@@ -46,23 +48,23 @@ export async function createStaff(payload: CreateStaffPayload): Promise<AdminUse
 export async function grantClientAccess(
   clientId: string,
   payload: GrantClientAccessPayload,
-): Promise<ClientAccess> {
+): Promise<Client> {
   const { data } = await apiClient.post(
     API_ENDPOINTS.ADMIN.CLIENT_USERS(clientId),
     grantClientAccessSchema.parse(payload),
   );
-  return clientAccessSchema.parse(data);
+  return clientSchema.parse(data);
 }
 
-export async function revokeClientAccess(clientId: string, userId: string): Promise<ClientAccess> {
+export async function revokeClientAccess(clientId: string, userId: string): Promise<Client> {
   const { data } = await apiClient.delete(API_ENDPOINTS.ADMIN.CLIENT_USER(clientId, userId));
-  return clientAccessSchema.parse(data);
+  return clientSchema.parse(data);
 }
 
-export async function createClient(payload: CreateClientPayload): Promise<ClientAccess> {
+export async function createClient(payload: CreateClientPayload): Promise<Client> {
   const { data } = await apiClient.post(
     API_ENDPOINTS.ADMIN.CLIENTS,
     createClientSchema.parse(payload),
   );
-  return clientAccessSchema.parse(data);
+  return clientSchema.parse(data);
 }

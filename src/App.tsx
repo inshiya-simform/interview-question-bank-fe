@@ -9,6 +9,7 @@ import { AppLayout } from '@/features/shell';
 import {
   LazyAddMemberPage,
   LazyClientAccessPage,
+  LazyClientFolderPage,
   LazyHomePage,
   LazyImportPage,
   LazyLoginPage,
@@ -38,6 +39,7 @@ export function App() {
             <Route element={<RequireSuperAdmin />}>
               <Route element={<SuperAdminLayout />}>
                 <Route path={ROUTES.ADMIN_CLIENTS} element={<LazyClientAccessPage />} />
+                <Route path={ROUTES.ADMIN_CLIENT_FOLDER} element={<LazyClientFolderPage />} />
                 <Route path={ROUTES.ADMIN_MEMBERS} element={<LazyAddMemberPage />} />
               </Route>
             </Route>

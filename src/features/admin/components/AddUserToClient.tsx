@@ -4,18 +4,12 @@ import { useAddUserToClient } from '../hooks/useAddUserToClient';
 import './AddUserToClient.css';
 
 interface AddUserToClientProps {
-  existingUserIds: readonly string[];
   isPending: boolean;
   onAdd: (email: string) => void;
   onCancel: () => void;
 }
 
-export function AddUserToClient({
-  existingUserIds,
-  isPending,
-  onAdd,
-  onCancel,
-}: AddUserToClientProps) {
+export function AddUserToClient({ isPending, onAdd, onCancel }: AddUserToClientProps) {
   const {
     options,
     selectedId,
@@ -27,7 +21,7 @@ export function AddUserToClient({
     setQuery,
     handleChange,
     handleSubmit,
-  } = useAddUserToClient(existingUserIds, onAdd);
+  } = useAddUserToClient(onAdd);
 
   return (
     <form className="add-user" onSubmit={handleSubmit} noValidate>

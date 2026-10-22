@@ -65,7 +65,7 @@ export function useGrantClientAccessMutation() {
   return useMutation({
     mutationFn: ({ clientId, email }: { clientId: string; email: string }) =>
       grantClientAccess(clientId, { email }),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEYS.CLIENT_ACCESS_LIST }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEYS.ADMIN_USERS_LIST }),
   });
 }
 
@@ -74,7 +74,7 @@ export function useRevokeClientAccessMutation() {
   return useMutation({
     mutationFn: ({ clientId, userId }: { clientId: string; userId: string }) =>
       revokeClientAccess(clientId, userId),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEYS.CLIENT_ACCESS_LIST }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEYS.ADMIN_USERS_LIST }),
   });
 }
 

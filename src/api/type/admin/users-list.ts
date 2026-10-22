@@ -9,6 +9,7 @@ export const adminUsersParamsSchema = z.object({
   search: z.string().optional(),
   role: z.enum(MEMBER_LIST_ROLES).optional(),
   excludeAdmin: z.boolean().optional(),
+  clientId: z.string().min(1).optional(),
 });
 
 export const adminUsersResponseSchema = z.object({
