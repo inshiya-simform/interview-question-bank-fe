@@ -36,6 +36,12 @@ export const API_ENDPOINTS = {
     CLIENT_USERS: (clientId: string) => `/admin/clients/${clientId}/users`,
     CLIENT_USER: (clientId: string, userId: string) => `/admin/clients/${clientId}/users/${userId}`,
   },
+  COLLECTIONS: {
+    BASE: '/collections',
+    BY_ID: (id: string) => `/collections/${id}`,
+    SAVED_QUESTIONS: '/collections/saved-questions',
+    SAVED_QUESTION: (questionId: string) => `/collections/saved-questions/${questionId}`,
+  },
   TAGS: {
     BASE: '/tags',
   },

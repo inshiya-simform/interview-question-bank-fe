@@ -1,20 +1,15 @@
 import { useState } from 'react';
 import type { Question } from '@/api';
 import { SAVED_COPY } from '@/constants';
-import { useSavedState } from './useSavedState';
 
 export type SaveButtonMode = 'save' | 'move';
 
 export function useSaveQuestionButton(question: Question, mode: SaveButtonMode) {
-  const { collections, entries } = useSavedState();
   const [isOpen, setIsOpen] = useState(false);
 
-  const currentCollectionId = entries.find(
-    (entry) => entry.question.id === question.id,
-  )?.collectionId;
-  const collectionName = collections.find(
-    (collection) => collection.id === currentCollectionId,
-  )?.name;
+  // The list response already carries `savedIn`, so no per-row request is needed.
+  const currentCollectionId = question.savedIn?.id;
+  const collectionName = question.savedIn?.name;
   const isMove = mode === 'move';
 
   const label = isMove

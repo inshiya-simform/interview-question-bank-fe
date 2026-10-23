@@ -41,5 +41,10 @@ export const SAVED_COPY = {
   NO_COLLECTIONS: 'Create a collection to organise saved questions.',
   EMPTY_TITLE: 'No questions here yet',
   EMPTY_HINT: 'Use Save on any question to add it to a collection.',
+  LOADING: 'Loading collections',
+  LOAD_ERROR: 'Could not load your collections.',
+  QUESTIONS_LOADING: 'Loading saved questions',
+  QUESTIONS_LOAD_ERROR: 'Could not load saved questions.',
+  RETRY: 'Try again',
   BROWSE: 'Browse questions',
 } as const;

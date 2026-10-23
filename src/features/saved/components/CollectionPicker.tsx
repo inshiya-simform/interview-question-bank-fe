@@ -1,12 +1,12 @@
 import type { Question } from '@/api';
-import { Icon } from '@/components';
+import { Alert, Button, Icon, Loader } from '@/components';
 import { SAVED_COPY } from '@/constants';
 import { useCollectionPicker } from '../hooks/useCollectionPicker';
 import { CollectionNameForm } from './CollectionNameForm';
 import './CollectionPicker.css';
 
 interface CollectionPickerProps {
-  question: Question;
+  question: Pick<Question, 'id'>;
   currentCollectionId?: string;
   title: string;
   onDone: () => void;
@@ -25,7 +25,16 @@ export function CollectionPicker({
   return (
     <div className="picker">
       <h3 className="picker__title">{title}</h3>
-      {showForm ? (
+      {picker.isLoading ? (
+        <Loader label={SAVED_COPY.LOADING} />
+      ) : picker.isError ? (
+        <div className="picker__form">
+          <Alert>{SAVED_COPY.LOAD_ERROR}</Alert>
+          <Button variant="secondary" onClick={picker.refetch}>
+            {SAVED_COPY.RETRY}
+          </Button>
+        </div>
+      ) : showForm ? (
         <div className="picker__form">
           {!hasCollections && <p className="picker__hint">{SAVED_COPY.FIRST_SAVE_HINT}</p>}
           <CollectionNameForm
@@ -45,13 +54,14 @@ export function CollectionPicker({
                   type="radio"
                   name={picker.groupName}
                   checked={collection.id === currentCollectionId}
+                  disabled={picker.isPending}
                   onChange={() => picker.select(collection)}
                 />
                 <span className="picker__name">{collection.name}</span>
                 {collection.id === currentCollectionId && (
                   <span className="picker__current">{SAVED_COPY.CURRENT}</span>
                 )}
-                <span className="picker__count">{collection.questionCount}</span>
+                <span className="picker__count">{collection.count}</span>
               </label>
             ))}
           </fieldset>
@@ -64,6 +74,7 @@ export function CollectionPicker({
               <button
                 type="button"
                 className="picker__action picker__action--danger"
+                disabled={picker.isPending}
                 onClick={picker.remove}
               >
                 <Icon name="bookmark" size={16} />

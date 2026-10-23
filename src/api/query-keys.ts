@@ -1,6 +1,7 @@
 import type { AdminUsersParams } from './type/admin/users-list';
 import type { AuditLogListParams } from './type/admin/audit-logs';
 import type { ClientAccessListParams } from './type/admin/client-access-list';
+import type { SavedQuestionListParams } from './type/collections/saved-questions';
 import type { QuestionListParams } from './type/questions/questions-list';
 import type { SubmissionListParams } from './type/reviews/submission-list';
 
@@ -21,6 +22,14 @@ export const QUERY_KEYS = {
   QUESTION_COUNTS: (userId: string) => ['questions', 'counts', userId] as const,
   QUESTION_HISTORY: (userId: string, id: string) => ['questions', 'history', userId, id] as const,
   REVIEW_STATE: (userId: string, id: string) => ['questions', 'review-state', userId, id] as const,
+  // Both collection keys share the 'collections' prefix; the saved list has its own sub-prefix so
+  // it can be invalidated without refetching a view that is about to disappear.
+  COLLECTIONS_LIST: ['collections'] as const,
+  COLLECTION_LIST: ['collections', 'list'] as const,
+  COLLECTIONS: (userId: string) => ['collections', 'list', userId] as const,
+  SAVED_QUESTIONS_LIST: ['collections', 'saved-questions'] as const,
+  SAVED_QUESTIONS: (userId: string, params?: SavedQuestionListParams) =>
+    ['collections', 'saved-questions', userId, params] as const,
   CLIENTS: (userId: string) => ['clients', userId] as const,
   TAGS: (userId: string) => ['tags', userId] as const,
   ADMIN_USERS_LIST: ['admin', 'users'] as const,

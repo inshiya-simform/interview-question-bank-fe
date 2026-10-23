@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { collectionRefSchema } from '../collections/shared';
 import { reviewInfoSchema, reviewLockSchema } from '../reviews/shared';
 
 export const questionClientSchema = z.object({
@@ -17,6 +18,8 @@ export const questionSchema = z.object({
   review: reviewInfoSchema.nullish(),
   // Only sent to reviewers.
   reviewLock: reviewLockSchema.nullish(),
+  // The viewer's own collection for this question; null when it is not saved.
+  savedIn: collectionRefSchema.nullish(),
   authorId: z.string(),
   createdAt: z.string(),
   updatedAt: z.string(),

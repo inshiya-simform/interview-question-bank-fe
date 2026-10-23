@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
+import type { Collection } from '@/api';
+import { useDeleteCollectionMutation } from '@/api/hooks';
 import { MESSAGES } from '@/constants';
-import { deleteCollection } from '../mock/store';
-import type { Collection } from '../types';
 
 interface UseDeleteCollectionModalArgs {
   collection: Collection;
@@ -14,12 +14,17 @@ export function useDeleteCollectionModal({
   onClose,
   onDeleted,
 }: UseDeleteCollectionModalArgs) {
+  const { mutate, isPending } = useDeleteCollectionMutation();
+
   return {
-    confirm: () => {
-      deleteCollection(collection.id);
-      toast.success(MESSAGES.COLLECTION_DELETED);
-      onClose();
-      onDeleted();
-    },
+    isPending,
+    confirm: () =>
+      mutate(collection.id, {
+        onSuccess: () => {
+          toast.success(MESSAGES.COLLECTION_DELETED);
+          onClose();
+          onDeleted();
+        },
+      }),
   };
 }
