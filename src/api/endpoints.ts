@@ -39,4 +39,7 @@ export const API_ENDPOINTS = {
   TAGS: {
     BASE: '/tags',
   },
+  UPLOADS: {
+    IMAGE: '/uploads/images',
+  },
 } as const;

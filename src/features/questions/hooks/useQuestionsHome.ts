@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import { getFieldErrors } from '@/api';
 import type { Question } from '@/api';
 import { useCreateQuestionMutation, useUpdateQuestionMutation } from '@/api/hooks';
 import { MESSAGES, REVIEW_STATUS } from '@/constants';
-import type { QuestionFormValues } from '../schema';
+import type { FieldErrorHandler, QuestionFormValues } from '../schema';
 import { buildQuestionPayload } from '../utils';
 
 // The list refetches itself: saving a question invalidates the questions query prefix.
@@ -23,7 +24,11 @@ export function useQuestionsHome() {
   };
   const closeDrawer = () => setIsDrawerOpen(false);
 
-  const saveQuestion = (values: QuestionFormValues, onSuccess: () => void) => {
+  const saveQuestion = (
+    values: QuestionFormValues,
+    onSuccess: () => void,
+    onFieldErrors?: FieldErrorHandler,
+  ) => {
     const payload = buildQuestionPayload(values);
     const options = {
       onSuccess: (question: Question) => {
@@ -40,6 +45,7 @@ export function useQuestionsHome() {
         onSuccess();
         closeDrawer();
       },
+      onError: (error: unknown) => onFieldErrors?.(getFieldErrors(error)),
     };
     if (editingId) update.mutate({ id: editingId, payload }, options);
     else create.mutate(payload, options);

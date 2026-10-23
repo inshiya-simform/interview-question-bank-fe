@@ -7,6 +7,7 @@ import {
   AUDIT_KEY_LABEL,
   AUDIT_MODULE,
 } from '@/constants';
+import { htmlToText } from '@/utils/htmlToText';
 import { isRecord } from '@/utils/isRecord';
 import { getStatusLabel, humanize } from './labels';
 import { getChangedFields } from './summary';
@@ -77,6 +78,10 @@ function formatTags(value: unknown[], lookup: TagLookup): string {
 function formatValue(key: string, value: unknown, lookup: TagLookup): string {
   if (value === null || value === undefined || value === '') return AUDIT_COPY.EMPTY_VALUE;
   if (key === 'tags' && Array.isArray(value)) return formatTags(value, lookup);
+  // Answer notes are stored as HTML; history shows the readable text, not the markup.
+  if (key === 'answerNotes' && typeof value === 'string') {
+    return htmlToText(value) || AUDIT_COPY.EMPTY_VALUE;
+  }
   if (typeof value === 'string') return value;
   if (typeof value === 'number' || typeof value === 'boolean') return String(value);
   if (Array.isArray(value) && value.every((item) => typeof item === 'string')) {

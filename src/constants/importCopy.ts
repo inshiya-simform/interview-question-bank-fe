@@ -21,7 +21,7 @@ export const IMPORT_COPY = {
   REQUIRED_IF: 'If confirm_distinct is true',
   COLUMN_DESCRIPTIONS: {
     text: `The question. Up to ${formatLimit(IMPORT_LIMITS.TEXT_MAX)} characters.`,
-    answer_notes: `Notes for the answer. Up to ${formatLimit(IMPORT_LIMITS.ANSWER_NOTES_MAX)} characters.`,
+    answer_notes: `Notes for the answer, as plain text or HTML. Up to ${formatLimit(IMPORT_LIMITS.ANSWER_NOTES_MAX)} characters of text. Exports contain HTML.`,
     tags: 'Format category:tag|tag;category:tag, for example technology:docker;seniority:junior.',
     client: 'The client name. Leave empty for all clients.',
     confirm_distinct: 'true or false. Set to true when a flagged duplicate is genuinely different.',

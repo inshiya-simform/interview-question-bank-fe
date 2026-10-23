@@ -1,5 +1,6 @@
 import { z } from 'zod';
-import { MESSAGES } from '@/constants';
+import { ANSWER_HTML_MAX, ANSWER_TEXT_MAX, MESSAGES, RICH_TEXT_COPY } from '@/constants';
+import { htmlTextLength } from '@/utils/htmlToText';
 
 // Form values hold option ids as strings (native select/checkbox values).
 export const categoryTagsSchema = z.object({
@@ -10,7 +11,11 @@ export const categoryTagsSchema = z.object({
 export const questionFormSchema = z
   .object({
     question: z.string().trim().min(1, MESSAGES.QUESTION_TEXT_REQUIRED),
-    answer: z.string().trim().min(1, MESSAGES.ANSWER_REQUIRED),
+    answer: z
+      .string()
+      .refine((html) => htmlTextLength(html) > 0 || /<img\b/i.test(html), MESSAGES.ANSWER_REQUIRED)
+      .refine((html) => htmlTextLength(html) <= ANSWER_TEXT_MAX, RICH_TEXT_COPY.TEXT_TOO_LONG)
+      .refine((html) => html.length <= ANSWER_HTML_MAX, RICH_TEXT_COPY.HTML_TOO_LONG),
     categories: z.array(categoryTagsSchema).min(1, MESSAGES.CATEGORY_REQUIRED),
     clientId: z.string(),
     // Set when the author confirms the question differs from the listed duplicates.
@@ -26,6 +31,9 @@ export const questionFormSchema = z
       });
     }
   });
+
+// Receives the API's validation messages keyed by payload field (e.g. `answerNotes`).
+export type FieldErrorHandler = (fieldErrors: Record<string, string>) => void;
 
 export type CategoryTags = z.infer<typeof categoryTagsSchema>;
 export type QuestionFormValues = z.infer<typeof questionFormSchema>;

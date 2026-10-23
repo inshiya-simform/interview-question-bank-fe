@@ -36,6 +36,7 @@ export function extractErrorMessage(status: number, body: unknown): string {
   }
   if (status === HTTP_STATUS.UNAUTHORIZED) return MESSAGES.ERROR_UNAUTHORIZED;
   if (status === HTTP_STATUS.FORBIDDEN) return MESSAGES.ERROR_FORBIDDEN;
+  if (status === HTTP_STATUS.TOO_MANY_REQUESTS) return MESSAGES.TOO_MANY_ATTEMPTS;
   return MESSAGES.ERROR_UNKNOWN;
 }
 
