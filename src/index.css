@@ -19,6 +19,8 @@
   --palette-warm-ink: #7a4100;
   --palette-ok-soft: #e3f6f1;
   --palette-ok-ink: #0b5c48;
+  --palette-danger-soft: #fde8e7;
+  --palette-danger-ink: #8f1d17;
   --palette-neutral-soft: #eef1f6;
   --palette-neutral-chip: #eaecf0;
   --palette-warm-wash: #fff8ea;
@@ -58,6 +60,14 @@
   --badge-tag-fg: var(--palette-accent-ink);
   --badge-client-bg: var(--palette-warm-soft);
   --badge-client-fg: var(--palette-warm-ink);
+
+  /* Audit activity: the label always carries the meaning; the tint is only reinforcement. */
+  --badge-success-bg: var(--palette-ok-soft);
+  --badge-success-fg: var(--palette-ok-ink);
+  --badge-danger-bg: var(--palette-danger-soft);
+  --badge-danger-fg: var(--palette-danger-ink);
+  --badge-warning-bg: var(--palette-warm-soft);
+  --badge-warning-fg: var(--palette-warm-ink);
 
   /* Review status chips: tinted fill plus glyph and label, never colour alone. */
   --status-pending-bg: var(--palette-warm-soft);

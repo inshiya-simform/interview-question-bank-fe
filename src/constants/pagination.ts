@@ -4,6 +4,7 @@ export const CLIENT_ACCESS_PAGE_SIZE = 12;
 export const CLIENT_FOLDER_USERS_PAGE_SIZE = 10;
 export const ADMIN_USERS_PAGE_SIZE = 20;
 export const MEMBERS_PAGE_SIZE = 10;
+export const AUDIT_LOGS_PAGE_SIZE = 20;
 export const REVIEW_PAGE_SIZE = 5;
 export const SEARCH_DEBOUNCE_MS = 300;
 export const SEARCH_MAX_LENGTH = 200;

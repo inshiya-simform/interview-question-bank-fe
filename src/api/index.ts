@@ -8,6 +8,7 @@ export * from './field-errors';
 export * from './query-meta';
 export * from './review-conflict';
 export * from './token-storage';
+export * from './type/admin/audit-logs';
 export * from './type/admin/create-client';
 export * from './type/admin/create-staff';
 export * from './type/admin/client-access-list';

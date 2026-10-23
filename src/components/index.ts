@@ -1,5 +1,6 @@
 export { Alert } from './Alert';
 export { Badge } from './Badge';
+export type { BadgeVariant } from './Badge';
 export { Button } from './Button';
 export { Combobox } from './Combobox';
 export { Drawer } from './Drawer';

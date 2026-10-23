@@ -27,3 +27,18 @@ export const isSameInstant = (a: string, b: string): boolean =>
 
 const timeFormat = new Intl.DateTimeFormat(undefined, { hour: '2-digit', minute: '2-digit' });
 export const formatTime = (value: string): string => format(timeFormat, value);
+
+const fullDateTimeFormat = new Intl.DateTimeFormat(undefined, {
+  dateStyle: 'full',
+  timeStyle: 'long',
+});
+export const formatFullDateTime = (value: string): string => format(fullDateTimeFormat, value);
+
+// A yyyy-mm-dd date input value, read in the user's local time zone.
+export function startOfLocalDayIso(day: string): string {
+  return new Date(`${day}T00:00:00`).toISOString();
+}
+
+export function endOfLocalDayIso(day: string): string {
+  return new Date(`${day}T23:59:59.999`).toISOString();
+}

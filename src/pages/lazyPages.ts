@@ -31,3 +31,6 @@ export const LazyReviewQueuePage = lazy(() =>
 export const LazyImportPage = lazy(() =>
   import('./ImportPage').then((m) => ({ default: m.ImportPage })),
 );
+export const LazyAuditLogsPage = lazy(() =>
+  import('./AuditLogsPage').then((m) => ({ default: m.AuditLogsPage })),
+);

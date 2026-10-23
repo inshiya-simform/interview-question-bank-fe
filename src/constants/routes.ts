@@ -10,6 +10,7 @@ export const ROUTES = {
   ADMIN_CLIENTS: '/admin/clients',
   ADMIN_CLIENT_FOLDER: '/admin/clients/:clientId',
   ADMIN_MEMBERS: '/admin/members',
+  ADMIN_AUDIT_LOGS: '/admin/audit-logs',
 } as const;
 
 export const CLIENT_ID_PARAM = 'clientId';

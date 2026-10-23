@@ -11,10 +11,12 @@ import {
   createClient,
   createStaff,
   getAdminUsers,
+  getAuditLogs,
   getClientAccessList,
   grantClientAccess,
   revokeClientAccess,
 } from '../service/admin.service';
+import type { AuditLogListParams } from '../type/admin/audit-logs';
 import type { ClientAccessListParams } from '../type/admin/client-access-list';
 import type { AdminUsersParams } from '../type/admin/users-list';
 
@@ -83,5 +85,14 @@ export function useCreateClientMutation() {
   return useMutation({
     mutationFn: createClient,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEYS.CLIENT_ACCESS_LIST }),
+  });
+}
+
+export function useAuditLogsQuery(userId: string | undefined, params: AuditLogListParams) {
+  return useQuery({
+    queryKey: QUERY_KEYS.AUDIT_LOGS(userId ?? '', params),
+    queryFn: () => getAuditLogs(params),
+    enabled: Boolean(userId),
+    placeholderData: keepPreviousData,
   });
 }

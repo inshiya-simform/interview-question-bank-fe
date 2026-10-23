@@ -32,6 +32,7 @@ export const API_ENDPOINTS = {
   ADMIN: {
     USERS: '/admin/users',
     CLIENTS: '/admin/clients',
+    AUDIT_LOGS: '/admin/audit-logs',
     CLIENT_USERS: (clientId: string) => `/admin/clients/${clientId}/users`,
     CLIENT_USER: (clientId: string, userId: string) => `/admin/clients/${clientId}/users/${userId}`,
   },
