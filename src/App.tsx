@@ -19,6 +19,7 @@ import {
   LazyRegisterPage,
   LazyResetPasswordPage,
   LazyReviewQueuePage,
+  LazySavedPage,
 } from '@/pages/lazyPages';
 
 export function App() {
@@ -34,6 +35,7 @@ export function App() {
               <Route element={<RequirePermission permissions={[PERMISSIONS.QUESTION_CREATE]} />}>
                 <Route path={ROUTES.MY_QUESTIONS} element={<LazyMySubmissionsPage />} />
               </Route>
+              <Route path={ROUTES.SAVED} element={<LazySavedPage />} />
               <Route path={ROUTES.IMPORT} element={<LazyImportPage />} />
               <Route element={<RequirePermission permissions={[PERMISSIONS.QUESTION_REVIEW]} />}>
                 <Route path={ROUTES.REVIEW_QUEUE} element={<LazyReviewQueuePage />} />

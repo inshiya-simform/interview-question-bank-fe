@@ -1,6 +1,7 @@
 import { PageHeader } from '@/components';
 import { HOME_COPY, QUESTIONS_COPY } from '@/constants';
 import { ImportCsvEntry } from '@/features/import';
+import { SaveQuestionButton } from '@/features/saved';
 import { AddQuestionButton, QuestionDrawer, QuestionList } from '@/features/questions';
 import { useHomePage } from './useHomePage';
 import './HomePage.css';
@@ -22,7 +23,10 @@ export function HomePage() {
         <ImportCsvEntry />
         <AddQuestionButton onClick={openDrawer}>+ {QUESTIONS_COPY.ADD_QUESTION}</AddQuestionButton>
       </PageHeader>
-      <QuestionList onEdit={openEditDrawer} />
+      <QuestionList
+        onEdit={openEditDrawer}
+        renderActions={(question) => <SaveQuestionButton question={question} />}
+      />
       <QuestionDrawer
         isOpen={isDrawerOpen}
         editingId={editingId}
