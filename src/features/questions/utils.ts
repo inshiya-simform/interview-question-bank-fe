@@ -1,10 +1,12 @@
 import type { Question, TagCategory, CreateQuestionPayload } from '@/api';
+import { htmlToText } from '@/utils/htmlToText';
+import { normalizeAnswerHtml, toPayloadHtml } from '@/utils/richText';
 import type { QuestionFormValues } from './schema';
 
 export function buildQuestionPayload(values: QuestionFormValues): CreateQuestionPayload {
   return {
     text: values.question,
-    answerNotes: values.answer,
+    answerNotes: toPayloadHtml(values.answer, htmlToText(values.answer)),
     clientId: values.clientId || undefined,
     confirmDistinct: values.confirmDistinct || undefined,
     distinctReason: values.confirmDistinct ? values.distinctReason : undefined,
@@ -34,7 +36,7 @@ export function buildInitialValues(
 
   return {
     question: question.text,
-    answer: question.answerNotes,
+    answer: normalizeAnswerHtml(question.answerNotes),
     categories: rows.length > 0 ? rows : [{ category: '', tags: [] }],
     clientId: question.client?.id ?? '',
   };

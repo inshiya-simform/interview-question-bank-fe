@@ -4,3 +4,4 @@ export * from './useClients';
 export * from './useImport';
 export * from './useQuestions';
 export * from './useTags';
+export * from './useUploads';

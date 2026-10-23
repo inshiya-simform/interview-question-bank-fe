@@ -1,13 +1,19 @@
-import { Alert, Button, Loader, SelectField, TextAreaField, TextField } from '@/components';
+import { Suspense } from 'react';
+import { Alert, Button, Loader, SelectField, TextField } from '@/components';
+import { LazyRichTextEditor } from '@/components/lazyComponents';
 import { QUESTIONS_COPY } from '@/constants';
 import { CategoryTagsRow } from './CategoryTagsRow';
 import { DuplicateMatches } from './DuplicateMatches';
 import { useQuestionForm } from '../hooks/useQuestionForm';
-import type { QuestionFormValues } from '../schema';
+import type { FieldErrorHandler, QuestionFormValues } from '../schema';
 import './QuestionForm.css';
 
 interface QuestionFormProps {
-  onSubmit: (values: QuestionFormValues, onSuccess: () => void) => void;
+  onSubmit: (
+    values: QuestionFormValues,
+    onSuccess: () => void,
+    onFieldErrors?: FieldErrorHandler,
+  ) => void;
   onCancel: () => void;
   isSubmitting: boolean;
   submitLabel: string;
@@ -45,6 +51,7 @@ export function QuestionForm({
     addCategory,
     removeCategory,
     handleSubmit,
+    uploadImage,
     reset,
   } = useQuestionForm(onSubmit, initialValues, checkDuplicates);
 
@@ -81,14 +88,16 @@ export function QuestionForm({
           onReasonChange={setDistinctReason}
         />
       )}
-      <TextAreaField
-        label={QUESTIONS_COPY.FIELD_ANSWER}
-        name="answer"
-        placeholder={QUESTIONS_COPY.PLACEHOLDER_ANSWER}
-        value={values.answer}
-        onChange={(event) => setField('answer', event.target.value)}
-        error={errors.answer}
-      />
+      <Suspense fallback={<Loader />}>
+        <LazyRichTextEditor
+          label={QUESTIONS_COPY.FIELD_ANSWER}
+          placeholder={QUESTIONS_COPY.PLACEHOLDER_ANSWER}
+          value={values.answer}
+          onChange={(html) => setField('answer', html)}
+          onUploadImage={uploadImage}
+          error={errors.answer}
+        />
+      </Suspense>
       {values.categories.map((row, index) => (
         <CategoryTagsRow
           // Rows are fully controlled and have no id; keying by category would remount on change.

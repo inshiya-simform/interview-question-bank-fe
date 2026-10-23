@@ -1,7 +1,7 @@
 import { Alert, Button, Drawer, Loader } from '@/components';
 import { QUESTIONS_COPY } from '@/constants';
 import { useQuestionDrawer } from '../hooks/useQuestionDrawer';
-import type { QuestionFormValues } from '../schema';
+import type { FieldErrorHandler, QuestionFormValues } from '../schema';
 import { QuestionDrawerNotice } from './QuestionDrawerNotice';
 import { QuestionForm } from './QuestionForm';
 
@@ -10,7 +10,11 @@ interface QuestionDrawerProps {
   editingId: string | null;
   isSubmitting: boolean;
   onClose: () => void;
-  onSubmit: (values: QuestionFormValues, onSuccess: () => void) => void;
+  onSubmit: (
+    values: QuestionFormValues,
+    onSuccess: () => void,
+    onFieldErrors?: FieldErrorHandler,
+  ) => void;
 }
 
 export function QuestionDrawer({

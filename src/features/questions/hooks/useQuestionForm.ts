@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
+import { useUploadImageMutation } from '@/api/hooks';
 import type { SelectOption } from '@/components';
 import { questionFormSchema } from '../schema';
-import type { QuestionFormValues, CategoryTags } from '../schema';
+import type { CategoryTags, FieldErrorHandler, QuestionFormValues } from '../schema';
 import { useDuplicateCheck } from './useDuplicateCheck';
 import { useQuestionOptions } from './useQuestionOptions';
 
@@ -18,7 +19,11 @@ const INITIAL_VALUES: QuestionFormValues = {
 };
 
 export function useQuestionForm(
-  onSubmit: (values: QuestionFormValues, onSuccess: () => void) => void,
+  onSubmit: (
+    values: QuestionFormValues,
+    onSuccess: () => void,
+    onFieldErrors?: FieldErrorHandler,
+  ) => void,
   initialValues: QuestionFormValues = INITIAL_VALUES,
   checkDuplicates = false,
 ) {
@@ -26,6 +31,7 @@ export function useQuestionForm(
   const [errors, setErrors] = useState<Errors>({});
   const duplicates = useDuplicateCheck(values.question, checkDuplicates);
   const isDuplicateBlocked = duplicates.matches.length > 0 && !values.confirmDistinct;
+  const upload = useUploadImageMutation();
   const { categories, clientOptions, isLoading, isError, refetch } = useQuestionOptions();
 
   const categoryOptions: SelectOption[] = categories.map(({ id, name }) => ({
@@ -107,6 +113,16 @@ export function useQuestionForm(
     setErrors({});
   };
 
+  // Resolves to the url the API returned; rejections are toasted centrally by the query client.
+  const uploadImage = async (file: File) => (await upload.mutateAsync({ file })).url;
+
+  const showServerErrors: FieldErrorHandler = (fields) =>
+    setErrors((current) => ({
+      ...current,
+      question: fields.text ?? current.question,
+      answer: fields.answerNotes ?? current.answer,
+    }));
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (isDuplicateBlocked) return;
@@ -131,7 +147,7 @@ export function useQuestionForm(
       setErrors(next);
       return;
     }
-    onSubmit(result.data, reset);
+    onSubmit(result.data, reset, showServerErrors);
   };
 
   return {
@@ -154,6 +170,7 @@ export function useQuestionForm(
     addCategory,
     removeCategory,
     handleSubmit,
+    uploadImage,
     reset,
   };
 }

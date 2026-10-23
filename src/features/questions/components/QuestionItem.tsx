@@ -1,4 +1,4 @@
-import { Badge } from '@/components';
+import { Badge, RichTextContent } from '@/components';
 import { QUESTIONS_COPY } from '@/constants';
 import { cn } from '@/utils/cn';
 import type { Question } from '@/api';
@@ -61,7 +61,11 @@ export function QuestionItem({ question, onEdit }: QuestionItemProps) {
         )}
       </ul>
       <div id={panelId} role="region" aria-labelledby={triggerId} hidden={!isOpen}>
-        <p className="qitem__answer">{question.answerNotes || QUESTIONS_COPY.NO_ANSWER}</p>
+        {question.answerNotes ? (
+          <RichTextContent className="qitem__answer" html={question.answerNotes} />
+        ) : (
+          <p className="qitem__answer">{QUESTIONS_COPY.NO_ANSWER}</p>
+        )}
       </div>
     </li>
   );

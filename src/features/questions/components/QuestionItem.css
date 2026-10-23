@@ -70,7 +70,6 @@
   color: var(--color-text-secondary);
   font-size: 0.875rem;
   line-height: 1.65;
-  white-space: pre-wrap;
 }
 
 .qitem__group {

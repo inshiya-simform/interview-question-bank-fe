@@ -8,6 +8,8 @@ export * from './pagination';
 export * from './passwordReset';
 export * from './permissions';
 export * from './regex';
+export * from './richText';
+export * from './richTextCopy';
 export * from './review';
 export * from './reviewConcurrency';
 export * from './reviewStatus';
