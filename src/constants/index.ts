@@ -1,3 +1,4 @@
+export * from './auditLog';
 export * from './duplicateCheck';
 export * from './http';
 export * from './importCopy';

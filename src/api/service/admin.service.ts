@@ -1,5 +1,7 @@
 import { apiClient } from '../client';
 import { API_ENDPOINTS } from '../endpoints';
+import { auditLogListParamsSchema, auditLogListResponseSchema } from '../type/admin/audit-logs';
+import type { AuditLogListParams, AuditLogListResponse } from '../type/admin/audit-logs';
 import {
   clientAccessListParamsSchema,
   clientAccessListResponseSchema,
@@ -67,4 +69,11 @@ export async function createClient(payload: CreateClientPayload): Promise<Client
     createClientSchema.parse(payload),
   );
   return clientSchema.parse(data);
+}
+
+export async function getAuditLogs(params: AuditLogListParams): Promise<AuditLogListResponse> {
+  const { data } = await apiClient.get(API_ENDPOINTS.ADMIN.AUDIT_LOGS, {
+    params: auditLogListParamsSchema.parse(params),
+  });
+  return auditLogListResponseSchema.parse(data);
 }

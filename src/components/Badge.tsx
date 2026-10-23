@@ -1,7 +1,7 @@
 import { cn } from '@/utils/cn';
 import './Badge.css';
 
-export type BadgeVariant = 'category' | 'tag' | 'client';
+export type BadgeVariant = 'category' | 'tag' | 'client' | 'success' | 'danger' | 'warning';
 
 interface BadgeProps {
   variant: BadgeVariant;

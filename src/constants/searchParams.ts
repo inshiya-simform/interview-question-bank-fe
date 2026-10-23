@@ -22,6 +22,15 @@ export const MEMBER_SEARCH_PARAMS = {
   ROLE: 'role',
 } as const;
 
+export const AUDIT_SEARCH_PARAMS = {
+  PAGE: 'page',
+  MODULE: 'module',
+  ACTION: 'action',
+  SEARCH: 'q',
+  FROM: 'from',
+  TO: 'to',
+} as const;
+
 export const RESET_PASSWORD_SEARCH_PARAMS = {
   TOKEN: 'token',
 } as const;

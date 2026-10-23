@@ -8,6 +8,7 @@ import { GuestOnly, RequireAuth, RequirePermission } from '@/features/auth';
 import { AppLayout } from '@/features/shell';
 import {
   LazyAddMemberPage,
+  LazyAuditLogsPage,
   LazyClientAccessPage,
   LazyClientFolderPage,
   LazyForgotPasswordPage,
@@ -43,6 +44,9 @@ export function App() {
                 <Route path={ROUTES.ADMIN_CLIENTS} element={<LazyClientAccessPage />} />
                 <Route path={ROUTES.ADMIN_CLIENT_FOLDER} element={<LazyClientFolderPage />} />
                 <Route path={ROUTES.ADMIN_MEMBERS} element={<LazyAddMemberPage />} />
+                <Route element={<RequirePermission permissions={[PERMISSIONS.AUDIT_READ]} />}>
+                  <Route path={ROUTES.ADMIN_AUDIT_LOGS} element={<LazyAuditLogsPage />} />
+                </Route>
               </Route>
             </Route>
           </Route>
