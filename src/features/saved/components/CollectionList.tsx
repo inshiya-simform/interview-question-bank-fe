@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
+import type { Collection } from '@/api';
 import { Icon } from '@/components';
 import { SAVED_COPY } from '@/constants';
 import { cn } from '@/utils/cn';
 import { savedCollectionHref } from '../filters';
 import { useCollectionList } from '../hooks/useCollectionList';
-import type { Collection } from '../types';
 import { CollectionNameForm } from './CollectionNameForm';
 import './CollectionList.css';
 
@@ -47,7 +47,7 @@ export function CollectionList({
                 aria-current={isSelected ? 'page' : undefined}
               >
                 <span className="clist__name">{collection.name}</span>
-                <span className="clist__count">{collection.questionCount}</span>
+                <span className="clist__count">{collection.count}</span>
               </Link>
             </li>
           );

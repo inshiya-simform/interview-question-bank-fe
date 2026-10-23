@@ -7,7 +7,7 @@ import { useSavedState } from '@/features/saved';
 export function useAppLayout() {
   const { user, logout } = useSession();
   const { canSubmit, canReview, returnedCount, waitingCount } = useReviewNav();
-  const savedCount = useSavedState().entries.length;
+  const savedCount = useSavedState().totalSaved;
 
   const items: SidebarNavItem[] = [
     { to: ROUTES.HOME, label: REVIEW_COPY.NAV_QUESTIONS, icon: 'list', end: true },

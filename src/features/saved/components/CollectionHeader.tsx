@@ -1,7 +1,7 @@
+import type { Collection } from '@/api';
 import { Button, Icon } from '@/components';
 import { SAVED_COPY } from '@/constants';
 import { useCollectionHeader } from '../hooks/useCollectionHeader';
-import type { Collection } from '../types';
 import { CollectionNameForm } from './CollectionNameForm';
 import { DeleteCollectionModal } from './DeleteCollectionModal';
 import './CollectionHeader.css';
@@ -21,7 +21,7 @@ export function CollectionHeader({
   onDeleted,
 }: CollectionHeaderProps) {
   const header = useCollectionHeader(collection);
-  const count = collection?.questionCount ?? totalCount;
+  const count = collection?.count ?? totalCount;
 
   return (
     <div className="chead">

@@ -1,12 +1,12 @@
 import { toast } from 'react-toastify';
+import { useUnsaveQuestionMutation } from '@/api/hooks';
 import { MESSAGES } from '@/constants';
-import { unsaveQuestion } from '../mock/store';
 
 export function useUnsaveButton(questionId: string) {
+  const { mutate, isPending } = useUnsaveQuestionMutation();
+
   return {
-    unsave: () => {
-      unsaveQuestion(questionId);
-      toast.success(MESSAGES.QUESTION_UNSAVED);
-    },
+    isPending,
+    unsave: () => mutate(questionId, { onSuccess: () => toast.success(MESSAGES.QUESTION_UNSAVED) }),
   };
 }

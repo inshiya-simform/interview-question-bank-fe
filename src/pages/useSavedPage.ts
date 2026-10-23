@@ -5,7 +5,7 @@ import { buildSavedSearchParams, parseSavedFilters, useSavedState } from '@/feat
 export function useSavedPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const { collectionId, page } = parseSavedFilters(searchParams);
-  const { collections } = useSavedState();
+  const { collections, totalSaved } = useSavedState();
 
   const selectCollection = (id = '') =>
     setSearchParams(buildSavedSearchParams({ collectionId: id, page: DEFAULT_PAGE }));
@@ -15,7 +15,7 @@ export function useSavedPage() {
     selected: collections.find((collection) => collection.id === collectionId),
     collectionId: collectionId || undefined,
     page,
-    totalCount: collections.reduce((sum, collection) => sum + collection.questionCount, 0),
+    totalCount: totalSaved,
     selectCollection,
     setPage: (next: number) =>
       setSearchParams(buildSavedSearchParams({ collectionId, page: next })),

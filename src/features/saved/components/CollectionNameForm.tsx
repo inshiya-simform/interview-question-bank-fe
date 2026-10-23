@@ -5,7 +5,7 @@ import './CollectionNameForm.css';
 
 interface CollectionNameFormProps {
   submitLabel: string;
-  onSubmit: (name: string) => string | undefined;
+  onSubmit: (name: string) => Promise<string | undefined>;
   onCancel?: () => void;
   cancelLabel?: string;
   initialName?: string;
@@ -18,7 +18,7 @@ export function CollectionNameForm({
   cancelLabel = SAVED_COPY.CANCEL,
   initialName = '',
 }: CollectionNameFormProps) {
-  const { name, error, handleChange, handleSubmit } = useCollectionNameForm({
+  const { name, error, isSubmitting, handleChange, handleSubmit } = useCollectionNameForm({
     initialName,
     onSubmit,
   });
@@ -41,7 +41,9 @@ export function CollectionNameForm({
             {cancelLabel}
           </Button>
         )}
-        <Button type="submit">{submitLabel}</Button>
+        <Button type="submit" isLoading={isSubmitting}>
+          {submitLabel}
+        </Button>
       </div>
     </form>
   );

@@ -1,13 +1,17 @@
 import { useId, useState } from 'react';
 import { toast } from 'react-toastify';
 import type { Question } from '@/api';
+import {
+  useCreateCollectionMutation,
+  useSaveQuestionMutation,
+  useUnsaveQuestionMutation,
+} from '@/api/hooks';
 import { MESSAGES } from '@/constants';
-import { createCollection, saveQuestion, unsaveQuestion } from '../mock/store';
-import type { Collection } from '../types';
+import { collectionNameError } from '../utils';
 import { useSavedState } from './useSavedState';
 
 interface UseCollectionPickerArgs {
-  question: Question;
+  question: Pick<Question, 'id'>;
   currentCollectionId?: string;
   onDone: () => void;
 }
@@ -17,38 +21,58 @@ export function useCollectionPicker({
   currentCollectionId,
   onDone,
 }: UseCollectionPickerArgs) {
-  const { collections } = useSavedState();
+  const { collections, isLoading, isError, refetch } = useSavedState();
   const [isCreating, setIsCreating] = useState(false);
   const groupName = useId();
+  const saveMutation = useSaveQuestionMutation();
+  const unsaveMutation = useUnsaveQuestionMutation();
+  const createMutation = useCreateCollectionMutation();
   const isMove = currentCollectionId !== undefined;
 
-  const saveInto = (collection: Pick<Collection, 'id' | 'name'>) => {
-    saveQuestion(question, collection.id);
-    toast.success(
-      isMove ? MESSAGES.QUESTION_MOVED(collection.name) : MESSAGES.QUESTION_SAVED(collection.name),
+  const saveInto = (collection: { id: string; name: string }) =>
+    saveMutation.mutate(
+      { questionId: question.id, collectionId: collection.id },
+      {
+        onSuccess: () => {
+          toast.success(
+            isMove
+              ? MESSAGES.QUESTION_MOVED(collection.name)
+              : MESSAGES.QUESTION_SAVED(collection.name),
+          );
+          onDone();
+        },
+      },
     );
-    onDone();
-  };
 
-  const select = (collection: Collection) => {
+  const select = (collection: { id: string; name: string }) => {
     if (collection.id !== currentCollectionId) saveInto(collection);
   };
 
-  const remove = () => {
-    unsaveQuestion(question.id);
-    toast.success(MESSAGES.QUESTION_UNSAVED);
-    onDone();
-  };
+  const remove = () =>
+    unsaveMutation.mutate(question.id, {
+      onSuccess: () => {
+        toast.success(MESSAGES.QUESTION_UNSAVED);
+        onDone();
+      },
+    });
 
-  const createAndSave = (name: string) => {
-    const result = createCollection(name);
-    if (!result.ok) return result.error;
-    saveInto(result.collection);
-    return undefined;
+  // Create then save; a failed save is toasted centrally and leaves the new collection in place.
+  const createAndSave = async (name: string) => {
+    try {
+      const collection = await createMutation.mutateAsync({ name });
+      saveInto(collection);
+      return undefined;
+    } catch (error) {
+      return collectionNameError(error);
+    }
   };
 
   return {
     collections,
+    isLoading,
+    isError,
+    refetch,
+    isPending: saveMutation.isPending || unsaveMutation.isPending,
     groupName,
     isMove,
     isCreating,

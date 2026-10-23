@@ -1,21 +1,36 @@
+import { useEffect } from 'react';
+import { useSavedQuestionsQuery } from '@/api/hooks';
 import { SAVED_PAGE_SIZE } from '@/constants';
-import { useSavedState } from './useSavedState';
+import { useSession } from '@/features/auth';
 
 interface UseSavedQuestionListArgs {
   collectionId?: string;
   page: number;
+  onPageChange: (page: number) => void;
 }
 
-export function useSavedQuestionList({ collectionId, page }: UseSavedQuestionListArgs) {
-  const { entries } = useSavedState();
-  const matching = entries
-    .filter((entry) => !collectionId || entry.collectionId === collectionId)
-    .sort((a, b) => b.savedAt - a.savedAt);
+export function useSavedQuestionList({
+  collectionId,
+  page,
+  onPageChange,
+}: UseSavedQuestionListArgs) {
+  const { user } = useSession();
+  const query = useSavedQuestionsQuery(user?.id, { collectionId, page, limit: SAVED_PAGE_SIZE });
+
+  const total = query.data?.total ?? 0;
+  const totalPages = Math.max(1, Math.ceil(total / SAVED_PAGE_SIZE));
+
+  // Unsaving the last card on a page leaves it empty; step back to the last page that exists.
+  useEffect(() => {
+    if (query.data && !query.isPlaceholderData && page > totalPages) onPageChange(totalPages);
+  }, [query.data, query.isPlaceholderData, page, totalPages, onPageChange]);
 
   return {
-    questions: matching
-      .slice((page - 1) * SAVED_PAGE_SIZE, page * SAVED_PAGE_SIZE)
-      .map((entry) => entry.question),
-    totalPages: Math.max(1, Math.ceil(matching.length / SAVED_PAGE_SIZE)),
+    questions: query.data?.questions ?? [],
+    totalPages,
+    isLoading: query.isPending,
+    isError: query.isError,
+    hasData: query.data !== undefined,
+    refetch: () => void query.refetch(),
   };
 }

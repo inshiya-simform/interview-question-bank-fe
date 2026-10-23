@@ -1,12 +1,15 @@
-import { useSyncExternalStore } from 'react';
-import type { Collection } from '../types';
-import { getSavedState, subscribeSaved } from '../mock/store';
+import { useCollectionsQuery } from '@/api/hooks';
+import { useSession } from '@/features/auth';
 
 export function useSavedState() {
-  const { collections, entries } = useSyncExternalStore(subscribeSaved, getSavedState);
-  const withCounts: Collection[] = collections.map((collection) => ({
-    ...collection,
-    questionCount: entries.filter((entry) => entry.collectionId === collection.id).length,
-  }));
-  return { collections: withCounts, entries };
+  const { user } = useSession();
+  const query = useCollectionsQuery(user?.id);
+
+  return {
+    collections: query.data?.collections ?? [],
+    totalSaved: query.data?.totalSaved ?? 0,
+    isLoading: query.isPending,
+    isError: query.isError,
+    refetch: () => void query.refetch(),
+  };
 }
