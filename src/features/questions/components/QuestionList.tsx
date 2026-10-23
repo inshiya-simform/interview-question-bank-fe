@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+import type { Question } from '@/api';
 import { Alert, Button, Loader, Pagination } from '@/components';
 import { QUESTIONS_COPY } from '@/constants';
 import { useQuestionList } from '../hooks/useQuestionList';
@@ -7,9 +9,10 @@ import './QuestionList.css';
 
 interface QuestionListProps {
   onEdit: (id: string) => void;
+  renderActions?: (question: Question) => ReactNode;
 }
 
-export function QuestionList({ onEdit }: QuestionListProps) {
+export function QuestionList({ onEdit, renderActions }: QuestionListProps) {
   const {
     filters,
     searchInput,
@@ -67,7 +70,12 @@ export function QuestionList({ onEdit }: QuestionListProps) {
         {questions.length > 0 && (
           <ul className="qlist">
             {questions.map((question) => (
-              <QuestionItem key={question.id} question={question} onEdit={onEdit} />
+              <QuestionItem
+                key={question.id}
+                question={question}
+                onEdit={onEdit}
+                actions={renderActions?.(question)}
+              />
             ))}
           </ul>
         )}

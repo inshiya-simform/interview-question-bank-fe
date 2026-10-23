@@ -12,6 +12,7 @@ export { Modal } from './Modal';
 export { MultiSelect } from './MultiSelect';
 export { PageHeader } from './PageHeader';
 export { Pagination } from './Pagination';
+export { Popover } from './Popover';
 export { PasswordField } from './PasswordField';
 export { RichTextContent } from './RichTextContent';
 export { SelectField } from './SelectField';

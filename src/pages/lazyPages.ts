@@ -1,6 +1,9 @@
 import { lazy } from 'react';
 
 export const LazyHomePage = lazy(() => import('./HomePage').then((m) => ({ default: m.HomePage })));
+export const LazySavedPage = lazy(() =>
+  import('./SavedPage').then((m) => ({ default: m.SavedPage })),
+);
 export const LazyLoginPage = lazy(() =>
   import('./LoginPage').then((m) => ({ default: m.LoginPage })),
 );

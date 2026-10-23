@@ -1,0 +1,15 @@
+.save-btn {
+  min-height: 2.25rem;
+  max-width: 16rem;
+}
+
+/* Saved state is also spelled out in the label and filled icon, never colour alone. */
+.save-btn--saved {
+  background: var(--color-accent-soft);
+  border-color: var(--color-accent);
+  color: var(--color-accent-ink);
+}
+
+.save-btn--saved:hover:not(:disabled) {
+  background: var(--color-accent-soft);
+}

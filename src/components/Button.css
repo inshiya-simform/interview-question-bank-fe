@@ -36,6 +36,16 @@
   background: var(--color-hover);
 }
 
+.btn--danger {
+  background: var(--badge-danger-bg);
+  border-color: var(--badge-danger-fg);
+  color: var(--badge-danger-fg);
+}
+
+.btn--danger:hover:not(:disabled) {
+  background: var(--color-bg-raised);
+}
+
 .btn--full {
   width: 100%;
   min-height: 2.75rem;

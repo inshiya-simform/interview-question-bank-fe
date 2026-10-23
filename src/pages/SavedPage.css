@@ -1,0 +1,30 @@
+.saved {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.saved__layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5);
+  align-items: flex-start;
+}
+
+.saved__layout > .clist {
+  flex: 1 1 15rem;
+}
+
+.saved__main {
+  display: flex;
+  flex: 999 1 24rem;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+@media (min-width: 48rem) {
+  .saved__layout > .clist {
+    flex: 0 0 16rem;
+  }
+}

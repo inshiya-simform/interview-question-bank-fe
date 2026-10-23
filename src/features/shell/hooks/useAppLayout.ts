@@ -1,11 +1,13 @@
 import type { SidebarNavItem } from '@/components';
-import { IMPORT_COPY, REVIEW_COPY, ROLE_LABELS, ROUTES } from '@/constants';
+import { IMPORT_COPY, REVIEW_COPY, ROLE_LABELS, ROUTES, SAVED_COPY } from '@/constants';
 import { useSession } from '@/features/auth';
 import { useReviewNav } from '@/features/review';
+import { useSavedState } from '@/features/saved';
 
 export function useAppLayout() {
   const { user, logout } = useSession();
   const { canSubmit, canReview, returnedCount, waitingCount } = useReviewNav();
+  const savedCount = useSavedState().entries.length;
 
   const items: SidebarNavItem[] = [
     { to: ROUTES.HOME, label: REVIEW_COPY.NAV_QUESTIONS, icon: 'list', end: true },
@@ -19,6 +21,13 @@ export function useAppLayout() {
       countLabel: REVIEW_COPY.NAV_COUNT(returnedCount),
     });
   }
+  items.push({
+    to: ROUTES.SAVED,
+    label: SAVED_COPY.NAV,
+    icon: 'bookmark',
+    count: savedCount,
+    countLabel: SAVED_COPY.NAV_COUNT(savedCount),
+  });
   if (canReview) {
     items.push({
       to: ROUTES.REVIEW_QUEUE,

@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { Badge, RichTextContent } from '@/components';
 import { QUESTIONS_COPY } from '@/constants';
 import { cn } from '@/utils/cn';
@@ -9,10 +10,13 @@ import './QuestionItem.css';
 
 interface QuestionItemProps {
   question: Question;
-  onEdit: (id: string) => void;
+  // Omit to hide Edit, e.g. where the question can't be edited in place.
+  onEdit?: (id: string) => void;
+  // Feature-supplied controls (e.g. Save) rendered beside Edit, so this feature stays decoupled.
+  actions?: ReactNode;
 }
 
-export function QuestionItem({ question, onEdit }: QuestionItemProps) {
+export function QuestionItem({ question, onEdit, actions }: QuestionItemProps) {
   const { isOpen, toggle, triggerId, panelId, canEdit, reviewChip } = useQuestionItem(question);
 
   return (
@@ -32,7 +36,8 @@ export function QuestionItem({ question, onEdit }: QuestionItemProps) {
           </button>
         </h3>
         {reviewChip && <ReviewStatusChip status={reviewChip.status} isEdit={reviewChip.isEdit} />}
-        {canEdit && (
+        {actions}
+        {canEdit && onEdit && (
           <EditQuestionButton
             variant="secondary"
             aria-label={QUESTIONS_COPY.EDIT_QUESTION(question.text)}

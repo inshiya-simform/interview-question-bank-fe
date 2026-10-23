@@ -1,6 +1,11 @@
 import { QUESTION_HISTORY_ACTION, REVIEW_STATUS } from './reviewStatus';
 import type { ReviewStatus } from './reviewStatus';
-import { PASSWORD_MAX_LENGTH, PASSWORD_MIN_LENGTH, REVIEW_NOTE_MAX_LENGTH } from './validation';
+import {
+  COLLECTION_NAME_MAX_LENGTH,
+  PASSWORD_MAX_LENGTH,
+  PASSWORD_MIN_LENGTH,
+  REVIEW_NOTE_MAX_LENGTH,
+} from './validation';
 
 export const MESSAGES = {
   EMAIL_REQUIRED: 'Email is required',
@@ -50,6 +55,15 @@ export const MESSAGES = {
   BULK_REASON_NOT_FOUND: 'Question not found',
   BULK_SUMMARY: (reviewed: number, skipped: number) => `${reviewed} reviewed, ${skipped} skipped`,
   REJECT_REASON_TOO_LONG: `Keep the reason under ${REVIEW_NOTE_MAX_LENGTH} characters`,
+  COLLECTION_NAME_REQUIRED: 'Collection name is required',
+  COLLECTION_NAME_TOO_LONG: `Use ${COLLECTION_NAME_MAX_LENGTH} characters or fewer`,
+  COLLECTION_NAME_TAKEN: 'You already have a collection with this name.',
+  COLLECTION_CREATED: 'Collection created',
+  COLLECTION_RENAMED: 'Collection renamed',
+  COLLECTION_DELETED: 'Collection deleted',
+  QUESTION_SAVED: (collection: string) => `Saved to ${collection}`,
+  QUESTION_MOVED: (collection: string) => `Moved to ${collection}`,
+  QUESTION_UNSAVED: 'Removed from your saved questions',
 } as const;
 
 export const COMMON_COPY = {
