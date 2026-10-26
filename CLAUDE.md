@@ -241,6 +241,10 @@ FallbackComponent={ErrorFallback}>` (outermost) and `<Suspense fallback={<Loader
   payload parse. Messages come from `constants/messages.ts`.
 - Validate before submit; also handle server-side validation errors returned by the API.
 - Disable the submit button while pending to avoid double submission.
+- **Edits must change something.** Every edit/update flow (question edit, resubmit, rename, ...)
+  compares the submitted values with the originals using `utils/isDeepEqual.ts` and, if nothing
+  changed, skips the API call and shows `MESSAGES.NOTHING_TO_EDIT` as an inline error in the form
+  itself (never a toast: drawers and modals cover it).
 
 ### Auth and authorization
 

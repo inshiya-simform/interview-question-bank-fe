@@ -122,6 +122,7 @@ export function QuestionForm({
         value={values.clientId}
         onChange={(event) => setField('clientId', event.target.value)}
       />
+      {errors.form && <Alert>{errors.form}</Alert>}
       <div className="qform__actions">
         <Button
           variant="secondary"
