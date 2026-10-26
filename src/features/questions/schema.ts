@@ -32,8 +32,8 @@ export const questionFormSchema = z
     }
   });
 
-// Receives the API's validation messages keyed by payload field (e.g. `answerNotes`).
-export type FieldErrorHandler = (fieldErrors: Record<string, string>) => void;
+// Receives a failed save so the form can show field messages and duplicate matches inline.
+export type SubmitErrorHandler = (error: unknown) => void;
 
 export type CategoryTags = z.infer<typeof categoryTagsSchema>;
 export type QuestionFormValues = z.infer<typeof questionFormSchema>;

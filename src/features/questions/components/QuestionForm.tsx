@@ -5,14 +5,14 @@ import { QUESTIONS_COPY } from '@/constants';
 import { CategoryTagsRow } from './CategoryTagsRow';
 import { DuplicateMatches } from './DuplicateMatches';
 import { useQuestionForm } from '../hooks/useQuestionForm';
-import type { FieldErrorHandler, QuestionFormValues } from '../schema';
+import type { SubmitErrorHandler, QuestionFormValues } from '../schema';
 import './QuestionForm.css';
 
 interface QuestionFormProps {
   onSubmit: (
     values: QuestionFormValues,
     onSuccess: () => void,
-    onFieldErrors?: FieldErrorHandler,
+    onSubmitError?: SubmitErrorHandler,
   ) => void;
   onCancel: () => void;
   isSubmitting: boolean;
@@ -20,6 +20,7 @@ interface QuestionFormProps {
   submittingLabel: string;
   initialValues?: QuestionFormValues;
   checkDuplicates?: boolean;
+  questionId?: string;
 }
 
 export function QuestionForm({
@@ -30,6 +31,7 @@ export function QuestionForm({
   submittingLabel,
   initialValues,
   checkDuplicates = false,
+  questionId,
 }: QuestionFormProps) {
   const {
     values,
@@ -53,7 +55,7 @@ export function QuestionForm({
     handleSubmit,
     uploadImage,
     reset,
-  } = useQuestionForm(onSubmit, initialValues, checkDuplicates);
+  } = useQuestionForm(onSubmit, initialValues, checkDuplicates, questionId);
 
   if (isLoading) return <Loader label={QUESTIONS_COPY.OPTIONS_LOADING} />;
   if (isError) {
@@ -77,7 +79,7 @@ export function QuestionForm({
         onChange={(event) => setField('question', event.target.value)}
         error={errors.question}
       />
-      {checkDuplicates && (
+      {(checkDuplicates || duplicates.matches.length > 0) && (
         <DuplicateMatches
           matches={duplicates.matches}
           isChecking={duplicates.isChecking}

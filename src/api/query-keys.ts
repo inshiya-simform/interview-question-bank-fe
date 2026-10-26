@@ -2,6 +2,7 @@ import type { AdminUsersParams } from './type/admin/users-list';
 import type { AuditLogListParams } from './type/admin/audit-logs';
 import type { ClientAccessListParams } from './type/admin/client-access-list';
 import type { SavedQuestionListParams } from './type/collections/saved-questions';
+import type { CheckDuplicatePayload } from './type/questions/check-duplicate';
 import type { QuestionListParams } from './type/questions/questions-list';
 import type { SubmissionListParams } from './type/reviews/submission-list';
 
@@ -15,8 +16,8 @@ export const QUERY_KEYS = {
     ['questions', userId, params] as const,
   // Shares the 'questions' prefix so list invalidation also refreshes cached items.
   QUESTION_ITEM: (userId: string, id: string) => ['questions', 'item', userId, id] as const,
-  DUPLICATE_CHECK: (userId: string, text: string) =>
-    ['questions', 'duplicate-check', userId, text] as const,
+  DUPLICATE_CHECK: (userId: string, payload: CheckDuplicatePayload) =>
+    ['questions', 'duplicate-check', userId, payload] as const,
   SUBMISSIONS: (userId: string, params?: SubmissionListParams) =>
     ['questions', 'submissions', userId, params] as const,
   QUESTION_COUNTS: (userId: string) => ['questions', 'counts', userId] as const,

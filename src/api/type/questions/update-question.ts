@@ -7,6 +7,8 @@ export const updateQuestionPayloadSchema = createQuestionPayloadSchema.pick({
   answerNotes: true,
   clientId: true,
   tags: true,
+  confirmDistinct: true,
+  distinctReason: true,
 });
 
 export const updateQuestionResponseSchema = questionSchema;

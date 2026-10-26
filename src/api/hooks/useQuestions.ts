@@ -25,6 +25,7 @@ import type {
   RequestChangesPayload,
 } from '../type/reviews/review-decision';
 import type { SubmissionListParams } from '../type/reviews/submission-list';
+import type { CheckDuplicatePayload } from '../type/questions/check-duplicate';
 import type { UpdateQuestionPayload } from '../type/questions/update-question';
 import type { QuestionListParams } from '../type/questions/questions-list';
 
@@ -63,10 +64,14 @@ export function useQuestionQuery(userId: string | undefined, id: string | null) 
 }
 
 // POST is used as a read-only check, so it is modelled as a query.
-export function useCheckDuplicateQuery(userId: string | undefined, text: string, enabled: boolean) {
+export function useCheckDuplicateQuery(
+  userId: string | undefined,
+  payload: CheckDuplicatePayload,
+  enabled: boolean,
+) {
   return useQuery({
-    queryKey: QUERY_KEYS.DUPLICATE_CHECK(userId ?? '', text),
-    queryFn: () => checkDuplicateQuestion({ text }),
+    queryKey: QUERY_KEYS.DUPLICATE_CHECK(userId ?? '', payload),
+    queryFn: () => checkDuplicateQuestion(payload),
     enabled: enabled && Boolean(userId),
     placeholderData: keepPreviousData,
   });
