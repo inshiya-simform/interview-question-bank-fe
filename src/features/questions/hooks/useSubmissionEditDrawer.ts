@@ -1,9 +1,8 @@
 import { toast } from 'react-toastify';
-import { getFieldErrors } from '@/api';
 import type { ReviewedQuestion } from '@/api';
 import { useUpdateQuestionMutation } from '@/api/hooks';
 import { MESSAGES } from '@/constants';
-import type { FieldErrorHandler, QuestionFormValues } from '../schema';
+import type { SubmitErrorHandler, QuestionFormValues } from '../schema';
 import { buildInitialValues, buildQuestionPayload } from '../utils';
 import { useQuestionOptions } from './useQuestionOptions';
 
@@ -16,7 +15,7 @@ export function useSubmissionEditDrawer(submission: ReviewedQuestion | null, onC
   const resubmit = (
     values: QuestionFormValues,
     onSuccess: () => void,
-    onFieldErrors?: FieldErrorHandler,
+    onSubmitError?: SubmitErrorHandler,
   ) => {
     if (!submission) return;
     update.mutate(
@@ -27,7 +26,7 @@ export function useSubmissionEditDrawer(submission: ReviewedQuestion | null, onC
           onSuccess();
           onClose();
         },
-        onError: (error) => onFieldErrors?.(getFieldErrors(error)),
+        onError: (error) => onSubmitError?.(error),
       },
     );
   };

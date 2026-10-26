@@ -1,6 +1,7 @@
 import type { ReviewedQuestion } from '@/api';
 import { useReviewDrawer } from '../hooks/useReviewDrawer';
 import { DecisionNoteModal } from './DecisionNoteModal';
+import { DuplicateOverrideNotice } from './DuplicateOverrideNotice';
 import { ReviewContent } from './ReviewContent';
 import { QuestionHistory } from './QuestionHistory';
 import { ReviewDecisionBar } from './ReviewDecisionBar';
@@ -38,9 +39,14 @@ export function ReviewDrawerContent({ submission, onClose, onReload }: ReviewDra
     <ReviewLockBanner banner={banner} isClaiming={isClaiming} onAction={runBannerAction} />
   );
 
+  const overrideNode = submission.duplicateOverride && (
+    <DuplicateOverrideNotice override={submission.duplicateOverride} />
+  );
+
   return (
     <div className="rdrawer">
       {bannerNode}
+      {overrideNode}
       <ReviewStatusChip status={submission.status} isEdit={isEdit} />
       {isEdit ? <ReviewDiff live={live} edit={content} /> : <ReviewContent content={content} />}
       <QuestionHistory questionId={submission.id} />
@@ -57,7 +63,12 @@ export function ReviewDrawerContent({ submission, onClose, onReload }: ReviewDra
         mode={mode}
         isPending={isPending}
         isDisabled={!canAct}
-        notice={bannerNode}
+        notice={
+          <>
+            {bannerNode}
+            {overrideNode}
+          </>
+        }
         onClose={closeModal}
         onSubmit={submitNote}
       />

@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
+import { getFieldErrors, parseDuplicateConflict } from '@/api';
+import type { DuplicateMatch } from '@/api';
 import { useUploadImageMutation } from '@/api/hooks';
 import type { SelectOption } from '@/components';
 import { MESSAGES } from '@/constants';
 import { isDeepEqual } from '@/utils/isDeepEqual';
 import { questionFormSchema } from '../schema';
-import type { CategoryTags, FieldErrorHandler, QuestionFormValues } from '../schema';
+import type { CategoryTags, SubmitErrorHandler, QuestionFormValues } from '../schema';
 import { editableFields } from '../utils';
 import { useDuplicateCheck } from './useDuplicateCheck';
 import { useQuestionOptions } from './useQuestionOptions';
@@ -26,15 +28,29 @@ export function useQuestionForm(
   onSubmit: (
     values: QuestionFormValues,
     onSuccess: () => void,
-    onFieldErrors?: FieldErrorHandler,
+    onSubmitError?: SubmitErrorHandler,
   ) => void,
   initialValues?: QuestionFormValues,
   checkDuplicates = false,
+  questionId?: string,
 ) {
   const startValues = initialValues ?? INITIAL_VALUES;
   const [values, setValues] = useState(startValues);
   const [errors, setErrors] = useState<Errors>({});
-  const duplicates = useDuplicateCheck(values.question, checkDuplicates);
+  // Matches from a rejected save (409); the live dry-run check is only active when adding.
+  const [serverMatches, setServerMatches] = useState<DuplicateMatch[]>([]);
+  // The API only checks an edit when the text or client changed, so an untouched edit is skipped.
+  const isDuplicateRelevantChange =
+    values.question.trim() !== initialValues?.question.trim() ||
+    values.clientId !== initialValues?.clientId;
+  const liveDuplicates = useDuplicateCheck({
+    text: values.question,
+    clientId: values.clientId,
+    excludeId: questionId,
+    isActive: checkDuplicates && (!initialValues || isDuplicateRelevantChange),
+  });
+  const duplicates =
+    serverMatches.length > 0 ? { matches: serverMatches, isChecking: false } : liveDuplicates;
   const isDuplicateBlocked = duplicates.matches.length > 0 && !values.confirmDistinct;
   const upload = useUploadImageMutation();
   const { categories, clientOptions, isLoading, isError, refetch } = useQuestionOptions();
@@ -63,12 +79,15 @@ export function useQuestionForm(
     field: K,
     value: QuestionFormValues[K],
   ) => {
-    // Changing the question text invalidates any earlier "this is different" confirmation.
+    // Duplicates are per client, so changing the text or client invalidates any earlier
+    // "this is different" confirmation.
+    const resetsDuplicates = field === 'question' || field === 'clientId';
     setValues((current) => ({
       ...current,
       [field]: value,
-      ...(field === 'question' && { confirmDistinct: false, distinctReason: '' }),
+      ...(resetsDuplicates && { confirmDistinct: false, distinctReason: '' }),
     }));
+    if (resetsDuplicates) setServerMatches([]);
     setErrors((current) => ({ ...current, [field]: undefined, form: undefined }));
   };
 
@@ -119,18 +138,24 @@ export function useQuestionForm(
 
   const reset = () => {
     setValues(startValues);
+    setServerMatches([]);
     setErrors({});
   };
 
   // Resolves to the url the API returned; rejections are toasted centrally by the query client.
   const uploadImage = async (file: File) => (await upload.mutateAsync({ file })).url;
 
-  const showServerErrors: FieldErrorHandler = (fields) =>
+  const showServerErrors: SubmitErrorHandler = (error) => {
+    const matches = parseDuplicateConflict(error);
+    if (matches) setServerMatches(matches);
+    const fields = getFieldErrors(error);
     setErrors((current) => ({
       ...current,
       question: fields.text ?? current.question,
       answer: fields.answerNotes ?? current.answer,
+      distinctReason: fields.distinctReason ?? current.distinctReason,
     }));
+  };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

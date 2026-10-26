@@ -2,6 +2,10 @@ import { z } from 'zod';
 
 export const checkDuplicatePayloadSchema = z.object({
   text: z.string(),
+  // Omitted for an unrestricted question, which is compared with unrestricted questions only.
+  clientId: z.string().optional(),
+  // The question being edited, so it never matches itself.
+  excludeId: z.string().optional(),
 });
 
 export const duplicateMatchSchema = z.object({

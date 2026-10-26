@@ -39,6 +39,8 @@ export function SubmissionEditDrawer({ submission, onClose }: SubmissionEditDraw
             onSubmit={resubmit}
             onCancel={onClose}
             isSubmitting={isSubmitting}
+            checkDuplicates
+            questionId={submission.id}
             submitLabel={QUESTIONS_COPY.RESUBMIT}
             submittingLabel={QUESTIONS_COPY.RESUBMITTING}
           />

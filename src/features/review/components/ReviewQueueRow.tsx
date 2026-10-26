@@ -4,6 +4,7 @@ import { REVIEW_COPY, REVIEW_STATUS } from '@/constants';
 import { formatDate } from '@/utils/date';
 import { cn } from '@/utils/cn';
 import { isEditSubmission, submittedAtOf, toSubmittedContent } from '../selectors';
+import { DuplicateOverrideNotice } from './DuplicateOverrideNotice';
 import { ReviewStatusChip } from './ReviewStatusChip';
 import { ReviewTags } from './ReviewTags';
 
@@ -54,6 +55,9 @@ export function ReviewQueueRow({
         )}
       </div>
       <ReviewTags tags={content.tags} />
+      {submission.duplicateOverride && (
+        <DuplicateOverrideNotice override={submission.duplicateOverride} isCompact />
+      )}
       <div className="ritem__meta">
         <span>{REVIEW_COPY.BY_SUBMITTER(author.name)}</span>
         <span>{REVIEW_COPY.SUBMITTED_ON(formatDate(submittedAtOf(submission)))}</span>

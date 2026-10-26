@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { questionClientSchema } from '../questions/shared';
 import {
+  duplicateOverrideSchema,
   reviewContentSchema,
   reviewLockSchema,
   reviewPersonSchema,
@@ -29,6 +30,7 @@ export const reviewedQuestionSchema = z.object({
   draft: reviewContentSchema.nullish(),
   // Only sent to reviewers.
   reviewLock: reviewLockSchema.nullish(),
+  duplicateOverride: duplicateOverrideSchema.nullish(),
 });
 
 export type ReviewedQuestion = z.infer<typeof reviewedQuestionSchema>;
