@@ -16,6 +16,9 @@ export const LazyForgotPasswordPage = lazy(() =>
 export const LazyResetPasswordPage = lazy(() =>
   import('./ResetPasswordPage').then((m) => ({ default: m.ResetPasswordPage })),
 );
+export const LazyChangePasswordPage = lazy(() =>
+  import('./ChangePasswordPage').then((m) => ({ default: m.ChangePasswordPage })),
+);
 export const LazyClientAccessPage = lazy(() =>
   import('./ClientAccessPage').then((m) => ({ default: m.ClientAccessPage })),
 );

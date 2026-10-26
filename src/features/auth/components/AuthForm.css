@@ -17,3 +17,7 @@
 .auth-form__action {
   text-decoration: none;
 }
+
+.auth-form--card {
+  max-width: 28rem;
+}

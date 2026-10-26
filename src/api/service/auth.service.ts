@@ -1,5 +1,7 @@
 import { apiClient } from '../client';
 import { API_ENDPOINTS } from '../endpoints';
+import { changePasswordResponseSchema, changePasswordSchema } from '../type/auth/change-password';
+import type { ChangePasswordPayload, ChangePasswordResponse } from '../type/auth/change-password';
 import { currentUserSchema } from '../type/auth/current-user';
 import type { CurrentUser } from '../type/auth/current-user';
 import { userPermissionsSchema } from '../type/auth/permissions';
@@ -61,4 +63,14 @@ export async function resetPassword(payload: ResetPasswordPayload): Promise<Mess
     resetPasswordSchema.parse(payload),
   );
   return messageResponseSchema.parse(data);
+}
+
+export async function changePassword(
+  payload: ChangePasswordPayload,
+): Promise<ChangePasswordResponse> {
+  const { data } = await apiClient.post(
+    API_ENDPOINTS.AUTH.CHANGE_PASSWORD,
+    changePasswordSchema.parse(payload),
+  );
+  return changePasswordResponseSchema.parse(data);
 }

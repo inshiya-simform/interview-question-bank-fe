@@ -9,6 +9,7 @@ import { AppLayout } from '@/features/shell';
 import {
   LazyAddMemberPage,
   LazyAuditLogsPage,
+  LazyChangePasswordPage,
   LazyClientAccessPage,
   LazyClientFolderPage,
   LazyForgotPasswordPage,
@@ -35,6 +36,7 @@ export function App() {
               <Route element={<RequirePermission permissions={[PERMISSIONS.QUESTION_CREATE]} />}>
                 <Route path={ROUTES.MY_QUESTIONS} element={<LazyMySubmissionsPage />} />
               </Route>
+              <Route path={ROUTES.CHANGE_PASSWORD} element={<LazyChangePasswordPage />} />
               <Route path={ROUTES.SAVED} element={<LazySavedPage />} />
               <Route path={ROUTES.IMPORT} element={<LazyImportPage />} />
               <Route element={<RequirePermission permissions={[PERMISSIONS.QUESTION_REVIEW]} />}>

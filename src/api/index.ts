@@ -18,6 +18,7 @@ export * from './type/admin/client-access-list';
 export * from './type/admin/grant-client-access';
 export * from './type/admin/shared';
 export * from './type/admin/users-list';
+export * from './type/auth/change-password';
 export * from './type/auth/current-user';
 export * from './type/auth/error-details';
 export * from './type/auth/forgot-password';

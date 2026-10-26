@@ -16,6 +16,8 @@ export const MESSAGES = {
   PASSWORDS_DO_NOT_MATCH: 'Passwords do not match',
   PASSWORD_TOO_SHORT: `Password must be at least ${PASSWORD_MIN_LENGTH} characters`,
   PASSWORD_TOO_LONG: `Password must be at most ${PASSWORD_MAX_LENGTH} characters`,
+  CURRENT_PASSWORD_REQUIRED: 'Current password is required',
+  PASSWORD_CHANGED: 'Password changed',
   PASSWORD_RESET_SUCCESS: 'Password updated. You can now log in.',
   TOO_MANY_ATTEMPTS: 'Too many attempts, please try again later.',
   NAME_REQUIRED: 'Name is required',
@@ -23,6 +25,7 @@ export const MESSAGES = {
   ERROR_NETWORK: 'Unable to reach the server. Check your connection and try again.',
   ERROR_UNKNOWN: 'Something went wrong. Please try again.',
   ERROR_UNAUTHORIZED: 'Your session has expired. Please log in again.',
+  SESSION_EXPIRED: 'Your session has expired, please log in again',
   ERROR_FORBIDDEN: 'You do not have access to this.',
   QUESTION_TEXT_REQUIRED: 'Question text is required',
   ANSWER_REQUIRED: 'Answer is required',
@@ -116,6 +119,14 @@ export const PASSWORD_RESET_COPY = {
   REQUEST_NEW_LINK: 'Request a new link',
   UNAVAILABLE_TITLE: 'Reset unavailable',
   BACK_TO_LOGIN: 'Back to log in',
+} as const;
+
+export const CHANGE_PASSWORD_COPY = {
+  NAV: 'Change password',
+  TITLE: 'Change password',
+  SUBTITLE: 'Other devices will be signed out when you change your password.',
+  FIELD_CURRENT_PASSWORD: 'Current password',
+  SUBMIT: 'Change password',
 } as const;
 
 export const SHELL_COPY = {
