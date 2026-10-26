@@ -36,7 +36,7 @@ export const MESSAGES = {
   NOTHING_TO_EDIT: "Nothing to edit. You haven't changed anything.",
   ERROR_RESPONSE_INVALID: 'Received an unexpected response from the server.',
   ROLE_REQUIRED: 'Select a role',
-  STAFF_ADDED: 'Member added',
+  STAFF_ADDED: 'Reviewer added. An email has been sent to them.',
   CLIENT_ADDED: 'Client added',
   CLIENT_ACCESS_UPDATED: 'Client access updated',
   QUESTION_SUBMITTED: 'Submitted for review',
@@ -215,8 +215,8 @@ export const ADMIN_COPY = {
 
 export const STAFF_ROLE_COPY = {
   REVIEWER: {
-    DESCRIPTION: 'Edits any entry in the bank.',
-    CAPABILITY: 'Edit any question, whoever wrote it.',
+    DESCRIPTION: 'Reviews submitted questions and edits.',
+    CAPABILITY: 'Review and approve or reject submitted questions and edits.',
   },
 } as const;
 
