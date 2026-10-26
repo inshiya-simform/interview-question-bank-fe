@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import type { Collection } from '@/api';
 import { useRenameCollectionMutation } from '@/api/hooks';
 import { MESSAGES } from '@/constants';
+import { isDeepEqual } from '@/utils/isDeepEqual';
 import { collectionNameError } from '../utils';
 
 export function useCollectionHeader(collection: Collection | undefined) {
@@ -12,6 +13,7 @@ export function useCollectionHeader(collection: Collection | undefined) {
 
   const rename = async (name: string) => {
     if (!collection) return undefined;
+    if (isDeepEqual(collection.name, name)) return MESSAGES.NOTHING_TO_EDIT;
     try {
       await renameMutation.mutateAsync({ id: collection.id, payload: { name } });
       toast.success(MESSAGES.COLLECTION_RENAMED);

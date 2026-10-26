@@ -30,6 +30,7 @@ export const MESSAGES = {
   CATEGORY_REQUIRED: 'Select a category',
   QUESTION_ADDED: 'Question added',
   QUESTION_UPDATED: 'Question updated',
+  NOTHING_TO_EDIT: "Nothing to edit. You haven't changed anything.",
   ERROR_RESPONSE_INVALID: 'Received an unexpected response from the server.',
   ROLE_REQUIRED: 'Select a role',
   STAFF_ADDED: 'Member added',

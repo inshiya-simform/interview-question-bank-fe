@@ -41,3 +41,13 @@ export function buildInitialValues(
     clientId: question.client?.id ?? '',
   };
 }
+
+// The fields an edit can change; tag order is irrelevant so it is normalised before comparing.
+export function editableFields({ question, answer, categories, clientId }: QuestionFormValues) {
+  return {
+    question,
+    answer,
+    clientId,
+    categories: categories.map(({ category, tags }) => ({ category, tags: [...tags].sort() })),
+  };
+}

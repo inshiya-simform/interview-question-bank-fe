@@ -2,12 +2,16 @@ import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { useUploadImageMutation } from '@/api/hooks';
 import type { SelectOption } from '@/components';
+import { MESSAGES } from '@/constants';
+import { isDeepEqual } from '@/utils/isDeepEqual';
 import { questionFormSchema } from '../schema';
 import type { CategoryTags, FieldErrorHandler, QuestionFormValues } from '../schema';
+import { editableFields } from '../utils';
 import { useDuplicateCheck } from './useDuplicateCheck';
 import { useQuestionOptions } from './useQuestionOptions';
 
-type Errors = Partial<Record<keyof QuestionFormValues, string>>;
+// `form` is an error about the form as a whole, e.g. submitting an edit with no changes.
+type Errors = Partial<Record<keyof QuestionFormValues | 'form', string>>;
 
 const EMPTY_ROW: CategoryTags = { category: '', tags: [] };
 
@@ -24,10 +28,11 @@ export function useQuestionForm(
     onSuccess: () => void,
     onFieldErrors?: FieldErrorHandler,
   ) => void,
-  initialValues: QuestionFormValues = INITIAL_VALUES,
+  initialValues?: QuestionFormValues,
   checkDuplicates = false,
 ) {
-  const [values, setValues] = useState(initialValues);
+  const startValues = initialValues ?? INITIAL_VALUES;
+  const [values, setValues] = useState(startValues);
   const [errors, setErrors] = useState<Errors>({});
   const duplicates = useDuplicateCheck(values.question, checkDuplicates);
   const isDuplicateBlocked = duplicates.matches.length > 0 && !values.confirmDistinct;
@@ -64,7 +69,7 @@ export function useQuestionForm(
       [field]: value,
       ...(field === 'question' && { confirmDistinct: false, distinctReason: '' }),
     }));
-    setErrors((current) => ({ ...current, [field]: undefined }));
+    setErrors((current) => ({ ...current, [field]: undefined, form: undefined }));
   };
 
   const setConfirmDistinct = (confirmDistinct: boolean) => {
@@ -86,7 +91,7 @@ export function useQuestionForm(
       ...current,
       categories: current.categories.map((existing, i) => (i === index ? row : existing)),
     }));
-    setErrors((current) => ({ ...current, categories: undefined }));
+    setErrors((current) => ({ ...current, categories: undefined, form: undefined }));
   };
 
   // Tags belong to a single category, so changing the category clears them.
@@ -96,10 +101,13 @@ export function useQuestionForm(
   const setRowTags = (index: number, tags: string[]) =>
     updateRow(index, { category: values.categories[index]?.category ?? '', tags });
 
-  const addCategory = () =>
+  const addCategory = () => {
     setValues((current) => ({ ...current, categories: [...current.categories, EMPTY_ROW] }));
+    setErrors((current) => ({ ...current, form: undefined }));
+  };
 
-  const removeCategory = (index: number) =>
+  const removeCategory = (index: number) => {
+    setErrors((current) => ({ ...current, form: undefined }));
     setValues((current) => ({
       ...current,
       categories:
@@ -107,9 +115,10 @@ export function useQuestionForm(
           ? [EMPTY_ROW]
           : current.categories.filter((_, i) => i !== index),
     }));
+  };
 
   const reset = () => {
-    setValues(initialValues);
+    setValues(startValues);
     setErrors({});
   };
 
@@ -125,6 +134,11 @@ export function useQuestionForm(
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    // Only edits (a form started from existing values) are compared; a new question always saves.
+    if (initialValues && isDeepEqual(editableFields(initialValues), editableFields(values))) {
+      setErrors({ form: MESSAGES.NOTHING_TO_EDIT });
+      return;
+    }
     if (isDuplicateBlocked) return;
     // A stale confirmation must not demand a reason once no duplicates are shown.
     const hasMatches = duplicates.matches.length > 0;
