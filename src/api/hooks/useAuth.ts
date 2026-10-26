@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { QUERY_KEYS } from '../query-keys';
 import { SILENT_ERROR_META } from '../query-meta';
 import {
+  changePassword,
   forgotPassword,
   getCurrentUser,
   getUserPermissions,
@@ -10,7 +11,7 @@ import {
   resetPassword,
   verifyResetToken,
 } from '../service/auth.service';
-import { setAuthToken } from '../token-storage';
+import { clearAuthToken, setAuthToken } from '../token-storage';
 
 export function useCurrentUserQuery(enabled: boolean) {
   return useQuery({
@@ -64,6 +65,25 @@ export function useVerifyResetTokenQuery(token: string | undefined) {
   });
 }
 
+// A reset revokes every earlier session, so a token still stored in this browser is now dead.
 export function useResetPasswordMutation() {
-  return useMutation({ mutationFn: resetPassword, meta: SILENT_ERROR_META });
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: resetPassword,
+    meta: SILENT_ERROR_META,
+    onSuccess: () => {
+      clearAuthToken();
+      queryClient.clear();
+    },
+  });
+}
+
+// The old token is revoked by the change, so the returned one must be stored before any further
+// request. The user and cache stay: this is still the same person on this device.
+export function useChangePasswordMutation() {
+  return useMutation({
+    mutationFn: changePassword,
+    meta: SILENT_ERROR_META,
+    onSuccess: ({ token }) => setAuthToken(token),
+  });
 }

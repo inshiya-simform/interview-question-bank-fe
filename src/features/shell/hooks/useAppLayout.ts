@@ -1,5 +1,12 @@
 import type { SidebarNavItem } from '@/components';
-import { IMPORT_COPY, REVIEW_COPY, ROLE_LABELS, ROUTES, SAVED_COPY } from '@/constants';
+import {
+  CHANGE_PASSWORD_COPY,
+  IMPORT_COPY,
+  REVIEW_COPY,
+  ROLE_LABELS,
+  ROUTES,
+  SAVED_COPY,
+} from '@/constants';
 import { useSession } from '@/features/auth';
 import { useReviewNav } from '@/features/review';
 import { useSavedState } from '@/features/saved';
@@ -40,6 +47,7 @@ export function useAppLayout() {
   if (canSubmit) {
     items.push({ to: ROUTES.IMPORT, label: IMPORT_COPY.ENTRY, icon: 'upload' });
   }
+  items.push({ to: ROUTES.CHANGE_PASSWORD, label: CHANGE_PASSWORD_COPY.NAV, icon: 'lock' });
 
   return {
     items,

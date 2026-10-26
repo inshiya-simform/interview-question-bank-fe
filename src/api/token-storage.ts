@@ -1,4 +1,4 @@
-import { AUTH_COOKIE } from '@/constants';
+import { AUTH_COOKIE, SESSION_EXPIRED_KEY } from '@/constants';
 
 const PREFIX = `${AUTH_COOKIE.NAME}=`;
 
@@ -18,4 +18,15 @@ export function setAuthToken(token: string) {
 
 export function clearAuthToken() {
   document.cookie = buildCookie('', 0);
+}
+
+export function markSessionExpired() {
+  sessionStorage.setItem(SESSION_EXPIRED_KEY, '1');
+}
+
+// Reads and clears the flag so the notice shows once.
+export function consumeSessionExpired(): boolean {
+  const expired = sessionStorage.getItem(SESSION_EXPIRED_KEY) !== null;
+  sessionStorage.removeItem(SESSION_EXPIRED_KEY);
+  return expired;
 }

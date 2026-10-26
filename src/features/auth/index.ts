@@ -1,4 +1,5 @@
 export { AuthLayout } from './components/AuthLayout';
+export { ChangePasswordForm } from './components/ChangePasswordForm';
 export { ForgotPasswordForm } from './components/ForgotPasswordForm';
 export { GuestOnly } from './components/GuestOnly';
 export { LoginForm } from './components/LoginForm';
