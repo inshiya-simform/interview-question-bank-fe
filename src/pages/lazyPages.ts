@@ -4,6 +4,9 @@ export const LazyHomePage = lazy(() => import('./HomePage').then((m) => ({ defau
 export const LazySavedPage = lazy(() =>
   import('./SavedPage').then((m) => ({ default: m.SavedPage })),
 );
+export const LazyNotificationsPage = lazy(() =>
+  import('./NotificationsPage').then((m) => ({ default: m.NotificationsPage })),
+);
 export const LazyLoginPage = lazy(() =>
   import('./LoginPage').then((m) => ({ default: m.LoginPage })),
 );

@@ -17,6 +17,7 @@ import {
   LazyImportPage,
   LazyLoginPage,
   LazyMySubmissionsPage,
+  LazyNotificationsPage,
   LazyNotFoundPage,
   LazyRegisterPage,
   LazyResetPasswordPage,
@@ -37,6 +38,7 @@ export function App() {
               <Route element={<RequirePermission permissions={[PERMISSIONS.QUESTION_CREATE]} />}>
                 <Route path={ROUTES.MY_QUESTIONS} element={<LazyMySubmissionsPage />} />
               </Route>
+              <Route path={ROUTES.NOTIFICATIONS} element={<LazyNotificationsPage />} />
               <Route path={ROUTES.CHANGE_PASSWORD} element={<LazyChangePasswordPage />} />
               <Route element={<RequirePermission permissions={[PERMISSIONS.QUESTION_READ]} />}>
                 <Route path={ROUTES.SAVED} element={<LazySavedPage />} />

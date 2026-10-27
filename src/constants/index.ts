@@ -4,6 +4,8 @@ export * from './http';
 export * from './importCopy';
 export * from './importCsv';
 export * from './messages';
+export * from './notifications';
+export * from './notificationsCopy';
 export * from './pagination';
 export * from './passwordReset';
 export * from './permissions';

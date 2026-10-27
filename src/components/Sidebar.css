@@ -73,6 +73,23 @@
   font-weight: 600;
 }
 
+.sidebar__link--button {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+}
+
+.sidebar__link--button[aria-expanded='true'] {
+  background: var(--color-accent-soft);
+  color: var(--color-accent-ink);
+  font-weight: 600;
+}
+
 .sidebar__label {
   flex: 1;
 }

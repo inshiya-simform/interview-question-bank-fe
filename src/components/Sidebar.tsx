@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { NavLink } from 'react-router-dom';
 import { getInitials } from '@/utils/initials';
 import { Icon } from './Icon';
@@ -18,6 +19,8 @@ interface SidebarProps {
   tagline: string;
   navLabel: string;
   items: readonly SidebarNavItem[];
+  // Extra control rendered after the links, for entries that are not plain routes.
+  navSlot?: ReactNode;
   userName: string;
   userDetail: string;
   userTitle?: string;
@@ -30,6 +33,7 @@ export function Sidebar({
   tagline,
   navLabel,
   items,
+  navSlot,
   userName,
   userDetail,
   userTitle,
@@ -59,6 +63,7 @@ export function Sidebar({
             )}
           </NavLink>
         ))}
+        {navSlot}
       </nav>
       <div className="sidebar__user" title={userTitle}>
         <span className="sidebar__avatar" aria-hidden="true">
