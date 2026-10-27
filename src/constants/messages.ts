@@ -82,6 +82,15 @@ export const COMMON_COPY = {
   ERROR_RELOAD: 'Reload page',
 } as const;
 
+export const NOT_FOUND_COPY = {
+  EYEBROW: 'Error 404',
+  TITLE: 'Page not found',
+  DESCRIPTION:
+    "The page you're looking for doesn't exist or may have been moved. Check the address, or head back to the question bank.",
+  GO_HOME: 'Go to home',
+  GO_BACK: 'Go back',
+} as const;
+
 export const AUTH_COPY = {
   APP_NAME: 'Interview Question Bank',
   BRAND_HEADLINE: 'Every good interview starts with a good question.',

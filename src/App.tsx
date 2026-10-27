@@ -17,6 +17,7 @@ import {
   LazyImportPage,
   LazyLoginPage,
   LazyMySubmissionsPage,
+  LazyNotFoundPage,
   LazyRegisterPage,
   LazyResetPasswordPage,
   LazyReviewQueuePage,
@@ -60,6 +61,7 @@ export function App() {
             <Route path={ROUTES.FORGOT_PASSWORD} element={<LazyForgotPasswordPage />} />
           </Route>
           <Route path={ROUTES.RESET_PASSWORD} element={<LazyResetPasswordPage />} />
+          <Route path={ROUTES.NOT_FOUND} element={<LazyNotFoundPage />} />
         </Routes>
       </Suspense>
     </ErrorBoundary>

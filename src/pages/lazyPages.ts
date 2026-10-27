@@ -40,3 +40,6 @@ export const LazyImportPage = lazy(() =>
 export const LazyAuditLogsPage = lazy(() =>
   import('./AuditLogsPage').then((m) => ({ default: m.AuditLogsPage })),
 );
+export const LazyNotFoundPage = lazy(() =>
+  import('./NotFoundPage').then((m) => ({ default: m.NotFoundPage })),
+);
