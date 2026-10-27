@@ -1,6 +1,13 @@
 import { z } from 'zod';
-import { ANSWER_HTML_MAX, ANSWER_TEXT_MAX, MESSAGES, RICH_TEXT_COPY } from '@/constants';
+import {
+  ANSWER_HTML_MAX,
+  ANSWER_TEXT_MAX,
+  MESSAGES,
+  QUESTION_TEXT_MAX_LENGTH,
+  RICH_TEXT_COPY,
+} from '@/constants';
 import { htmlTextLength } from '@/utils/htmlToText';
+import { hasLetterOrNumber } from '@/utils/validators';
 
 // Form values hold option ids as strings (native select/checkbox values).
 export const categoryTagsSchema = z.object({
@@ -8,9 +15,16 @@ export const categoryTagsSchema = z.object({
   tags: z.array(z.string()),
 });
 
+export const questionTextSchema = z
+  .string()
+  .trim()
+  .min(1, MESSAGES.QUESTION_TEXT_REQUIRED)
+  .max(QUESTION_TEXT_MAX_LENGTH, MESSAGES.QUESTION_TEXT_TOO_LONG)
+  .refine(hasLetterOrNumber, MESSAGES.QUESTION_TEXT_NO_ALPHANUMERIC);
+
 export const questionFormSchema = z
   .object({
-    question: z.string().trim().min(1, MESSAGES.QUESTION_TEXT_REQUIRED),
+    question: questionTextSchema,
     answer: z
       .string()
       .refine((html) => htmlTextLength(html) > 0 || /<img\b/i.test(html), MESSAGES.ANSWER_REQUIRED)

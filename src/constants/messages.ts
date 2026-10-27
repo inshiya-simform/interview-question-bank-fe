@@ -4,6 +4,7 @@ import {
   COLLECTION_NAME_MAX_LENGTH,
   PASSWORD_MAX_LENGTH,
   PASSWORD_MIN_LENGTH,
+  QUESTION_TEXT_MAX_LENGTH,
   REVIEW_NOTE_MAX_LENGTH,
 } from './validation';
 
@@ -16,6 +17,7 @@ export const MESSAGES = {
   PASSWORDS_DO_NOT_MATCH: 'Passwords do not match',
   PASSWORD_TOO_SHORT: `Password must be at least ${PASSWORD_MIN_LENGTH} characters`,
   PASSWORD_TOO_LONG: `Password must be at most ${PASSWORD_MAX_LENGTH} characters`,
+  PASSWORD_HAS_WHITESPACE: 'Password cannot contain whitespace',
   CURRENT_PASSWORD_REQUIRED: 'Current password is required',
   PASSWORD_CHANGED: 'Password changed',
   PASSWORD_RESET_SUCCESS: 'Password updated. You can now log in.',
@@ -28,6 +30,8 @@ export const MESSAGES = {
   SESSION_EXPIRED: 'Your session has expired, please log in again',
   ERROR_FORBIDDEN: 'You do not have access to this.',
   QUESTION_TEXT_REQUIRED: 'Question text is required',
+  QUESTION_TEXT_TOO_LONG: `Question must be at most ${QUESTION_TEXT_MAX_LENGTH} characters`,
+  QUESTION_TEXT_NO_ALPHANUMERIC: 'Question must contain letters or numbers',
   ANSWER_REQUIRED: 'Answer is required',
   DISTINCT_REASON_REQUIRED: 'Explain why this question is different',
   CATEGORY_REQUIRED: 'Select a category',
@@ -38,6 +42,7 @@ export const MESSAGES = {
   ROLE_REQUIRED: 'Select a role',
   STAFF_ADDED: 'Reviewer added. An email has been sent to them.',
   CLIENT_ADDED: 'Client added',
+  CLIENT_NAME_TAKEN: 'A client with that name already exists',
   CLIENT_ACCESS_UPDATED: 'Client access updated',
   QUESTION_SUBMITTED: 'Submitted for review',
   QUESTION_RESUBMITTED: 'Resubmitted for review',
