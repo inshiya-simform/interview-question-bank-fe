@@ -18,6 +18,7 @@ export { RichTextContent } from './RichTextContent';
 export { SelectField } from './SelectField';
 export { Sidebar } from './Sidebar';
 export type { SidebarNavItem } from './Sidebar';
+export { StatusPage } from './StatusPage';
 export { Toaster } from './Toaster';
 export { TextAreaField } from './TextAreaField';
 export { TextField } from './TextField';

@@ -1,4 +1,4 @@
-.not-found {
+.status-page {
   min-height: 100svh;
   display: grid;
   place-content: center;
@@ -8,7 +8,7 @@
   text-align: center;
 }
 
-.not-found__eyebrow {
+.status-page__eyebrow {
   margin: 0;
   font-size: 0.8125rem;
   font-weight: 600;
@@ -17,7 +17,7 @@
   color: var(--color-muted);
 }
 
-.not-found__code {
+.status-page__code {
   display: flex;
   align-items: center;
   gap: var(--space-3);
@@ -28,7 +28,7 @@
   color: var(--color-accent-ink);
 }
 
-.not-found__badge {
+.status-page__badge {
   width: clamp(4rem, 14vw, 7rem);
   aspect-ratio: 1;
   border-radius: 50%;
@@ -39,25 +39,29 @@
   color: var(--color-accent);
 }
 
-.not-found__badge svg {
+.status-page__badge svg {
   width: 55%;
   height: 55%;
 }
 
-.not-found__title {
+.status-page__title {
   font-size: 1.75rem;
 }
 
-.not-found__description {
+.status-page__description {
   margin: 0;
   max-width: 28rem;
   color: var(--color-muted);
 }
 
-.not-found__actions {
+.status-page__actions {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-3);
   justify-content: center;
   margin-top: var(--space-3);
+}
+
+.status-page--compact {
+  min-height: 70svh;
 }

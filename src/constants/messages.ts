@@ -91,6 +91,13 @@ export const NOT_FOUND_COPY = {
   GO_BACK: 'Go back',
 } as const;
 
+export const FORBIDDEN_COPY = {
+  EYEBROW: 'Error 403',
+  TITLE: "You don't have access to this page",
+  DESCRIPTION:
+    "Your account doesn't have permission to view this page. If you think this is a mistake, contact your administrator.",
+} as const;
+
 export const AUTH_COPY = {
   APP_NAME: 'Interview Question Bank',
   BRAND_HEADLINE: 'Every good interview starts with a good question.',
