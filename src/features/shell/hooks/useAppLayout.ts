@@ -1,12 +1,14 @@
 import type { SidebarNavItem } from '@/components';
 import {
   CHANGE_PASSWORD_COPY,
+  PERMISSIONS,
   IMPORT_COPY,
   REVIEW_COPY,
   ROLE_LABELS,
   ROUTES,
   SAVED_COPY,
 } from '@/constants';
+import { usePermissions } from '@/hooks/usePermissions';
 import { useSession } from '@/features/auth';
 import { useReviewNav } from '@/features/review';
 import { useSavedState } from '@/features/saved';
@@ -14,6 +16,8 @@ import { useSavedState } from '@/features/saved';
 export function useAppLayout() {
   const { user, logout } = useSession();
   const { canSubmit, canReview, returnedCount, waitingCount } = useReviewNav();
+  const { hasAnyPermission } = usePermissions();
+  const canReadQuestions = hasAnyPermission([PERMISSIONS.QUESTION_READ]);
   const savedCount = useSavedState().totalSaved;
 
   const items: SidebarNavItem[] = [
@@ -28,13 +32,15 @@ export function useAppLayout() {
       countLabel: REVIEW_COPY.NAV_COUNT(returnedCount),
     });
   }
-  items.push({
-    to: ROUTES.SAVED,
-    label: SAVED_COPY.NAV,
-    icon: 'bookmark',
-    count: savedCount,
-    countLabel: SAVED_COPY.NAV_COUNT(savedCount),
-  });
+  if (canReadQuestions) {
+    items.push({
+      to: ROUTES.SAVED,
+      label: SAVED_COPY.NAV,
+      icon: 'bookmark',
+      count: savedCount,
+      countLabel: SAVED_COPY.NAV_COUNT(savedCount),
+    });
+  }
   if (canReview) {
     items.push({
       to: ROUTES.REVIEW_QUEUE,

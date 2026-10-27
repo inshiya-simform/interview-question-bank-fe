@@ -16,11 +16,11 @@ import type { CollectionPayload } from '../type/collections/shared';
 import type { SavedQuestionListParams } from '../type/collections/saved-questions';
 import { questionListResponseSchema } from '../type/questions/questions-list';
 
-export function useCollectionsQuery(userId: string | undefined) {
+export function useCollectionsQuery(userId: string | undefined, enabled = true) {
   return useQuery({
     queryKey: QUERY_KEYS.COLLECTIONS(userId ?? ''),
     queryFn: getCollections,
-    enabled: Boolean(userId),
+    enabled: Boolean(userId) && enabled,
   });
 }
 

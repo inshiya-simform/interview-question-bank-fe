@@ -6,6 +6,7 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import { ADMIN_USERS_PAGE_SIZE } from '@/constants';
+import { SILENT_ERROR_META } from '../query-meta';
 import { QUERY_KEYS } from '../query-keys';
 import {
   createClient,
@@ -84,6 +85,8 @@ export function useCreateClientMutation() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: createClient,
+    // A 409 (duplicate name) is shown inline on the name field by the form.
+    meta: SILENT_ERROR_META,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEYS.CLIENT_ACCESS_LIST }),
   });
 }

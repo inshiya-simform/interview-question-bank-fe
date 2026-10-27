@@ -17,6 +17,7 @@ export const ICON_PATHS = {
   trash: 'M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14',
   lock: 'M5 11h14v10H5zM8 11V7a4 4 0 0 1 8 0v4',
   logout: 'M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9',
+  notFound: 'M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14M20 20l-3.5-3.5M9 9l4 4M13 9l-4 4',
 } as const;
 
 export type IconName = keyof typeof ICON_PATHS;

@@ -6,6 +6,7 @@ export { LoginForm } from './components/LoginForm';
 export { RegisterForm } from './components/RegisterForm';
 export { ResetLinkNotice } from './components/ResetLinkNotice';
 export { ResetPasswordForm } from './components/ResetPasswordForm';
+export { ForbiddenPage } from './components/ForbiddenPage';
 export { RequireAuth } from './components/RequireAuth';
 export { RequirePermission } from './components/RequirePermission';
 export { useSession } from './hooks/useSession';

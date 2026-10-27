@@ -4,6 +4,7 @@ import {
   COLLECTION_NAME_MAX_LENGTH,
   PASSWORD_MAX_LENGTH,
   PASSWORD_MIN_LENGTH,
+  QUESTION_TEXT_MAX_LENGTH,
   REVIEW_NOTE_MAX_LENGTH,
 } from './validation';
 
@@ -16,6 +17,7 @@ export const MESSAGES = {
   PASSWORDS_DO_NOT_MATCH: 'Passwords do not match',
   PASSWORD_TOO_SHORT: `Password must be at least ${PASSWORD_MIN_LENGTH} characters`,
   PASSWORD_TOO_LONG: `Password must be at most ${PASSWORD_MAX_LENGTH} characters`,
+  PASSWORD_HAS_WHITESPACE: 'Password cannot contain whitespace',
   CURRENT_PASSWORD_REQUIRED: 'Current password is required',
   PASSWORD_CHANGED: 'Password changed',
   PASSWORD_RESET_SUCCESS: 'Password updated. You can now log in.',
@@ -28,6 +30,8 @@ export const MESSAGES = {
   SESSION_EXPIRED: 'Your session has expired, please log in again',
   ERROR_FORBIDDEN: 'You do not have access to this.',
   QUESTION_TEXT_REQUIRED: 'Question text is required',
+  QUESTION_TEXT_TOO_LONG: `Question must be at most ${QUESTION_TEXT_MAX_LENGTH} characters`,
+  QUESTION_TEXT_NO_ALPHANUMERIC: 'Question must contain letters or numbers',
   ANSWER_REQUIRED: 'Answer is required',
   DISTINCT_REASON_REQUIRED: 'Explain why this question is different',
   CATEGORY_REQUIRED: 'Select a category',
@@ -38,6 +42,7 @@ export const MESSAGES = {
   ROLE_REQUIRED: 'Select a role',
   STAFF_ADDED: 'Reviewer added. An email has been sent to them.',
   CLIENT_ADDED: 'Client added',
+  CLIENT_NAME_TAKEN: 'A client with that name already exists',
   CLIENT_ACCESS_UPDATED: 'Client access updated',
   QUESTION_SUBMITTED: 'Submitted for review',
   QUESTION_RESUBMITTED: 'Resubmitted for review',
@@ -75,6 +80,22 @@ export const COMMON_COPY = {
   ERROR_TITLE: 'Something went wrong',
   ERROR_DESCRIPTION: 'An unexpected error occurred. Reloading the page usually fixes it.',
   ERROR_RELOAD: 'Reload page',
+} as const;
+
+export const NOT_FOUND_COPY = {
+  EYEBROW: 'Error 404',
+  TITLE: 'Page not found',
+  DESCRIPTION:
+    "The page you're looking for doesn't exist or may have been moved. Check the address, or head back to the question bank.",
+  GO_HOME: 'Go to home',
+  GO_BACK: 'Go back',
+} as const;
+
+export const FORBIDDEN_COPY = {
+  EYEBROW: 'Error 403',
+  TITLE: "You don't have access to this page",
+  DESCRIPTION:
+    "Your account doesn't have permission to view this page. If you think this is a mistake, contact your administrator.",
 } as const;
 
 export const AUTH_COPY = {

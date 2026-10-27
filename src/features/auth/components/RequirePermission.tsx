@@ -1,8 +1,8 @@
 import { Outlet } from 'react-router-dom';
-import { Alert, Loader } from '@/components';
-import { MESSAGES } from '@/constants';
+import { Loader } from '@/components';
 import type { Permission } from '@/constants';
 import { usePermissions } from '@/hooks/usePermissions';
+import { ForbiddenPage } from './ForbiddenPage';
 
 interface RequirePermissionProps {
   permissions: readonly Permission[];
@@ -13,6 +13,6 @@ export function RequirePermission({ permissions }: RequirePermissionProps) {
   const { hasAnyPermission, isLoading } = usePermissions();
 
   if (isLoading) return <Loader />;
-  if (!hasAnyPermission(permissions)) return <Alert>{MESSAGES.ERROR_FORBIDDEN}</Alert>;
+  if (!hasAnyPermission(permissions)) return <ForbiddenPage />;
   return <Outlet />;
 }
