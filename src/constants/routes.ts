@@ -7,6 +7,7 @@ export const ROUTES = {
   CHANGE_PASSWORD: '/account/password',
   MY_QUESTIONS: '/my-questions',
   SAVED: '/saved',
+  NOTIFICATIONS: '/notifications',
   IMPORT: '/import',
   REVIEW_QUEUE: '/review',
   ADMIN_CLIENTS: '/admin/clients',

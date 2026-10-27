@@ -16,6 +16,11 @@ export const REVIEW_SEARCH_PARAMS = {
   STATUS: 'status',
 } as const;
 
+export const NOTIFICATION_SEARCH_PARAMS = {
+  PAGE: 'page',
+  FILTER: 'filter',
+} as const;
+
 export const ADMIN_SEARCH_PARAMS = {
   PAGE: 'page',
   SEARCH: 'q',

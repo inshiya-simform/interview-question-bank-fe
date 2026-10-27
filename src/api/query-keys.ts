@@ -2,6 +2,7 @@ import type { AdminUsersParams } from './type/admin/users-list';
 import type { AuditLogListParams } from './type/admin/audit-logs';
 import type { ClientAccessListParams } from './type/admin/client-access-list';
 import type { SavedQuestionListParams } from './type/collections/saved-questions';
+import type { NotificationListParams } from './type/notifications/notifications-list';
 import type { CheckDuplicatePayload } from './type/questions/check-duplicate';
 import type { QuestionListParams } from './type/questions/questions-list';
 import type { SubmissionListParams } from './type/reviews/submission-list';
@@ -31,6 +32,9 @@ export const QUERY_KEYS = {
   SAVED_QUESTIONS_LIST: ['collections', 'saved-questions'] as const,
   SAVED_QUESTIONS: (userId: string, params?: SavedQuestionListParams) =>
     ['collections', 'saved-questions', userId, params] as const,
+  NOTIFICATIONS_LIST: ['notifications'] as const,
+  NOTIFICATIONS: (userId: string, params?: NotificationListParams) =>
+    ['notifications', userId, params] as const,
   CLIENTS: (userId: string) => ['clients', userId] as const,
   TAGS: (userId: string) => ['tags', userId] as const,
   ADMIN_USERS_LIST: ['admin', 'users'] as const,

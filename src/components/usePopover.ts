@@ -5,7 +5,17 @@ import type { CSSProperties } from 'react';
 const FLIP_THRESHOLD_PX = 360;
 const GAP_PX = 4;
 
-export function usePopover(isOpen: boolean, onClose: () => void) {
+export type PopoverPlacement = 'below' | 'beside';
+
+// A panel beside its trigger needs this much height from the trigger down before it flips up.
+const BESIDE_FLIP_PX = 560;
+const BESIDE_MARGIN_PX = 16;
+
+export function usePopover(
+  isOpen: boolean,
+  onClose: () => void,
+  placement: PopoverPlacement = 'below',
+) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const onCloseRef = useRef(onClose);
@@ -22,6 +32,17 @@ export function usePopover(isOpen: boolean, onClose: () => void) {
     // Fixed positioning keeps scrolling ancestors from clipping the panel.
     const place = () => {
       const rect = wrapper.getBoundingClientRect();
+      if (placement === 'beside') {
+        // Open to the side so a sidebar trigger doesn't cover the links around it.
+        const width = panelRef.current?.offsetWidth ?? 0;
+        const left = Math.min(rect.right + GAP_PX * 2, window.innerWidth - width - GAP_PX);
+        setPosition(
+          window.innerHeight - rect.top < BESIDE_FLIP_PX
+            ? { left: Math.max(GAP_PX, left), bottom: BESIDE_MARGIN_PX }
+            : { left: Math.max(GAP_PX, left), top: rect.top },
+        );
+        return;
+      }
       const right = window.innerWidth - rect.right;
       setPosition(
         window.innerHeight - rect.bottom < FLIP_THRESHOLD_PX
@@ -51,7 +72,7 @@ export function usePopover(isOpen: boolean, onClose: () => void) {
       document.removeEventListener('pointerdown', handlePointerDown);
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isOpen]);
+  }, [isOpen, placement]);
 
   return { wrapperRef, panelRef, position };
 }

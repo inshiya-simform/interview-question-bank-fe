@@ -1,0 +1,49 @@
+.ntabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Underlined tabs; selection is shown by the underline and heavier text, not colour alone. */
+.ntabs__tab {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 2.625rem;
+  margin-bottom: -1px;
+  padding: 0 var(--space-4);
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--color-muted);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.ntabs__tab:hover {
+  color: var(--color-text);
+}
+
+.ntabs__tab--active,
+.ntabs__tab--active:hover {
+  border-bottom-color: var(--color-accent);
+  color: var(--color-accent-ink);
+  font-weight: 700;
+}
+
+.ntabs__count {
+  padding: 1px var(--space-2);
+  border-radius: 999px;
+  background: var(--color-chip);
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.ntabs__tab--active .ntabs__count {
+  background: var(--color-accent-soft);
+  color: var(--color-accent-ink);
+}
