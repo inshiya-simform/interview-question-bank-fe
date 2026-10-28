@@ -1,5 +1,5 @@
-import { useNotificationsQuery } from '@/api/hooks';
-import { DEFAULT_PAGE, NOTIFICATIONS_PAGE_SIZE } from '@/constants';
+import { useNotificationList as useNotificationListQuery } from '@/api/hooks';
+import { DEFAULT_PAGE, NOTIFICATION_FILTER, NOTIFICATIONS_PAGE_SIZE } from '@/constants';
 import { useSession } from '@/features/auth';
 import { useNotificationActions } from './useNotificationActions';
 import { useNotificationFilters } from './useNotificationFilters';
@@ -8,10 +8,10 @@ export function useNotificationList() {
   const { user } = useSession();
   const { filters, setFilter, setPage } = useNotificationFilters();
   const { openNotification, markAllRead, isMarkingAll } = useNotificationActions();
-  const { data, isPending, isError, refetch } = useNotificationsQuery(user?.id, {
+  const { data, isPending, isError, refetch } = useNotificationListQuery(user?.id, {
     page: filters.page,
     limit: NOTIFICATIONS_PAGE_SIZE,
-    filter: filters.filter,
+    status: filters.filter,
   });
 
   const total = data?.total ?? 0;
@@ -19,8 +19,12 @@ export function useNotificationList() {
 
   return {
     filter: filters.filter,
-    counts: { all: data?.totalAll ?? 0, unread: data?.unreadCount ?? 0 },
-    items: data?.notifications ?? [],
+    // The API reports a total only for the active filter, so the other tab shows no count.
+    counts: {
+      all: filters.filter === NOTIFICATION_FILTER.ALL ? total : undefined,
+      unread: data?.unreadCount ?? 0,
+    },
+    items: data?.items ?? [],
     total,
     page: Math.min(filters.page, totalPages),
     totalPages,

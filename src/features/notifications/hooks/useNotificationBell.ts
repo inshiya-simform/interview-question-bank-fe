@@ -1,5 +1,6 @@
-import { useNavigate } from 'react-router-dom';
-import { useNotificationsQuery } from '@/api/hooks';
+import { useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useNotificationList } from '@/api/hooks';
 import {
   NOTIFICATION_BADGE_MAX,
   NOTIFICATION_COPY,
@@ -15,12 +16,22 @@ export function useNotificationBell() {
   const { user } = useSession();
   const { isOpen, toggle } = useDisclosure();
   const navigate = useNavigate();
-  const { openNotification, markAllRead, isMarkingAll } = useNotificationActions();
-  const { data, isPending, isError, refetch } = useNotificationsQuery(user?.id, {
+  const { pathname, search } = useLocation();
+  const close = () => {
+    if (isOpen) toggle();
+  };
+  const { openNotification, markAllRead, isMarkingAll } = useNotificationActions(close);
+  const { data, isPending, isError, refetch } = useNotificationList(user?.id, {
     page: 1,
     limit: NOTIFICATION_PREVIEW_COUNT,
-    filter: NOTIFICATION_FILTER.ALL,
+    status: NOTIFICATION_FILTER.ALL,
   });
+
+  // Any navigation, including back/forward, dismisses the panel.
+  useEffect(() => {
+    if (isOpen) toggle();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname, search]);
 
   const unreadCount = data?.unreadCount ?? 0;
 
@@ -28,9 +39,7 @@ export function useNotificationBell() {
     isOpen,
     toggle,
     // Popover reports outside clicks and Escape as "close"; it only ever closes while open.
-    close: () => {
-      if (isOpen) toggle();
-    },
+    close,
     // The trigger's accessible name carries the count the badge shows visually.
     label:
       unreadCount > 0
@@ -41,8 +50,8 @@ export function useNotificationBell() {
         ? NOTIFICATION_COPY.BADGE_OVERFLOW(NOTIFICATION_BADGE_MAX)
         : String(unreadCount),
     unreadCount,
-    items: data?.notifications ?? [],
-    total: data?.totalAll ?? 0,
+    items: data?.items ?? [],
+    total: data?.total ?? 0,
     isLoading: isPending,
     isError,
     refetch: () => void refetch(),

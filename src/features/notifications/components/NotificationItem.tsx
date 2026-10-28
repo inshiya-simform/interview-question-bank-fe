@@ -13,8 +13,8 @@ interface NotificationItemProps {
 }
 
 export function NotificationItem({ notification, onOpen, variant }: NotificationItemProps) {
-  const { icon, timeLabel, stateLabel } = useNotificationItem(notification);
-  const isUnread = !notification.isRead;
+  const { title, body, icon, timeLabel, stateLabel } = useNotificationItem(notification);
+  const isUnread = !notification.read;
 
   return (
     <li className="notif-item__row">
@@ -29,9 +29,9 @@ export function NotificationItem({ notification, onOpen, variant }: Notification
         <span className="notif-item__text">
           <span className="notif-item__title">
             <span className="sr-only">{stateLabel}</span>
-            {notification.title}
+            {title}
           </span>
-          <span className="notif-item__body">{notification.body}</span>
+          <span className="notif-item__body">{body}</span>
           <time className="notif-item__time" dateTime={notification.createdAt}>
             {timeLabel}
           </time>

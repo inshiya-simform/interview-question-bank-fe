@@ -1,11 +1,12 @@
 import { Outlet } from 'react-router-dom';
 import { Sidebar } from '@/components';
-import { NotificationBell } from '@/features/notifications';
+import { NotificationBell, useNotificationStream } from '@/features/notifications';
 import { AUTH_COPY, HOME_COPY, REVIEW_COPY, SHELL_COPY } from '@/constants';
 import { useAppLayout } from '../hooks/useAppLayout';
 import './AppLayout.css';
 
 export function AppLayout() {
+  useNotificationStream();
   const { items, userName, userDetail, userTitle, logout } = useAppLayout();
 
   return (

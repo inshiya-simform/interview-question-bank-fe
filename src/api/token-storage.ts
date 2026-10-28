@@ -1,4 +1,4 @@
-import { AUTH_COOKIE, SESSION_EXPIRED_KEY } from '@/constants';
+import { AUTH_COOKIE, AUTH_TOKEN_CHANGE_EVENT, SESSION_EXPIRED_KEY } from '@/constants';
 
 const PREFIX = `${AUTH_COOKIE.NAME}=`;
 
@@ -14,10 +14,12 @@ export function getAuthToken(): string | null {
 
 export function setAuthToken(token: string) {
   document.cookie = buildCookie(token, AUTH_COOKIE.MAX_AGE_SECONDS);
+  window.dispatchEvent(new Event(AUTH_TOKEN_CHANGE_EVENT));
 }
 
 export function clearAuthToken() {
   document.cookie = buildCookie('', 0);
+  window.dispatchEvent(new Event(AUTH_TOKEN_CHANGE_EVENT));
 }
 
 export function markSessionExpired() {

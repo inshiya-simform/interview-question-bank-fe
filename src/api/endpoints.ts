@@ -43,6 +43,13 @@ export const API_ENDPOINTS = {
     SAVED_QUESTIONS: '/collections/saved-questions',
     SAVED_QUESTION: (questionId: string) => `/collections/saved-questions/${questionId}`,
   },
+  NOTIFICATIONS: {
+    LIST: '/notifications',
+    UNREAD_COUNT: '/notifications/unread-count',
+    READ: (id: string) => `/notifications/${id}/read`,
+    READ_ALL: '/notifications/read-all',
+    STREAM: '/notifications/stream',
+  },
   TAGS: {
     BASE: '/tags',
   },
