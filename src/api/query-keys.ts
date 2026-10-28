@@ -34,7 +34,11 @@ export const QUERY_KEYS = {
     ['collections', 'saved-questions', userId, params] as const,
   NOTIFICATIONS_LIST: ['notifications'] as const,
   NOTIFICATIONS: (userId: string, params?: NotificationListParams) =>
-    ['notifications', userId, params] as const,
+    ['notifications', 'list', userId, params] as const,
+  // Prefix of every cached list page for one user, for cache updates from the stream.
+  NOTIFICATION_LISTS: (userId: string) => ['notifications', 'list', userId] as const,
+  NOTIFICATIONS_UNREAD_COUNT: (userId: string) =>
+    ['notifications', 'unread-count', userId] as const,
   CLIENTS: (userId: string) => ['clients', userId] as const,
   TAGS: (userId: string) => ['tags', userId] as const,
   ADMIN_USERS_LIST: ['admin', 'users'] as const,

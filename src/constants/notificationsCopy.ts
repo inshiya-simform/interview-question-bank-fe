@@ -34,3 +34,48 @@ export const NOTIFICATION_COPY = {
   PAGE_NUMBER: (page: number) => `Page ${page}`,
   PAGE_STATUS: (page: number, totalPages: number) => `Page ${page} of ${totalPages}`,
 } as const;
+
+export const NOTIFICATION_MESSAGE_COPY = {
+  UNKNOWN_TITLE: 'New notification',
+  UNKNOWN_BODY: 'You have a new notification.',
+  CLIENT_ACCESS_GRANTED: {
+    title: 'Client access granted',
+    body: (clientName: string) => `You can now view questions for ${clientName}.`,
+  },
+  CLIENT_ACCESS_REVOKED: {
+    title: 'Client access revoked',
+    body: (clientName: string) => `Your access to ${clientName} was removed.`,
+  },
+  QUESTION_APPROVED: {
+    title: 'Your question was approved',
+    titleEdit: 'Your edit was approved',
+    body: (text: string) => `${text} is now live in the bank.`,
+  },
+  QUESTION_CHANGES_REQUESTED: {
+    title: 'Changes requested',
+    body: (reviewerName: string, text: string, note: string) =>
+      `${reviewerName} asked for changes to ${text}. ${note}`,
+  },
+  QUESTION_REJECTED: {
+    title: 'Question rejected',
+    titleEdit: 'Edit rejected',
+    body: (reviewerName: string, text: string, note: string | null) =>
+      `${reviewerName} rejected ${text}.${note ? ` ${note}` : ''}`,
+  },
+  QUESTION_SUBMITTED: {
+    title: 'New question to review',
+    titleEdited: 'Question edited, review needed',
+    titleResubmitted: 'Question resubmitted',
+    body: (submitterName: string, text: string) => `${submitterName}: ${text}`,
+  },
+  CLIENT_QUESTION_ADDED: {
+    title: (clientName: string | null) =>
+      clientName ? `New question for ${clientName}` : 'New client question',
+    body: (text: string) => text,
+  },
+  IMPORT_FINISHED: {
+    title: 'Import finished',
+    body: (count: number) =>
+      `${count} ${count === 1 ? 'question was' : 'questions were'} imported and ${count === 1 ? 'is' : 'are'} waiting for review.`,
+  },
+} as const;

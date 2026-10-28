@@ -6,7 +6,8 @@ import './NotificationTabs.css';
 
 interface NotificationTabsProps {
   active: NotificationFilter;
-  counts: Record<NotificationFilter, number>;
+  // A tab's count is omitted when the API did not report it for the current filter.
+  counts: Partial<Record<NotificationFilter, number>>;
   onChange: (filter: NotificationFilter) => void;
 }
 
@@ -29,7 +30,7 @@ export function NotificationTabs({ active, counts, onChange }: NotificationTabsP
           onKeyDown={(event) => handleKeyDown(event, filter)}
         >
           {NOTIFICATION_COPY.TAB_LABEL[filter]}
-          <span className="ntabs__count">{counts[filter]}</span>
+          {counts[filter] !== undefined && <span className="ntabs__count">{counts[filter]}</span>}
         </button>
       ))}
     </div>
