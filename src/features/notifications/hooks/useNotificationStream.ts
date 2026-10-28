@@ -6,20 +6,20 @@ import { useSession } from '@/features/auth';
 import { useAuthToken } from '@/hooks/useAuthToken';
 import { handleIncomingNotification } from '../liveNotification';
 
-// Opens the live stream while signed in. Re-runs (abort + reconnect) when the user or the token
-// changes, and aborts on logout. Mount once, inside the authenticated layout.
+// Opens the live stream while signed in and aborts on logout. Re-runs only when the user or the
+// signed-in state changes, not on every token refresh: the stream picks up the current token
+// itself each time it reconnects. Mount once, inside the authenticated layout.
 export function useNotificationStream() {
   const queryClient = useQueryClient();
   const { user } = useSession();
-  const token = useAuthToken();
+  const isSignedIn = useAuthToken() !== null;
   const userId = user?.id;
 
   useEffect(() => {
-    if (!userId || !token) return;
+    if (!userId || !isSignedIn) return;
     const controller = new AbortController();
 
     void connectNotificationStream({
-      token,
       signal: controller.signal,
       // Events missed while disconnected are not replayed, so resync on every (re)connect.
       onReady: () => {
@@ -36,5 +36,5 @@ export function useNotificationStream() {
     });
 
     return () => controller.abort();
-  }, [queryClient, userId, token]);
+  }, [queryClient, userId, isSignedIn]);
 }

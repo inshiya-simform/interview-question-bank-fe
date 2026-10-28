@@ -7,7 +7,11 @@ export const changePasswordSchema = passwordFieldsSchema
   .extend({ currentPassword: z.string().min(1, MESSAGES.CURRENT_PASSWORD_REQUIRED) })
   .refine(passwordsMatch.check, passwordsMatch.params);
 
-export const changePasswordResponseSchema = z.object({ token: z.string(), message: z.string() });
+export const changePasswordResponseSchema = z.object({
+  token: z.string(),
+  refreshToken: z.string(),
+  message: z.string(),
+});
 
 export type ChangePasswordPayload = z.infer<typeof changePasswordSchema>;
 export type ChangePasswordResponse = z.infer<typeof changePasswordResponseSchema>;

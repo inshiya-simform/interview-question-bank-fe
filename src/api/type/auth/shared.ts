@@ -13,6 +13,7 @@ export const sessionUserSchema = z.object({
 export const authResponseSchema = z.object({
   user: sessionUserSchema,
   token: z.string(),
+  refreshToken: z.string(),
 });
 
 export type AuthResponse = z.infer<typeof authResponseSchema>;

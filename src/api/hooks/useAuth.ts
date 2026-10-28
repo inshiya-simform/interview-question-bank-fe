@@ -7,11 +7,12 @@ import {
   getCurrentUser,
   getUserPermissions,
   login,
+  logout,
   register,
   resetPassword,
   verifyResetToken,
 } from '../service/auth.service';
-import { clearAuthToken, setAuthToken } from '../token-storage';
+import { clearAuthToken, setAuthTokens } from '../token-storage';
 
 export function useCurrentUserQuery(enabled: boolean) {
   return useQuery({
@@ -32,9 +33,9 @@ export function useUserPermissionsQuery(enabled: boolean) {
 // Drop any cache from a previous session before the new token takes effect.
 function useStoreSession() {
   const queryClient = useQueryClient();
-  return ({ token }: { token: string }) => {
+  return (tokens: { token: string; refreshToken: string }) => {
     queryClient.clear();
-    setAuthToken(token);
+    setAuthTokens(tokens);
   };
 }
 
@@ -78,12 +79,17 @@ export function useResetPasswordMutation() {
   });
 }
 
-// The old token is revoked by the change, so the returned one must be stored before any further
-// request. The user and cache stay: this is still the same person on this device.
+// The change revokes every session, this one included, so the returned pair must be stored before
+// any further request. The user and cache stay: this is still the same person on this device.
 export function useChangePasswordMutation() {
   return useMutation({
     mutationFn: changePassword,
     meta: SILENT_ERROR_META,
-    onSuccess: ({ token }) => setAuthToken(token),
+    onSuccess: ({ token, refreshToken }) => setAuthTokens({ token, refreshToken }),
   });
+}
+
+// Revokes the session server-side; failures are ignored because the caller signs out regardless.
+export function useLogoutMutation() {
+  return useMutation({ mutationFn: logout, meta: SILENT_ERROR_META });
 }

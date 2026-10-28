@@ -48,6 +48,9 @@ export const NOTIFICATION_STREAM_BACKOFF = {
   FACTOR: 2,
 } as const;
 
+// The stream is closed by the server whenever the access token expires, so reconnecting is routine.
+export const NOTIFICATION_STREAM_RECONNECT_MS = 250;
+
 export const NOTIFICATION_STREAM_EVENT = {
   READY: 'ready',
   NOTIFICATION: 'notification',
