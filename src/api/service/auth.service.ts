@@ -1,3 +1,4 @@
+import { LOGOUT_REQUEST_TIMEOUT_MS } from '@/constants';
 import { apiClient } from '../client';
 import { API_ENDPOINTS } from '../endpoints';
 import { changePasswordResponseSchema, changePasswordSchema } from '../type/auth/change-password';
@@ -16,6 +17,8 @@ import {
 import type { ResetPasswordPayload, VerifyResetTokenResponse } from '../type/auth/reset-password';
 import { loginSchema } from '../type/auth/login';
 import type { LoginPayload } from '../type/auth/login';
+import { refreshTokenPayloadSchema } from '../type/auth/refresh';
+import type { RefreshTokenPayload } from '../type/auth/refresh';
 import { registerSchema } from '../type/auth/register';
 import type { RegisterPayload } from '../type/auth/register';
 import { authResponseSchema } from '../type/auth/shared';
@@ -29,6 +32,16 @@ export async function register(payload: RegisterPayload): Promise<AuthResponse> 
 export async function login(payload: LoginPayload): Promise<AuthResponse> {
   const { data } = await apiClient.post(API_ENDPOINTS.AUTH.LOGIN, loginSchema.parse(payload));
   return authResponseSchema.parse(data);
+}
+
+// The backend always answers 200 and revokes that session; callers ignore failures.
+export async function logout(payload: RefreshTokenPayload): Promise<MessageResponse> {
+  const { data } = await apiClient.post(
+    API_ENDPOINTS.AUTH.LOGOUT,
+    refreshTokenPayloadSchema.parse(payload),
+    { timeout: LOGOUT_REQUEST_TIMEOUT_MS },
+  );
+  return messageResponseSchema.parse(data);
 }
 
 export async function getCurrentUser(): Promise<CurrentUser> {
