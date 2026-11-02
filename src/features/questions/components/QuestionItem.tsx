@@ -1,11 +1,11 @@
 import type { ReactNode } from 'react';
-import { Badge, RichTextContent } from '@/components';
-import { QUESTIONS_COPY } from '@/constants';
-import { cn } from '@/utils/cn';
+import { Link } from 'react-router-dom';
 import type { Question } from '@/api';
+import { QUESTIONS_COPY, questionDetailPath } from '@/constants';
 import { ReviewStatusChip } from '@/features/review';
-import { useQuestionItem } from '../hooks/useQuestionItem';
+import { useQuestionAccess } from '../hooks/useQuestionAccess';
 import { EditQuestionButton } from './EditQuestionButton';
+import { QuestionBadges } from './QuestionBadges';
 import './QuestionItem.css';
 
 interface QuestionItemProps {
@@ -17,23 +17,15 @@ interface QuestionItemProps {
 }
 
 export function QuestionItem({ question, onEdit, actions }: QuestionItemProps) {
-  const { isOpen, toggle, triggerId, panelId, canEdit, reviewChip } = useQuestionItem(question);
+  const { canEdit, reviewChip } = useQuestionAccess(question);
 
   return (
-    <li className={cn('qitem', isOpen && 'qitem--open')}>
+    <li className="qitem">
       <div className="qitem__top">
         <h3 className="qitem__heading">
-          <button
-            type="button"
-            id={triggerId}
-            className="qitem__trigger"
-            aria-expanded={isOpen}
-            aria-controls={panelId}
-            onClick={toggle}
-          >
-            <span className="qitem__text">{question.text}</span>
-            <span className="qitem__chevron" aria-hidden="true" />
-          </button>
+          <Link to={questionDetailPath(question.id)} className="qitem__link">
+            {question.text}
+          </Link>
         </h3>
         {reviewChip && <ReviewStatusChip status={reviewChip.status} isEdit={reviewChip.isEdit} />}
         {actions}
@@ -47,31 +39,7 @@ export function QuestionItem({ question, onEdit, actions }: QuestionItemProps) {
           </EditQuestionButton>
         )}
       </div>
-      <ul className="qitem__badges" aria-label={QUESTIONS_COPY.FIELD_CATEGORIES}>
-        {Object.entries(question.tags).map(([category, tags]) => (
-          <li key={category} className="qitem__group">
-            <Badge variant="category">{category}</Badge>
-            {tags.length > 0 && <span aria-hidden="true">›</span>}
-            {tags.map((tag) => (
-              <Badge key={tag} variant="tag">
-                {tag}
-              </Badge>
-            ))}
-          </li>
-        ))}
-        {question.client && (
-          <li>
-            <Badge variant="client">{question.client.name}</Badge>
-          </li>
-        )}
-      </ul>
-      <div id={panelId} role="region" aria-labelledby={triggerId} hidden={!isOpen}>
-        {question.answerNotes ? (
-          <RichTextContent className="qitem__answer" html={question.answerNotes} />
-        ) : (
-          <p className="qitem__answer">{QUESTIONS_COPY.NO_ANSWER}</p>
-        )}
-      </div>
+      <QuestionBadges question={question} className="qitem__badges" />
     </li>
   );
 }

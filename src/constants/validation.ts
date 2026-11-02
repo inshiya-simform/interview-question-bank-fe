@@ -4,3 +4,4 @@ export const NAME_MAX_LENGTH = 100;
 export const COLLECTION_NAME_MAX_LENGTH = 60;
 export const REVIEW_NOTE_MAX_LENGTH = 1000;
 export const QUESTION_TEXT_MAX_LENGTH = 2000;
+export const COMMENT_MAX_LENGTH = 2000;

@@ -1,0 +1,22 @@
+.cthread {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5) 0 var(--space-2);
+  border-top: 1px solid var(--color-border);
+}
+
+.cthread__replies {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin: 0 0 0 calc(1.125rem - 1px);
+  padding: 0 0 0 var(--space-4);
+  border-left: 2px solid var(--color-border);
+  list-style: none;
+}
+
+.cthread__composer {
+  margin-left: calc(1.125rem - 1px);
+  padding-left: var(--space-4);
+}

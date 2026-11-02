@@ -23,6 +23,10 @@ export const ICON_PATHS = {
   lock: 'M5 11h14v10H5zM8 11V7a4 4 0 0 1 8 0v4',
   logout: 'M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9',
   notFound: 'M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14M20 20l-3.5-3.5M9 9l4 4M13 9l-4 4',
+  arrowUp: 'M12 4l8 9h-5v7H9v-7H4z',
+  arrowDown: 'M12 20l-8-9h5V4h6v7h5z',
+  reply: 'M9 14L4 9l5-5M20 20v-7a4 4 0 0 0-4-4H4',
+  comment: 'M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z',
 } as const;
 
 export type IconName = keyof typeof ICON_PATHS;

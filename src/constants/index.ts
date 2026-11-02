@@ -1,5 +1,6 @@
 export * from './auditLog';
 export * from './authSession';
+export * from './discussionCopy';
 export * from './duplicateCheck';
 export * from './http';
 export * from './importCopy';

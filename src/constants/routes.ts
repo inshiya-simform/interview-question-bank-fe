@@ -7,6 +7,7 @@ export const ROUTES = {
   CHANGE_PASSWORD: '/account/password',
   MY_QUESTIONS: '/my-questions',
   SAVED: '/saved',
+  QUESTION_DETAIL: '/questions/:questionId',
   NOTIFICATIONS: '/notifications',
   IMPORT: '/import',
   REVIEW_QUEUE: '/review',
@@ -18,6 +19,10 @@ export const ROUTES = {
 } as const;
 
 export const CLIENT_ID_PARAM = 'clientId';
+export const QUESTION_ID_PARAM = 'questionId';
 
 export const clientFolderPath = (clientId: string): string =>
   `${ROUTES.ADMIN_CLIENTS}/${encodeURIComponent(clientId)}`;
+
+export const questionDetailPath = (questionId: string): string =>
+  `/questions/${encodeURIComponent(questionId)}`;

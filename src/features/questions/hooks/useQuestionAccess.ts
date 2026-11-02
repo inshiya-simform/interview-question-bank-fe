@@ -1,21 +1,16 @@
-import { useId } from 'react';
 import type { Question } from '@/api';
-import { useSession } from '@/features/auth';
-import { useDisclosure } from '@/hooks/useDisclosure';
-import { usePermissions } from '@/hooks/usePermissions';
 import { REVIEW_STATUS } from '@/constants';
+import { useSession } from '@/features/auth';
+import { usePermissions } from '@/hooks/usePermissions';
 import { canEditQuestion } from '@/utils/permissions';
 
-export function useQuestionItem(question: Question) {
-  const { isOpen, toggle } = useDisclosure();
+// What the viewer may do with a question and which review chip it carries, shared by the list
+// card and the detail page.
+export function useQuestionAccess(question: Question) {
   const { user } = useSession();
   const { permissions } = usePermissions();
-  const id = useId();
+
   return {
-    isOpen,
-    toggle,
-    triggerId: id,
-    panelId: `${id}-panel`,
     canEdit: canEditQuestion(user, permissions, question),
     // Live questions with no pending work carry no chip; others never receive `review`.
     reviewChip:
