@@ -46,3 +46,6 @@ export const LazyAuditLogsPage = lazy(() =>
 export const LazyNotFoundPage = lazy(() =>
   import('./NotFoundPage').then((m) => ({ default: m.NotFoundPage })),
 );
+export const LazyQuestionDetailPage = lazy(() =>
+  import('./QuestionDetailPage').then((m) => ({ default: m.QuestionDetailPage })),
+);

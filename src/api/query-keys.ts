@@ -39,6 +39,14 @@ export const QUERY_KEYS = {
   NOTIFICATION_LISTS: (userId: string) => ['notifications', 'list', userId] as const,
   NOTIFICATIONS_UNREAD_COUNT: (userId: string) =>
     ['notifications', 'unread-count', userId] as const,
+  // Discussion and related questions run on mock services for now; the keys already carry every
+  // input that changes the result so the real API can slot in without touching callers.
+  COMMENTS_LIST: ['comments'] as const,
+  COMMENTS: (userId: string, questionId: string, sort: string) =>
+    ['comments', userId, questionId, sort] as const,
+  MENTIONABLE_USERS: (userId: string) => ['mentionable-users', userId] as const,
+  RELATED_QUESTIONS: (userId: string, questionId: string) =>
+    ['related-questions', userId, questionId] as const,
   CLIENTS: (userId: string) => ['clients', userId] as const,
   TAGS: (userId: string) => ['tags', userId] as const,
   ADMIN_USERS_LIST: ['admin', 'users'] as const,

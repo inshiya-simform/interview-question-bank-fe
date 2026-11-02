@@ -2,6 +2,7 @@ import { QUESTION_HISTORY_ACTION, REVIEW_STATUS } from './reviewStatus';
 import type { ReviewStatus } from './reviewStatus';
 import {
   COLLECTION_NAME_MAX_LENGTH,
+  COMMENT_MAX_LENGTH,
   PASSWORD_MAX_LENGTH,
   PASSWORD_MIN_LENGTH,
   QUESTION_TEXT_MAX_LENGTH,
@@ -32,6 +33,8 @@ export const MESSAGES = {
   QUESTION_TEXT_REQUIRED: 'Question text is required',
   QUESTION_TEXT_TOO_LONG: `Question must be at most ${QUESTION_TEXT_MAX_LENGTH} characters`,
   QUESTION_TEXT_NO_ALPHANUMERIC: 'Question must contain letters or numbers',
+  COMMENT_REQUIRED: 'Write a comment first',
+  COMMENT_TOO_LONG: `Comment must be at most ${COMMENT_MAX_LENGTH} characters`,
   ANSWER_REQUIRED: 'Answer is required',
   DISTINCT_REASON_REQUIRED: 'Explain why this question is different',
   CATEGORY_REQUIRED: 'Select a category',

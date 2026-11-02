@@ -1,0 +1,16 @@
+.cbody {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.cbody__mention {
+  padding: 0 var(--space-1);
+  border-radius: var(--radius-sm);
+  background: var(--badge-tag-bg);
+  color: var(--badge-tag-fg);
+  font-weight: 600;
+}

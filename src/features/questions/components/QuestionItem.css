@@ -6,7 +6,7 @@
   box-shadow: var(--shadow-sm);
 }
 
-.qitem--open {
+.qitem:hover {
   border-color: var(--color-border-strong);
 }
 
@@ -23,59 +23,18 @@
   font-size: 0.9375rem;
 }
 
-.qitem__trigger {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-4);
-  width: 100%;
-  padding: 0;
-  border: 0;
-  background: transparent;
+.qitem__link {
   color: var(--color-text);
-  font: inherit;
   font-weight: 600;
   line-height: 1.45;
-  text-align: left;
-  cursor: pointer;
+  text-decoration: none;
 }
 
-.qitem__chevron {
-  flex: none;
-  width: 0.5rem;
-  height: 0.5rem;
-  border-right: 2px solid var(--color-muted);
-  border-bottom: 2px solid var(--color-muted);
-  transform: rotate(45deg);
-  transition: transform 0.15s;
-}
-
-.qitem--open .qitem__chevron {
-  transform: rotate(-135deg);
+.qitem__link:hover {
+  color: var(--color-accent-hover);
+  text-decoration: underline;
 }
 
 .qitem__badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  margin: var(--space-3) 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.qitem__answer {
-  margin: var(--space-4) 0 0;
-  padding-top: var(--space-4);
-  border-top: 1px solid var(--color-border);
-  color: var(--color-text-secondary);
-  font-size: 0.875rem;
-  line-height: 1.65;
-}
-
-.qitem__group {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-2);
-  color: var(--color-muted);
+  margin-top: var(--space-3);
 }
