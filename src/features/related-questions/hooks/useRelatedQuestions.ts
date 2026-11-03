@@ -1,20 +1,24 @@
-import { useQuery } from '@tanstack/react-query';
-import type { Question } from '@/api';
+import { useEffect } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { useRelatedQuestionsQuery } from '@/api/hooks';
+import { isNotFoundError } from '@/api/errors';
 import { QUERY_KEYS } from '@/api/query-keys';
 import { useSession } from '@/features/auth';
-import { getRelatedQuestions } from '../mock/relatedMock';
 
-// Wraps the mock service the way api/hooks will wrap the real one.
-export function useRelatedQuestions(question: Pick<Question, 'id' | 'tags'>) {
+export function useRelatedQuestions(questionId: string) {
+  const queryClient = useQueryClient();
   const { user } = useSession();
-  const query = useQuery({
-    queryKey: QUERY_KEYS.RELATED_QUESTIONS(user?.id ?? '', question.id),
-    queryFn: () => getRelatedQuestions(Object.values(question.tags).flat()),
-    enabled: Boolean(user),
-  });
+  const query = useRelatedQuestionsQuery(user?.id, questionId);
+
+  // The question page owns the not-found state; refetching the question flips it there.
+  const isNotFound = isNotFoundError(query.error);
+  useEffect(() => {
+    if (!isNotFound || !user) return;
+    void queryClient.invalidateQueries({ queryKey: QUERY_KEYS.QUESTION_ITEM(user.id, questionId) });
+  }, [isNotFound, user, questionId, queryClient]);
 
   return {
-    related: query.data ?? [],
+    related: query.data?.items ?? [],
     isLoading: query.isPending,
     isError: query.isError,
     hasData: query.data !== undefined,

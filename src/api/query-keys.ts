@@ -50,7 +50,6 @@ export const QUERY_KEYS = {
     ['comment-replies', userId, questionId, commentId] as const,
   MENTIONABLE_USERS: (userId: string, questionId: string, search: string) =>
     ['mentionable-users', userId, questionId, search] as const,
-  // Related questions still run on a mock service.
   RELATED_QUESTIONS: (userId: string, questionId: string) =>
     ['related-questions', userId, questionId] as const,
   CLIENTS: (userId: string) => ['clients', userId] as const,

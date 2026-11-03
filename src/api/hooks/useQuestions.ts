@@ -11,6 +11,7 @@ import {
   getQuestion,
   getQuestionCounts,
   getQuestionHistory,
+  getRelatedQuestions,
   getSubmissions,
   getQuestions,
   getReviewState,
@@ -103,6 +104,14 @@ export function useQuestionHistoryQuery(userId: string | undefined, id: string |
   return useQuery({
     queryKey: QUERY_KEYS.QUESTION_HISTORY(userId ?? '', id ?? ''),
     queryFn: () => getQuestionHistory(id ?? ''),
+    enabled: Boolean(userId) && id !== null,
+  });
+}
+
+export function useRelatedQuestionsQuery(userId: string | undefined, id: string | null) {
+  return useQuery({
+    queryKey: QUERY_KEYS.RELATED_QUESTIONS(userId ?? '', id ?? ''),
+    queryFn: () => getRelatedQuestions(id ?? ''),
     enabled: Boolean(userId) && id !== null,
   });
 }
