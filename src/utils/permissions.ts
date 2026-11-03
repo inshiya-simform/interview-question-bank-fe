@@ -18,3 +18,13 @@ export function canEditQuestion(
 export function canReviewQuestion(user: Pick<CurrentUser, 'role'> | undefined): boolean {
   return user?.role === ROLES.REVIEWER;
 }
+
+// Cosmetic gating only: mirrors the API, which serves history to the author and to reviewers.
+export function canViewQuestionHistory(
+  user: Pick<CurrentUser, 'id'> | undefined,
+  permissions: readonly string[],
+  question: Pick<Question, 'authorId'>,
+): boolean {
+  if (!user) return false;
+  return user.id === question.authorId || permissions.includes(PERMISSIONS.QUESTION_REVIEW);
+}
