@@ -55,6 +55,7 @@ export * from './type/questions/create-question';
 export * from './type/questions/duplicate-conflict';
 export * from './type/questions/export-questions';
 export * from './type/questions/questions-list';
+export * from './type/questions/related-questions';
 export * from './type/questions/shared';
 export * from './type/questions/update-question';
 export * from './type/reviews/bulk-decision';

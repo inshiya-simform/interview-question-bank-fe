@@ -22,6 +22,8 @@ import {
   questionListParamsSchema,
   questionListResponseSchema,
 } from '../type/questions/questions-list';
+import { relatedQuestionsResponseSchema } from '../type/questions/related-questions';
+import type { RelatedQuestionsResponse } from '../type/questions/related-questions';
 import { questionSchema } from '../type/questions/shared';
 import { questionCountsResponseSchema } from '../type/reviews/question-counts';
 import type { QuestionCountsResponse } from '../type/reviews/question-counts';
@@ -156,6 +158,11 @@ export async function getSubmissions(
 export async function getQuestionHistory(id: string): Promise<QuestionHistoryResponse> {
   const { data } = await apiClient.get(API_ENDPOINTS.QUESTIONS.HISTORY(id));
   return questionHistoryResponseSchema.parse(data);
+}
+
+export async function getRelatedQuestions(id: string): Promise<RelatedQuestionsResponse> {
+  const { data } = await apiClient.get(API_ENDPOINTS.QUESTIONS.RELATED(id));
+  return relatedQuestionsResponseSchema.parse(data);
 }
 
 export async function approveQuestion(

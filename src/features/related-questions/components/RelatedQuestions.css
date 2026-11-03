@@ -61,14 +61,6 @@
   font-size: 0.75rem;
 }
 
-.related__shared {
-  padding: 1px var(--space-2);
-  border-radius: var(--radius-sm);
-  background: var(--badge-tag-bg);
-  color: var(--badge-tag-fg);
-  font-weight: 700;
-}
-
 .related__comments {
   display: inline-flex;
   align-items: center;
@@ -92,4 +84,30 @@
 .related__empty {
   margin: 0;
   color: var(--color-muted);
+}
+
+.related__skeleton-row {
+  pointer-events: none;
+}
+
+.related__skeleton-line {
+  height: 0.75rem;
+  border-radius: var(--radius-md);
+  background: var(--color-chip);
+}
+
+.related__skeleton-line--short {
+  width: 40%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .related__skeleton-line {
+    animation: related-pulse 1.4s ease-in-out infinite;
+  }
+}
+
+@keyframes related-pulse {
+  50% {
+    opacity: 0.5;
+  }
 }

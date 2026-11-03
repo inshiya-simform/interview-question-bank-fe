@@ -1,16 +1,17 @@
-import { Link } from 'react-router-dom';
 import type { Question } from '@/api';
-import { Alert, Button, Icon, Loader } from '@/components';
-import { RELATED_COPY, questionDetailPath } from '@/constants';
+import { Alert, Button } from '@/components';
+import { RELATED_COPY } from '@/constants';
 import { useRelatedQuestions } from '../hooks/useRelatedQuestions';
+import { RelatedQuestionItem } from './RelatedQuestionItem';
+import { RelatedQuestionsSkeleton } from './RelatedQuestionsSkeleton';
 import './RelatedQuestions.css';
 
 interface RelatedQuestionsProps {
-  question: Pick<Question, 'id' | 'tags'>;
+  question: Pick<Question, 'id'>;
 }
 
 export function RelatedQuestions({ question }: RelatedQuestionsProps) {
-  const { related, isLoading, isError, hasData, refetch } = useRelatedQuestions(question);
+  const { related, isLoading, isError, hasData, refetch } = useRelatedQuestions(question.id);
 
   return (
     <section className="related" aria-labelledby="related-title">
@@ -20,7 +21,7 @@ export function RelatedQuestions({ question }: RelatedQuestionsProps) {
         </h2>
         <p className="related__subtitle">{RELATED_COPY.SUBTITLE}</p>
       </header>
-      {isLoading && <Loader label={RELATED_COPY.LOADING} />}
+      {isLoading && <RelatedQuestionsSkeleton />}
       {isError && !hasData && (
         <div className="related__state">
           <Alert>{RELATED_COPY.LOAD_ERROR}</Alert>
@@ -34,19 +35,7 @@ export function RelatedQuestions({ question }: RelatedQuestionsProps) {
         <ol className="related__list">
           {related.map((item) => (
             <li key={item.id}>
-              <Link to={questionDetailPath(item.id)} className="related__item">
-                <span className="related__text">{item.text}</span>
-                <span className="related__meta">
-                  <span className="related__shared">
-                    {RELATED_COPY.SHARED_TAGS(item.sharedTags.length)}
-                  </span>
-                  <span>{item.sharedTags.join(', ')}</span>
-                </span>
-                <span className="related__comments">
-                  <Icon name="comment" size={13} />
-                  {RELATED_COPY.COMMENT_COUNT(item.commentCount)}
-                </span>
-              </Link>
+              <RelatedQuestionItem item={item} />
             </li>
           ))}
         </ol>

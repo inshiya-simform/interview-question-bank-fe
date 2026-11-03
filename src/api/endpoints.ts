@@ -21,6 +21,7 @@ export const API_ENDPOINTS = {
     COUNTS: '/questions/counts',
     SUBMISSIONS: '/questions/submissions',
     HISTORY: (id: string) => `/questions/${id}/history`,
+    RELATED: (id: string) => `/questions/${id}/related`,
     APPROVE: (id: string) => `/questions/${id}/approve`,
     REQUEST_CHANGES: (id: string) => `/questions/${id}/request-changes`,
     REJECT: (id: string) => `/questions/${id}/reject`,
