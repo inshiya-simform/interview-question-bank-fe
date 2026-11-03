@@ -43,3 +43,7 @@ export function extractErrorMessage(status: number, body: unknown): string {
 export function getErrorMessage(error: unknown): string {
   return error instanceof ApiError ? error.message : MESSAGES.ERROR_UNKNOWN;
 }
+
+export function isNotFoundError(error: unknown): boolean {
+  return error instanceof ApiError && error.status === HTTP_STATUS.NOT_FOUND;
+}

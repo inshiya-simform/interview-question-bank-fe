@@ -6,6 +6,7 @@ import { QuestionDetail, QuestionDrawer } from '@/features/questions';
 import { RelatedQuestions } from '@/features/related-questions';
 import { QuestionHistory } from '@/features/review';
 import { SaveQuestionButton } from '@/features/saved';
+import { NotFoundPage } from './NotFoundPage';
 import { useQuestionDetailPage } from './useQuestionDetailPage';
 import './QuestionDetailPage.css';
 
@@ -13,6 +14,7 @@ export function QuestionDetailPage() {
   const {
     questionId,
     question,
+    isNotFound,
     isLoading,
     isError,
     refetch,
@@ -23,6 +25,8 @@ export function QuestionDetailPage() {
     closeDrawer,
     saveQuestion,
   } = useQuestionDetailPage();
+
+  if (isNotFound) return <NotFoundPage />;
 
   return (
     <div className="qpage">

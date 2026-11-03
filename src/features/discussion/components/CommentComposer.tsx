@@ -1,36 +1,50 @@
+import type { CommentPerson } from '@/api';
 import { Button, TextAreaField } from '@/components';
 import { DISCUSSION_COPY } from '@/constants';
+import { cn } from '@/utils/cn';
 import { useCommentComposer } from '../hooks/useCommentComposer';
-import type { CommentInput, MentionUser } from '../schema';
+import type { CommentInput, SubmitCallbacks } from '../schema';
 import { MentionMenu } from './MentionMenu';
 import './CommentComposer.css';
 
 interface CommentComposerProps {
-  users: readonly MentionUser[];
+  questionId: string;
   label: string;
   placeholder: string;
   submitLabel: string;
   isPending: boolean;
-  onSubmit: (input: CommentInput, onSuccess: () => void) => void;
+  onSubmit: (input: CommentInput, callbacks: SubmitCallbacks) => void;
   initialValue?: string;
+  initialMentions?: readonly CommentPerson[];
+  original?: CommentInput;
   hint?: string;
   autoFocus?: boolean;
   onCancel?: () => void;
 }
 
 export function CommentComposer({
-  users,
+  questionId,
   label,
   placeholder,
   submitLabel,
   isPending,
   onSubmit,
   initialValue = '',
+  initialMentions = [],
+  original,
   hint,
   autoFocus = false,
   onCancel,
 }: CommentComposerProps) {
-  const composer = useCommentComposer({ users, initialValue, autoFocus, isPending, onSubmit });
+  const composer = useCommentComposer({
+    questionId,
+    initialValue,
+    initialMentions,
+    original,
+    autoFocus,
+    isPending,
+    onSubmit,
+  });
 
   return (
     <form className="ccomposer" onSubmit={composer.submit} noValidate>
@@ -57,6 +71,7 @@ export function CommentComposer({
           <MentionMenu
             listId={composer.listId}
             users={composer.suggestions}
+            isSearching={composer.isSearching && !composer.hasResults}
             activeIndex={composer.activeIndex}
             onPick={composer.pick}
           />
@@ -64,6 +79,17 @@ export function CommentComposer({
       </div>
       <div className="ccomposer__actions">
         {hint && <p className="ccomposer__hint">{hint}</p>}
+        {composer.counter && (
+          <p
+            className={cn(
+              'ccomposer__counter',
+              composer.counter.isOver && 'ccomposer__counter--over',
+            )}
+            aria-live="polite"
+          >
+            {composer.counter.label}
+          </p>
+        )}
         {onCancel && (
           <Button variant="secondary" onClick={onCancel}>
             {DISCUSSION_COPY.CANCEL}

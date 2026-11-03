@@ -1,3 +1,4 @@
+import type { CommentSort } from '@/constants';
 import type { AdminUsersParams } from './type/admin/users-list';
 import type { AuditLogListParams } from './type/admin/audit-logs';
 import type { ClientAccessListParams } from './type/admin/client-access-list';
@@ -39,12 +40,17 @@ export const QUERY_KEYS = {
   NOTIFICATION_LISTS: (userId: string) => ['notifications', 'list', userId] as const,
   NOTIFICATIONS_UNREAD_COUNT: (userId: string) =>
     ['notifications', 'unread-count', userId] as const,
-  // Discussion and related questions run on mock services for now; the keys already carry every
-  // input that changes the result so the real API can slot in without touching callers.
+  // Infinite list of threads; every page of one sort shares this key.
   COMMENTS_LIST: ['comments'] as const,
-  COMMENTS: (userId: string, questionId: string, sort: string) =>
+  COMMENTS: (userId: string, questionId: string, sort: CommentSort) =>
     ['comments', userId, questionId, sort] as const,
-  MENTIONABLE_USERS: (userId: string) => ['mentionable-users', userId] as const,
+  // Replies loaded beyond a thread's preview; one infinite query per thread.
+  REPLIES_LIST: ['comment-replies'] as const,
+  REPLIES: (userId: string, questionId: string, commentId: string) =>
+    ['comment-replies', userId, questionId, commentId] as const,
+  MENTIONABLE_USERS: (userId: string, questionId: string, search: string) =>
+    ['mentionable-users', userId, questionId, search] as const,
+  // Related questions still run on a mock service.
   RELATED_QUESTIONS: (userId: string, questionId: string) =>
     ['related-questions', userId, questionId] as const,
   CLIENTS: (userId: string) => ['clients', userId] as const,

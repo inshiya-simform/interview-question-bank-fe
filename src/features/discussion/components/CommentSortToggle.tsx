@@ -1,7 +1,7 @@
 import { DISCUSSION_COPY } from '@/constants';
+import type { CommentSort } from '@/constants';
 import { cn } from '@/utils/cn';
 import { COMMENT_SORT_OPTIONS } from '../constants';
-import type { CommentSort } from '../constants';
 import './CommentSortToggle.css';
 
 interface CommentSortToggleProps {

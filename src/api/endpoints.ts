@@ -28,6 +28,12 @@ export const API_ENDPOINTS = {
     REVIEW_LOCK: (id: string) => `/questions/${id}/review-lock`,
     BULK_APPROVE: '/questions/bulk/approve',
     BULK_REJECT: '/questions/bulk/reject',
+    COMMENTS: (id: string) => `/questions/${id}/comments`,
+    COMMENT: (id: string, commentId: string) => `/questions/${id}/comments/${commentId}`,
+    COMMENT_REPLIES: (id: string, commentId: string) =>
+      `/questions/${id}/comments/${commentId}/replies`,
+    COMMENT_VOTE: (id: string, commentId: string) => `/questions/${id}/comments/${commentId}/vote`,
+    MENTIONABLE_USERS: (id: string) => `/questions/${id}/mentionable-users`,
   },
   CLIENTS: {
     BASE: '/clients',

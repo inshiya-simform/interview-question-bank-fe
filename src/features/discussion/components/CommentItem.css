@@ -1,5 +1,6 @@
 .citem {
   display: flex;
+  scroll-margin-top: var(--space-5);
   align-items: flex-start;
   gap: var(--space-3);
 }
@@ -36,7 +37,7 @@
   gap: var(--space-2);
 }
 
-.citem__reply {
+.citem__action {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
@@ -52,7 +53,27 @@
   cursor: pointer;
 }
 
-.citem__reply:hover {
+.citem__action:hover {
   background: var(--color-hover);
   color: var(--color-text);
+}
+
+/* A deep link from a notification focuses the comment it points at. */
+.citem:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: var(--space-2);
+  border-radius: var(--radius-md);
+}
+
+.citem__deleted {
+  margin: 0;
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+.citem__modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
 }

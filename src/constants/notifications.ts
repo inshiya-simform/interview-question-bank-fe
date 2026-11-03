@@ -7,6 +7,7 @@ export const NOTIFICATION_TYPE = {
   QUESTION_SUBMITTED: 'QUESTION_SUBMITTED',
   CLIENT_QUESTION_ADDED: 'CLIENT_QUESTION_ADDED',
   IMPORT_FINISHED: 'IMPORT_FINISHED',
+  COMMENT_MENTION: 'COMMENT_MENTION',
 } as const;
 
 export type NotificationType = (typeof NOTIFICATION_TYPE)[keyof typeof NOTIFICATION_TYPE];
@@ -18,13 +19,14 @@ export const SUBMISSION_REASON = {
 } as const;
 
 // Types that raise a toast when they arrive live; submissions and client additions are
-// high-volume for reviewers/clients and only update the bell.
+// high-volume for reviewers/clients and only update the bell. A mention is directed at one person.
 export const TOASTED_NOTIFICATION_TYPES: readonly NotificationType[] = [
   NOTIFICATION_TYPE.CLIENT_ACCESS_GRANTED,
   NOTIFICATION_TYPE.CLIENT_ACCESS_REVOKED,
   NOTIFICATION_TYPE.QUESTION_APPROVED,
   NOTIFICATION_TYPE.QUESTION_CHANGES_REQUESTED,
   NOTIFICATION_TYPE.QUESTION_REJECTED,
+  NOTIFICATION_TYPE.COMMENT_MENTION,
 ];
 
 export const NOTIFICATION_FILTER = {

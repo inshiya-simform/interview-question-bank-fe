@@ -1,24 +1,26 @@
+import type { MentionableUser } from '@/api';
 import { DISCUSSION_COPY, ROLE_LABELS } from '@/constants';
 import { cn } from '@/utils/cn';
-import type { MentionUser } from '../schema';
 import { mentionOptionId } from '../utils';
 import { CommentAvatar } from './CommentAvatar';
 import './MentionMenu.css';
 
 interface MentionMenuProps {
   listId: string;
-  users: readonly MentionUser[];
+  users: readonly MentionableUser[];
+  isSearching: boolean;
   activeIndex: number;
-  onPick: (user: MentionUser) => void;
+  onPick: (user: MentionableUser) => void;
 }
 
 // Keyboard control stays in the textarea (aria-activedescendant), so options are never focused.
-export function MentionMenu({ listId, users, activeIndex, onPick }: MentionMenuProps) {
+export function MentionMenu({ listId, users, isSearching, activeIndex, onPick }: MentionMenuProps) {
   return (
     <div className="mmenu">
+      <p className="mmenu__heading">{DISCUSSION_COPY.MENTION_HEADING}</p>
       {users.length === 0 ? (
         <p className="mmenu__empty" role="status">
-          {DISCUSSION_COPY.MENTION_EMPTY}
+          {isSearching ? DISCUSSION_COPY.MENTION_SEARCHING : DISCUSSION_COPY.MENTION_EMPTY}
         </p>
       ) : (
         <ul
@@ -33,7 +35,7 @@ export function MentionMenu({ listId, users, activeIndex, onPick }: MentionMenuP
               id={mentionOptionId(listId, index)}
               role="option"
               aria-selected={index === activeIndex}
-              aria-label={DISCUSSION_COPY.MENTION_OPTION(user.name, user.handle)}
+              aria-label={DISCUSSION_COPY.MENTION_OPTION(user.name, user.email)}
               className={cn('mmenu__option', index === activeIndex && 'mmenu__option--active')}
               // Keeps focus (and the caret) in the textarea while picking with the mouse.
               onMouseDown={(event) => {
@@ -45,7 +47,7 @@ export function MentionMenu({ listId, users, activeIndex, onPick }: MentionMenuP
               <span className="mmenu__text">
                 <span className="mmenu__name">{user.name}</span>
                 <span className="mmenu__meta">
-                  @{user.handle} · {ROLE_LABELS[user.role]}
+                  {user.email} · {ROLE_LABELS[user.role]}
                 </span>
               </span>
             </li>

@@ -44,6 +44,21 @@ describe('presentNotification', () => {
     expect(presentNotification(revoked).href).toBe(ROUTES.HOME);
   });
 
+  it('links a mention to its comment on the question page', () => {
+    const mention = make(NOTIFICATION_TYPE.COMMENT_MENTION, {
+      questionId: 'q 1',
+      questionText: 'Q?',
+      commentId: 'c1',
+      parentId: null,
+      actorId: 'u2',
+      actorName: 'Rae',
+    });
+    expect(presentNotification(mention)).toMatchObject({
+      body: 'Rae mentioned you on Q?',
+      href: '/questions/q%201#comment-c1',
+    });
+  });
+
   it('falls back for unknown types and drifted data', () => {
     const unknown = presentNotification(make('SOMETHING_NEW', {}));
     expect(unknown.href).toBe(ROUTES.NOTIFICATIONS);

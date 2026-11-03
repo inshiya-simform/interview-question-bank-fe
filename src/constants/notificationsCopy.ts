@@ -78,4 +78,8 @@ export const NOTIFICATION_MESSAGE_COPY = {
     body: (count: number) =>
       `${count} ${count === 1 ? 'question was' : 'questions were'} imported and ${count === 1 ? 'is' : 'are'} waiting for review.`,
   },
+  COMMENT_MENTION: {
+    title: 'You were mentioned',
+    body: (actorName: string, text: string) => `${actorName} mentioned you on ${text}`,
+  },
 } as const;

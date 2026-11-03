@@ -22,6 +22,7 @@ export const questionSchema = z.object({
   // The viewer's own collection for this question; null when it is not saved.
   savedIn: collectionRefSchema.nullish(),
   authorId: z.string(),
+  commentCount: z.number().int(),
   createdAt: z.string(),
   updatedAt: z.string(),
 });
