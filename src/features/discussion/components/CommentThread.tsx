@@ -1,48 +1,65 @@
+import type { Thread } from '@/api';
 import { DISCUSSION_COPY } from '@/constants';
-import type { VoteValue } from '../constants';
 import { useCommentThread } from '../hooks/useCommentThread';
-import type { MentionUser, PostCommentInput, Thread } from '../schema';
+import type { CommentActions } from '../schema';
 import { CommentComposer } from './CommentComposer';
 import { CommentItem } from './CommentItem';
+import { MoreReplies } from './MoreReplies';
 import './CommentThread.css';
 
 interface CommentThreadProps {
   thread: Thread;
-  users: readonly MentionUser[];
-  isPosting: boolean;
-  onPost: (input: PostCommentInput, onSuccess: () => void) => void;
-  onVote: (commentId: string, value: VoteValue) => void;
+  actions: CommentActions;
 }
 
-export function CommentThread({ thread, users, isPosting, onPost, onVote }: CommentThreadProps) {
-  const { replyTarget, replyPrefill, openReply, closeReply, submitReply } = useCommentThread(
-    thread,
-    onPost,
-  );
+export function CommentThread({ thread, actions }: CommentThreadProps) {
+  const {
+    replies,
+    remaining,
+    isLoadingMore,
+    isError,
+    showMore,
+    replyTo,
+    replyPrefill,
+    replyMentions,
+    openReply,
+    closeReply,
+    submitReply,
+  } = useCommentThread(thread, actions);
 
   return (
     <li className="cthread">
-      <CommentItem comment={thread} onReply={openReply} onVote={onVote} />
-      {thread.replies.length > 0 && (
+      <CommentItem comment={thread} actions={actions} onReply={openReply} />
+      {replies.length > 0 && (
         <ul className="cthread__replies">
-          {thread.replies.map((reply) => (
+          {replies.map((reply) => (
             <li key={reply.id}>
-              <CommentItem comment={reply} onReply={openReply} onVote={onVote} />
+              <CommentItem comment={reply} actions={actions} onReply={openReply} />
             </li>
           ))}
         </ul>
       )}
-      {replyTarget && (
+      {remaining > 0 && (
+        <MoreReplies
+          remaining={remaining}
+          authorName={thread.author.name}
+          isLoading={isLoadingMore}
+          isError={isError}
+          onClick={showMore}
+        />
+      )}
+      {replyTo && (
         <div className="cthread__composer">
           <CommentComposer
-            // Keyed so replying to a different person restarts from their own mention.
-            key={replyTarget.id}
-            users={users}
-            label={DISCUSSION_COPY.REPLY_LABEL(replyTarget.name)}
+            // Keyed so replying to a different comment restarts from its author's mention.
+            key={replyTo.id}
+            questionId={actions.questionId}
+            label={DISCUSSION_COPY.REPLY_LABEL(replyTo.author.name)}
             placeholder={DISCUSSION_COPY.REPLY_PLACEHOLDER}
             submitLabel={DISCUSSION_COPY.REPLY}
             initialValue={replyPrefill}
-            isPending={isPosting}
+            initialMentions={replyMentions}
+            isPending={actions.isPosting}
             autoFocus
             onSubmit={submitReply}
             onCancel={closeReply}

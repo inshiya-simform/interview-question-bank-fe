@@ -7,6 +7,7 @@ import {
   QUESTION_SEARCH_PARAMS,
   ROUTES,
   SUBMISSION_REASON,
+  commentDeepLink,
 } from '@/constants';
 import type { NotificationType } from '@/constants';
 
@@ -88,6 +89,12 @@ export const notificationPresenter: PresenterMap = {
     body: (d) => COPY.IMPORT_FINISHED.body(d.count),
     href: () => ROUTES.MY_QUESTIONS,
   },
+  [NOTIFICATION_TYPE.COMMENT_MENTION]: {
+    glyph: 'comment',
+    title: () => COPY.COMMENT_MENTION.title,
+    body: (d) => COPY.COMMENT_MENTION.body(d.actorName, d.questionText),
+    href: (d) => commentDeepLink(d.questionId, d.commentId),
+  },
 };
 
 const FALLBACK: PresentedNotification = {
@@ -120,6 +127,8 @@ export function presentNotification(notification: Notification): PresentedNotifi
     case NOTIFICATION_TYPE.CLIENT_QUESTION_ADDED:
       return present(notificationPresenter[payload.type], payload.data);
     case NOTIFICATION_TYPE.IMPORT_FINISHED:
+      return present(notificationPresenter[payload.type], payload.data);
+    case NOTIFICATION_TYPE.COMMENT_MENTION:
       return present(notificationPresenter[payload.type], payload.data);
     default: {
       const unreachable: never = payload;

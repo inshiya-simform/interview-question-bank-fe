@@ -1,0 +1,48 @@
+.cskeleton {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.cskeleton__row {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.cskeleton__avatar {
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--color-chip);
+}
+
+.cskeleton__lines {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.cskeleton__line {
+  height: 0.75rem;
+  border-radius: var(--radius-md);
+  background: var(--color-chip);
+}
+
+.cskeleton__line--short {
+  width: 30%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cskeleton__avatar,
+  .cskeleton__line {
+    animation: cskeleton-pulse 1.4s ease-in-out infinite;
+  }
+}
+
+@keyframes cskeleton-pulse {
+  50% {
+    opacity: 0.5;
+  }
+}

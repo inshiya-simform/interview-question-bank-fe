@@ -2,6 +2,7 @@ export * from './useAdmin';
 export * from './useAuth';
 export * from './useClients';
 export * from './useCollections';
+export * from './useComments';
 export * from './useImport';
 export * from './useNotifications';
 export * from './useQuestions';

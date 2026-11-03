@@ -1,3 +1,5 @@
+import { COMMENT_ANCHOR_PREFIX } from './discussion';
+
 export const ROUTES = {
   HOME: '/',
   LOGIN: '/login',
@@ -26,3 +28,9 @@ export const clientFolderPath = (clientId: string): string =>
 
 export const questionDetailPath = (questionId: string): string =>
   `/questions/${encodeURIComponent(questionId)}`;
+
+export const commentAnchorId = (commentId: string): string =>
+  `${COMMENT_ANCHOR_PREFIX}${commentId}`;
+
+export const commentDeepLink = (questionId: string, commentId: string): string =>
+  `${questionDetailPath(questionId)}#${commentAnchorId(commentId)}`;

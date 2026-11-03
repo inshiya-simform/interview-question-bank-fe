@@ -1,7 +1,8 @@
-import { Alert, Button, Loader } from '@/components';
+import { Alert, Button } from '@/components';
 import { DISCUSSION_COPY } from '@/constants';
 import { useDiscussion } from '../hooks/useDiscussion';
 import { CommentComposer } from './CommentComposer';
+import { CommentSkeleton } from './CommentSkeleton';
 import { CommentSortToggle } from './CommentSortToggle';
 import { CommentThread } from './CommentThread';
 import './Discussion.css';
@@ -15,17 +16,16 @@ export function Discussion({ questionId }: DiscussionProps) {
     titleId,
     sort,
     setSort,
+    actions,
     threads,
     total,
-    users,
     isLoading,
     isError,
     hasData,
-    isPosting,
+    hasNextPage,
+    isFetchingNextPage,
     refetch,
-    postComment,
-    postTopLevel,
-    voteOnComment,
+    loadMore,
   } = useDiscussion(questionId);
 
   return (
@@ -40,15 +40,15 @@ export function Discussion({ questionId }: DiscussionProps) {
         <CommentSortToggle value={sort} onChange={setSort} />
       </div>
       <CommentComposer
-        users={users}
+        questionId={questionId}
         label={DISCUSSION_COPY.COMPOSER_LABEL}
         placeholder={DISCUSSION_COPY.COMPOSER_PLACEHOLDER}
         hint={DISCUSSION_COPY.COMPOSER_HINT}
-        submitLabel={isPosting ? DISCUSSION_COPY.SUBMITTING : DISCUSSION_COPY.SUBMIT}
-        isPending={isPosting}
-        onSubmit={postTopLevel}
+        submitLabel={actions.isPosting ? DISCUSSION_COPY.SUBMITTING : DISCUSSION_COPY.SUBMIT}
+        isPending={actions.isPosting}
+        onSubmit={(input, callbacks) => actions.post({ ...input, parentId: null }, callbacks)}
       />
-      {isLoading && <Loader label={DISCUSSION_COPY.LOADING} />}
+      {isLoading && <CommentSkeleton />}
       {isError && !hasData && (
         <div className="discussion__state">
           <Alert>{DISCUSSION_COPY.LOAD_ERROR}</Alert>
@@ -63,16 +63,14 @@ export function Discussion({ questionId }: DiscussionProps) {
       {threads.length > 0 && (
         <ul className="discussion__list">
           {threads.map((thread) => (
-            <CommentThread
-              key={thread.id}
-              thread={thread}
-              users={users}
-              isPosting={isPosting}
-              onPost={postComment}
-              onVote={voteOnComment}
-            />
+            <CommentThread key={thread.id} thread={thread} actions={actions} />
           ))}
         </ul>
+      )}
+      {hasNextPage && (
+        <Button variant="secondary" isLoading={isFetchingNextPage} onClick={loadMore}>
+          {isFetchingNextPage ? DISCUSSION_COPY.LOADING_MORE : DISCUSSION_COPY.LOAD_MORE}
+        </Button>
       )}
     </section>
   );

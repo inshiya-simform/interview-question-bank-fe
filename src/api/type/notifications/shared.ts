@@ -65,6 +65,16 @@ export const notificationPayloadSchema = z.discriminatedUnion('type', [
     type: z.literal(NOTIFICATION_TYPE.IMPORT_FINISHED),
     data: z.object({ count: z.number() }),
   }),
+  z.object({
+    type: z.literal(NOTIFICATION_TYPE.COMMENT_MENTION),
+    data: z.object({
+      ...questionRef,
+      commentId: z.string(),
+      parentId: z.string().nullable(),
+      actorId: z.string(),
+      actorName: z.string(),
+    }),
+  }),
 ]);
 
 export type NotificationType = z.infer<typeof notificationTypeSchema>;

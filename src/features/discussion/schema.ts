@@ -1,38 +1,7 @@
 import { z } from 'zod';
-import { roleSchema } from '@/api';
 import { COMMENT_MAX_LENGTH, MESSAGES } from '@/constants';
-import { VOTE } from './constants';
-
-// A person who can be mentioned; also the shape of a comment's author.
-export const mentionUserSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  // Unique, lowercase; what follows the "@" in a comment body.
-  handle: z.string(),
-  role: roleSchema,
-});
-
-export const voteValueSchema = z.union([
-  z.literal(VOTE.UP),
-  z.literal(VOTE.DOWN),
-  z.literal(VOTE.NONE),
-]);
-
-export const commentSchema = z.object({
-  id: z.string(),
-  author: mentionUserSchema,
-  body: z.string(),
-  mentions: z.array(mentionUserSchema),
-  createdAt: z.string(),
-  // Includes the viewer's own vote.
-  score: z.number().int(),
-  myVote: voteValueSchema,
-  parentId: z.string().nullable(),
-});
-
-export const threadSchema = commentSchema.extend({
-  replies: z.array(commentSchema),
-});
+import type { Comment } from '@/api';
+import type { VoteValue } from '@/constants';
 
 export const commentFormSchema = z.object({
   body: z
@@ -42,10 +11,6 @@ export const commentFormSchema = z.object({
     .max(COMMENT_MAX_LENGTH, MESSAGES.COMMENT_TOO_LONG),
 });
 
-export type MentionUser = z.infer<typeof mentionUserSchema>;
-export type Comment = z.infer<typeof commentSchema>;
-export type Thread = z.infer<typeof threadSchema>;
-
 export interface CommentInput {
   body: string;
   mentionIds: string[];
@@ -53,4 +18,23 @@ export interface CommentInput {
 
 export interface PostCommentInput extends CommentInput {
   parentId: string | null;
+}
+
+export interface SubmitCallbacks {
+  onSuccess: () => void;
+  // Ids of mentioned people who lost access to the question since they were picked.
+  onLostMentions: (ids: readonly string[]) => void;
+}
+
+// What the comment views can do, wired once in `useDiscussion`. `questionId` rides along because
+// every nested composer needs it to search for people who can see this question.
+export interface CommentActions {
+  questionId: string;
+  isPosting: boolean;
+  isEditing: boolean;
+  isDeleting: boolean;
+  post: (input: PostCommentInput, callbacks: SubmitCallbacks) => void;
+  edit: (commentId: string, input: CommentInput, callbacks: SubmitCallbacks) => void;
+  remove: (comment: Pick<Comment, 'id' | 'parentId'>, onSuccess: () => void) => void;
+  vote: (commentId: string, value: VoteValue) => void;
 }

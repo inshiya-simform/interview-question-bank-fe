@@ -22,3 +22,15 @@
   color: var(--color-muted);
   font-size: 0.75rem;
 }
+
+.ccomposer__counter {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.75rem;
+}
+
+/* Bold text and the "over the limit" wording carry the state, not the colour. */
+.ccomposer__counter--over {
+  color: var(--color-text);
+  font-weight: 700;
+}
