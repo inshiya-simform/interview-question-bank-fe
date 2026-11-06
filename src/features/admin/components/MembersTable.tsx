@@ -1,5 +1,6 @@
-import { Alert, Badge, Button, Loader, Pagination, SelectField, TextField } from '@/components';
-import { ADMIN_COPY, ROLE_LABELS } from '@/constants';
+import { Alert, Button, Loader, Pagination, SelectField, TextField } from '@/components';
+import { ADMIN_COPY } from '@/constants';
+import { MembersTableRow } from './MembersTableRow';
 import { useMembersTable } from '../hooks/useMembersTable';
 import './MembersTable.css';
 
@@ -17,6 +18,8 @@ export function MembersTable() {
     isLoading,
     isError,
     hasData,
+    setMemberActive,
+    pendingMemberId,
     refetch,
   } = useMembersTable();
 
@@ -67,19 +70,18 @@ export function MembersTable() {
                 <tr>
                   <th scope="col">{ADMIN_COPY.COLUMN_MEMBER}</th>
                   <th scope="col">{ADMIN_COPY.COLUMN_ROLE}</th>
+                  <th scope="col">{ADMIN_COPY.COLUMN_STATUS}</th>
+                  <th scope="col">{ADMIN_COPY.COLUMN_ACTIONS}</th>
                 </tr>
               </thead>
               <tbody>
                 {members.map((member) => (
-                  <tr key={member.id}>
-                    <th scope="row">
-                      <span className="members__name">{member.name}</span>
-                      <span className="members__email">{member.email}</span>
-                    </th>
-                    <td>
-                      <Badge variant="category">{ROLE_LABELS[member.role]}</Badge>
-                    </td>
-                  </tr>
+                  <MembersTableRow
+                    key={member.id}
+                    member={member}
+                    isPending={pendingMemberId === member.id}
+                    onSetActive={setMemberActive}
+                  />
                 ))}
               </tbody>
             </table>

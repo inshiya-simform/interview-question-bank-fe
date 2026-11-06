@@ -16,6 +16,7 @@ import {
   getClientAccessList,
   grantClientAccess,
   revokeClientAccess,
+  updateUserStatus,
 } from '../service/admin.service';
 import type { AuditLogListParams } from '../type/admin/audit-logs';
 import type { ClientAccessListParams } from '../type/admin/client-access-list';
@@ -97,5 +98,14 @@ export function useAuditLogsQuery(userId: string | undefined, params: AuditLogLi
     queryFn: () => getAuditLogs(params),
     enabled: Boolean(userId),
     placeholderData: keepPreviousData,
+  });
+}
+
+export function useUpdateUserStatusMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ userId, isActive }: { userId: string; isActive: boolean }) =>
+      updateUserStatus(userId, { isActive }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEYS.ADMIN_USERS_LIST }),
   });
 }

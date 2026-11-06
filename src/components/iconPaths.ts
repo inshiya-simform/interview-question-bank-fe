@@ -26,6 +26,9 @@ export const ICON_PATHS = {
   arrowUp: 'M12 4l8 9h-5v7H9v-7H4z',
   arrowDown: 'M12 20l-8-9h5V4h6v7h5z',
   reply: 'M9 14L4 9l5-5M20 20v-7a4 4 0 0 0-4-4H4',
+  power: 'M12 2v10M18.4 6.6a9 9 0 1 1-12.8 0',
+  userCheck:
+    'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8M16 11l2 2 4-4',
   comment: 'M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z',
 } as const;
 
