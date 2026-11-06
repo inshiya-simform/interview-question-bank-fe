@@ -226,6 +226,8 @@ export const ADMIN_COPY = {
   MEMBERS_FILTERS_LABEL: 'Filter users',
   FIELD_ROLE_FILTER: 'Role',
   PLACEHOLDER_ROLE_FILTER: 'All roles',
+  FIELD_STATUS_FILTER: 'Status',
+  PLACEHOLDER_STATUS_FILTER: 'All statuses',
   PLACEHOLDER_MEMBER_SEARCH: 'Search by name or email',
   COLUMN_MEMBER: 'User',
   COLUMN_ROLE: 'Role',

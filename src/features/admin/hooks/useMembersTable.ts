@@ -1,11 +1,24 @@
 import { toast } from 'react-toastify';
 import { useAdminUsersQuery, useUpdateUserStatusMutation } from '@/api/hooks';
-import { MEMBERS_PAGE_SIZE, MESSAGES, MEMBER_LIST_ROLES, ROLE_LABELS } from '@/constants';
+import {
+  ADMIN_COPY,
+  MEMBERS_PAGE_SIZE,
+  MEMBER_LIST_ROLES,
+  MEMBER_STATUS,
+  MEMBER_STATUSES,
+  MESSAGES,
+  ROLE_LABELS,
+} from '@/constants';
 import { useSession } from '@/features/auth';
 import { toMemberListParams } from '../memberFilters';
 import { useMembersFilters } from './useMembersFilters';
 
 const ROLE_OPTIONS = MEMBER_LIST_ROLES.map((role) => ({ value: role, label: ROLE_LABELS[role] }));
+
+const STATUS_OPTIONS = MEMBER_STATUSES.map((status) => ({
+  value: status,
+  label: status === MEMBER_STATUS.ACTIVE ? ADMIN_COPY.STATUS_ACTIVE : ADMIN_COPY.STATUS_INACTIVE,
+}));
 
 export function useMembersTable() {
   const { user } = useSession();
@@ -28,6 +41,7 @@ export function useMembersTable() {
   return {
     ...filterState,
     roleOptions: ROLE_OPTIONS,
+    statusOptions: STATUS_OPTIONS,
     members: query.data?.users ?? [],
     total,
     totalPages: Math.max(1, Math.ceil(total / MEMBERS_PAGE_SIZE)),

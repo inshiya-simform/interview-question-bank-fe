@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { MEMBER_LIST_ROLES } from '@/constants';
+import { MEMBER_LIST_ROLES, MEMBER_STATUSES } from '@/constants';
 import { adminUserSchema } from './shared';
 
 // Outbound query params: validated before sending.
@@ -8,6 +8,7 @@ export const adminUsersParamsSchema = z.object({
   limit: z.number().int().min(1).max(100).optional(),
   search: z.string().optional(),
   role: z.enum(MEMBER_LIST_ROLES).optional(),
+  status: z.enum(MEMBER_STATUSES).optional(),
   excludeAdmin: z.boolean().optional(),
   clientId: z.string().min(1).optional(),
 });

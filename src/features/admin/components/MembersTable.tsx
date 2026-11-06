@@ -10,8 +10,10 @@ export function MembersTable() {
     searchInput,
     setSearchInput,
     setRole,
+    setStatus,
     setPage,
     roleOptions,
+    statusOptions,
     members,
     total,
     totalPages,
@@ -35,6 +37,16 @@ export function MembersTable() {
           options={roleOptions}
           value={filters.role ?? ''}
           onChange={(event) => setRole(event.target.value)}
+          clearable
+        />
+        <SelectField
+          className="members__role"
+          name="status"
+          label={ADMIN_COPY.FIELD_STATUS_FILTER}
+          placeholder={ADMIN_COPY.PLACEHOLDER_STATUS_FILTER}
+          options={statusOptions}
+          value={filters.status ?? ''}
+          onChange={(event) => setStatus(event.target.value)}
           clearable
         />
         <TextField
