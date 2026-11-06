@@ -5,7 +5,7 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
-import { ADMIN_USERS_PAGE_SIZE } from '@/constants';
+import { ADMIN_USERS_PAGE_SIZE, MEMBER_STATUS } from '@/constants';
 import { SILENT_ERROR_META } from '../query-meta';
 import { QUERY_KEYS } from '../query-keys';
 import {
@@ -49,6 +49,8 @@ export function useAdminUsersInfiniteQuery(userId: string | undefined, search: s
         limit: ADMIN_USERS_PAGE_SIZE,
         search: search || undefined,
         excludeAdmin: true,
+        // Only active users can be granted client access.
+        status: MEMBER_STATUS.ACTIVE,
       }),
     initialPageParam: 1,
     getNextPageParam: ({ page, limit, total }) => (page * limit < total ? page + 1 : undefined),
