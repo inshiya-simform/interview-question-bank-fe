@@ -1,0 +1,120 @@
+/* Fixed width so the panel does not resize when the list is short or empty. */
+.category-rail {
+  position: sticky;
+  top: var(--space-6);
+  display: flex;
+  flex: 0 0 18.75rem;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 18.75rem;
+  max-width: 100%;
+  max-height: calc(100svh - 2 * var(--space-6));
+  padding: var(--space-4);
+  background: var(--color-bg-deep);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.category-rail__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.category-rail__title {
+  font-size: 1.125rem;
+}
+
+.category-rail__count {
+  color: var(--color-muted);
+  font-size: 0.8125rem;
+}
+
+.category-rail__unused {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 1.5rem;
+  color: var(--color-text-secondary);
+  font-size: 0.8125rem;
+}
+
+.category-rail__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-height: 0;
+  margin: 0 calc(-1 * var(--space-2));
+  padding: 0 var(--space-2);
+  overflow-y: auto;
+  list-style: none;
+}
+
+.category-rail__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  width: 100%;
+  min-height: 2.5rem;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-raised);
+  color: var(--color-text);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+}
+
+.category-rail__item:hover {
+  background: var(--color-hover);
+}
+
+.category-rail__item--selected,
+.category-rail__item--selected:hover {
+  border-color: var(--color-accent);
+  background: var(--color-accent-soft);
+  color: var(--color-accent-ink);
+  font-weight: 600;
+}
+
+/* Long names end in an ellipsis; the badge never shrinks. */
+.category-rail__name {
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.category-rail__item .badge {
+  flex: none;
+}
+
+.category-rail__empty,
+.category-rail__more {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.875rem;
+}
+
+.category-rail__error {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+@media (max-width: 47.99rem) {
+  .category-rail {
+    position: static;
+    flex-basis: 100%;
+    width: 100%;
+    max-height: 24rem;
+  }
+}

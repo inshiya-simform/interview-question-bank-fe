@@ -31,6 +31,9 @@ export const LazyClientFolderPage = lazy(() =>
 export const LazyAddMemberPage = lazy(() =>
   import('./AddMemberPage').then((m) => ({ default: m.AddMemberPage })),
 );
+export const LazyTagManagementPage = lazy(() =>
+  import('./TagManagementPage').then((m) => ({ default: m.TagManagementPage })),
+);
 export const LazyMySubmissionsPage = lazy(() =>
   import('./MySubmissionsPage').then((m) => ({ default: m.MySubmissionsPage })),
 );

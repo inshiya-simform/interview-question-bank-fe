@@ -17,6 +17,7 @@ export function useCombobox({ options, value, onChange, onQueryChange }: UseComb
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [anchor, setAnchor] = useState<DOMRect>();
+  const [portalTarget, setPortalTarget] = useState<Element>();
   const inputRef = useRef<HTMLInputElement>(null);
   const baseId = useId();
   const listboxId = `${baseId}-listbox`;
@@ -28,7 +29,8 @@ export function useCombobox({ options, value, onChange, onQueryChange }: UseComb
 
   const measure = () => setAnchor(inputRef.current?.getBoundingClientRect());
 
-  // The panel is portalled to <body> with fixed positioning so scrolling ancestors can't clip it.
+  // The panel is portalled with fixed positioning so scrolling ancestors can't clip it. Inside a
+  // modal <dialog> (top layer) it must live in that dialog, or the backdrop would cover it.
   useEffect(() => {
     if (!isOpen) return;
     const reposition = () => setAnchor(inputRef.current?.getBoundingClientRect());
@@ -42,6 +44,7 @@ export function useCombobox({ options, value, onChange, onQueryChange }: UseComb
 
   const openPanel = () => {
     measure();
+    setPortalTarget(inputRef.current?.closest('dialog') ?? document.body);
     setIsOpen(true);
   };
 
@@ -97,6 +100,7 @@ export function useCombobox({ options, value, onChange, onQueryChange }: UseComb
     activeDescendant: isOpen && activeOption ? `${baseId}-option-${activeIndex}` : undefined,
     select,
     inputRef,
+    portalTarget,
     panelStyle: anchor && { top: anchor.bottom, left: anchor.left, width: anchor.width },
     open: openPanel,
     close: () => setIsOpen(false),

@@ -20,6 +20,7 @@ export * from './review';
 export * from './reviewConcurrency';
 export * from './reviewStatus';
 export * from './savedCopy';
+export * from './tagManagementCopy';
 export * from './roles';
 export * from './routes';
 export * from './searchParams';

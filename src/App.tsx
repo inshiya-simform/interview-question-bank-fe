@@ -24,6 +24,7 @@ import {
   LazyResetPasswordPage,
   LazyReviewQueuePage,
   LazySavedPage,
+  LazyTagManagementPage,
 } from '@/pages/lazyPages';
 
 export function App() {
@@ -57,6 +58,7 @@ export function App() {
                 <Route path={ROUTES.ADMIN_CLIENTS} element={<LazyClientAccessPage />} />
                 <Route path={ROUTES.ADMIN_CLIENT_FOLDER} element={<LazyClientFolderPage />} />
                 <Route path={ROUTES.ADMIN_MEMBERS} element={<LazyAddMemberPage />} />
+                <Route path={ROUTES.ADMIN_TAGS} element={<LazyTagManagementPage />} />
                 <Route element={<RequirePermission permissions={[PERMISSIONS.AUDIT_READ]} />}>
                   <Route path={ROUTES.ADMIN_AUDIT_LOGS} element={<LazyAuditLogsPage />} />
                 </Route>

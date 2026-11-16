@@ -16,6 +16,7 @@ export const ROUTES = {
   ADMIN_CLIENTS: '/admin/clients',
   ADMIN_CLIENT_FOLDER: '/admin/clients/:clientId',
   ADMIN_MEMBERS: '/admin/members',
+  ADMIN_TAGS: '/admin/tags',
   ADMIN_AUDIT_LOGS: '/admin/audit-logs',
   NOT_FOUND: '*',
 } as const;

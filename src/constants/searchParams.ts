@@ -33,6 +33,14 @@ export const MEMBER_SEARCH_PARAMS = {
   STATUS: 'status',
 } as const;
 
+export const TAG_MANAGEMENT_SEARCH_PARAMS = {
+  CATEGORY: 'category',
+  CATEGORY_SEARCH: 'cq',
+  UNUSED_ONLY: 'unused',
+  TAG_SEARCH: 'q',
+  PAGE: 'page',
+} as const;
+
 export const AUDIT_SEARCH_PARAMS = {
   PAGE: 'page',
   MODULE: 'module',

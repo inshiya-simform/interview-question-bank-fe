@@ -1,5 +1,5 @@
 import type { SidebarNavItem } from '@/components';
-import { ADMIN_COPY, AUDIT_COPY, PERMISSIONS, ROUTES } from '@/constants';
+import { ADMIN_COPY, AUDIT_COPY, PERMISSIONS, ROUTES, TAG_COPY } from '@/constants';
 import type { Permission } from '@/constants';
 
 interface AdminNavItem extends SidebarNavItem {
@@ -10,6 +10,7 @@ interface AdminNavItem extends SidebarNavItem {
 export const ADMIN_NAV_ITEMS = [
   { to: ROUTES.ADMIN_CLIENTS, label: ADMIN_COPY.NAV_CLIENTS, icon: 'clients' },
   { to: ROUTES.ADMIN_MEMBERS, label: ADMIN_COPY.NAV_MEMBERS, icon: 'members' },
+  { to: ROUTES.ADMIN_TAGS, label: TAG_COPY.NAV, icon: 'tag' },
   {
     to: ROUTES.ADMIN_AUDIT_LOGS,
     label: AUDIT_COPY.NAV,
