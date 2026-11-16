@@ -4,6 +4,8 @@ import type { AuditLogListParams } from './type/admin/audit-logs';
 import type { ClientAccessListParams } from './type/admin/client-access-list';
 import type { SavedQuestionListParams } from './type/collections/saved-questions';
 import type { NotificationListParams } from './type/notifications/notifications-list';
+import type { TagCategoriesParams } from './type/tag-management/categories-list';
+import type { ManagedTagsParams } from './type/tag-management/tags-list';
 import type { CheckDuplicatePayload } from './type/questions/check-duplicate';
 import type { QuestionListParams } from './type/questions/questions-list';
 import type { SubmissionListParams } from './type/reviews/submission-list';
@@ -53,7 +55,16 @@ export const QUERY_KEYS = {
   RELATED_QUESTIONS: (userId: string, questionId: string) =>
     ['related-questions', userId, questionId] as const,
   CLIENTS: (userId: string) => ['clients', userId] as const,
+  // Shared prefix so every tag-management mutation also refreshes the public filter options.
+  TAGS_LIST: ['tags'] as const,
   TAGS: (userId: string) => ['tags', userId] as const,
+  TAG_CATEGORIES_LIST: ['tag-admin', 'categories'] as const,
+  TAG_CATEGORIES: (userId: string, params: TagCategoriesParams) =>
+    ['tag-admin', 'categories', 'list', userId, params] as const,
+  TAG_CATEGORY: (userId: string, categoryId: number) =>
+    ['tag-admin', 'categories', 'item', userId, categoryId] as const,
+  MANAGED_TAGS: (userId: string, categoryId: number, params: ManagedTagsParams) =>
+    ['tag-admin', 'categories', 'tags', userId, categoryId, params] as const,
   ADMIN_USERS_LIST: ['admin', 'users'] as const,
   ADMIN_USERS: (userId: string, search: string) => ['admin', 'users', userId, search] as const,
   ADMIN_USERS_TABLE: (userId: string, params?: AdminUsersParams) =>

@@ -1,0 +1,77 @@
+.tag-panel {
+  flex: 999 1 27.5rem;
+  min-width: 0;
+  background: var(--color-bg-deep);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.tag-panel--message {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-5);
+}
+
+.tag-panel__empty {
+  margin: 0;
+  color: var(--color-muted);
+}
+
+.tag-panel__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.tag-panel__titles {
+  flex: 1 1 12rem;
+  min-width: 0;
+}
+
+.tag-panel__title {
+  overflow: hidden;
+  font-size: 1.125rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tag-panel__summary {
+  margin: var(--space-1) 0 0;
+  color: var(--color-muted);
+  font-size: 0.875rem;
+}
+
+.tag-panel__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* Warm notice with a "!" prefix so the state is not conveyed by colour alone. */
+.tag-panel__notice {
+  margin: 0;
+  padding: var(--space-3) var(--space-5);
+  border-bottom: 1px solid var(--color-notice-border);
+  background: var(--color-notice-bg);
+  color: var(--color-notice-text);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.tag-panel__body {
+  display: flex;
+  flex-direction: column;
+}
+
+.tags__action--locked {
+  border-style: dashed;
+  color: var(--color-muted);
+}

@@ -14,7 +14,7 @@ export function useZodForm<K extends string>(
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState<FormErrors<K>>({});
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
     setValues((current) => ({ ...current, [name]: value }));
     setErrors((current) => ({ ...current, [name]: undefined }));

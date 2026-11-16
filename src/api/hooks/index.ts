@@ -6,5 +6,6 @@ export * from './useComments';
 export * from './useImport';
 export * from './useNotifications';
 export * from './useQuestions';
+export * from './useTagManagement';
 export * from './useTags';
 export * from './useUploads';

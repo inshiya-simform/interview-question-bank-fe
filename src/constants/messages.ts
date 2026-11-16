@@ -1,6 +1,7 @@
 import { QUESTION_HISTORY_ACTION, REVIEW_STATUS } from './reviewStatus';
 import type { ReviewStatus } from './reviewStatus';
 import {
+  CATEGORY_DESCRIPTION_MAX_LENGTH,
   COLLECTION_NAME_MAX_LENGTH,
   COMMENT_MAX_LENGTH,
   PASSWORD_MAX_LENGTH,
@@ -48,6 +49,15 @@ export const MESSAGES = {
   STAFF_ADDED: 'Reviewer added. An email has been sent to them.',
   CLIENT_ADDED: 'Client added',
   CLIENT_NAME_TAKEN: 'A client with that name already exists',
+  CATEGORY_NAME_TAKEN: 'A category with that name already exists',
+  CATEGORY_DESCRIPTION_TOO_LONG: `Use ${CATEGORY_DESCRIPTION_MAX_LENGTH} characters or fewer`,
+  CATEGORY_CREATED: 'Category created',
+  CATEGORY_UPDATED: 'Category updated',
+  CATEGORY_DELETED: 'Category deleted',
+  TAG_ADDED: 'Tag added',
+  TAG_UPDATED: 'Tag updated',
+  TAG_MOVED: 'Tag moved',
+  TAG_DELETED: 'Tag deleted',
   CLIENT_ACCESS_UPDATED: 'Client access updated',
   QUESTION_SUBMITTED: 'Submitted for review',
   QUESTION_RESUBMITTED: 'Resubmitted for review',
