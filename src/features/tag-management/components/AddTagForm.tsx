@@ -17,7 +17,7 @@ export function AddTagForm({ categoryId, categoryName }: AddTagFormProps) {
     <form className="tag-toolbar__add" onSubmit={handleSubmit} noValidate>
       <TextField
         className="tag-toolbar__field"
-        label={TAG_COPY.FIELD_ADD_TAG(categoryName)}
+        label={TAG_COPY.FIELD_ADD_TAG}
         name="name"
         autoComplete="off"
         placeholder={TAG_COPY.PLACEHOLDER_ADD_TAG}

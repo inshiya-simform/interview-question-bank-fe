@@ -23,7 +23,7 @@ export const TAG_COPY = {
   CATEGORY_LOCKED_NOTICE: (questions: number) =>
     `${questions} ${questions === 1 ? 'question uses' : 'questions use'} tags in this category, so it can't be deleted.`,
   LOCKED_GLYPH: '!',
-  FIELD_ADD_TAG: (category: string) => `Add a tag to ${category}`,
+  FIELD_ADD_TAG: 'Add a tag',
   PLACEHOLDER_ADD_TAG: 'e.g. Kubernetes',
   ADD_TAG: 'Add tag',
   ADDING_TAG: 'Adding...',

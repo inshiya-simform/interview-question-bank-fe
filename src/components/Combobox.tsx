@@ -47,7 +47,7 @@ export function Combobox({
   const { inputId, errorId } = useFieldIds();
   const { inputRef, ...combo } = useCombobox({ options, value, onChange, onQueryChange });
   const sentinelRef = useLoadMoreSentinel(() => onLoadMore?.(), Boolean(hasMore && !isLoadingMore));
-  const showPanel = combo.isOpen && !disabled;
+  const showPanel = combo.isOpen && !disabled && combo.portalTarget !== undefined;
 
   return (
     <div className={cn('field combo', className)}>
@@ -76,6 +76,7 @@ export function Combobox({
         onBlur={combo.close}
       />
       {showPanel &&
+        combo.portalTarget &&
         createPortal(
           <ul
             className="combo__panel"
@@ -112,7 +113,7 @@ export function Combobox({
               </li>
             )}
           </ul>,
-          document.body,
+          combo.portalTarget,
         )}
       {error && (
         <p id={errorId} className="field__message field__message--error">
