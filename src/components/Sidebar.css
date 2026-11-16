@@ -171,6 +171,8 @@
   .sidebar {
     position: sticky;
     top: 0;
+    /* Sticky traps the notification popover in this stacking context; lift it above page content. */
+    z-index: 20;
     align-self: flex-start;
     height: 100svh;
     overflow-y: auto;

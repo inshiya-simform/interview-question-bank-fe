@@ -5,7 +5,7 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
-import { ADMIN_USERS_PAGE_SIZE } from '@/constants';
+import { ADMIN_USERS_PAGE_SIZE, MEMBER_STATUS } from '@/constants';
 import { SILENT_ERROR_META } from '../query-meta';
 import { QUERY_KEYS } from '../query-keys';
 import {
@@ -16,6 +16,7 @@ import {
   getClientAccessList,
   grantClientAccess,
   revokeClientAccess,
+  updateUserStatus,
 } from '../service/admin.service';
 import type { AuditLogListParams } from '../type/admin/audit-logs';
 import type { ClientAccessListParams } from '../type/admin/client-access-list';
@@ -48,6 +49,8 @@ export function useAdminUsersInfiniteQuery(userId: string | undefined, search: s
         limit: ADMIN_USERS_PAGE_SIZE,
         search: search || undefined,
         excludeAdmin: true,
+        // Only active users can be granted client access.
+        status: MEMBER_STATUS.ACTIVE,
       }),
     initialPageParam: 1,
     getNextPageParam: ({ page, limit, total }) => (page * limit < total ? page + 1 : undefined),
@@ -97,5 +100,14 @@ export function useAuditLogsQuery(userId: string | undefined, params: AuditLogLi
     queryFn: () => getAuditLogs(params),
     enabled: Boolean(userId),
     placeholderData: keepPreviousData,
+  });
+}
+
+export function useUpdateUserStatusMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ userId, isActive }: { userId: string; isActive: boolean }) =>
+      updateUserStatus(userId, { isActive }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEYS.ADMIN_USERS_LIST }),
   });
 }

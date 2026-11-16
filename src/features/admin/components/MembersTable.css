@@ -98,3 +98,8 @@
   color: var(--color-text-secondary);
   font-size: 0.8125rem;
 }
+
+.members__action {
+  min-width: 2.5rem;
+  padding: 0;
+}

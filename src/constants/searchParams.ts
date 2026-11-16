@@ -30,6 +30,7 @@ export const MEMBER_SEARCH_PARAMS = {
   PAGE: 'page',
   SEARCH: 'q',
   ROLE: 'role',
+  STATUS: 'status',
 } as const;
 
 export const AUDIT_SEARCH_PARAMS = {

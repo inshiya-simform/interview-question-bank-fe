@@ -16,6 +16,8 @@ import { createStaffSchema } from '../type/admin/create-staff';
 import type { CreateStaffPayload } from '../type/admin/create-staff';
 import { grantClientAccessSchema } from '../type/admin/grant-client-access';
 import type { GrantClientAccessPayload } from '../type/admin/grant-client-access';
+import { updateUserStatusSchema } from '../type/admin/update-user-status';
+import type { UpdateUserStatusPayload } from '../type/admin/update-user-status';
 import { adminUserSchema } from '../type/admin/shared';
 import type { AdminUser } from '../type/admin/shared';
 import { clientSchema } from '../type/clients/clients-list';
@@ -76,4 +78,15 @@ export async function getAuditLogs(params: AuditLogListParams): Promise<AuditLog
     params: auditLogListParamsSchema.parse(params),
   });
   return auditLogListResponseSchema.parse(data);
+}
+
+export async function updateUserStatus(
+  userId: string,
+  payload: UpdateUserStatusPayload,
+): Promise<AdminUser> {
+  const { data } = await apiClient.patch(
+    API_ENDPOINTS.ADMIN.USER_STATUS(userId),
+    updateUserStatusSchema.parse(payload),
+  );
+  return adminUserSchema.parse(data);
 }

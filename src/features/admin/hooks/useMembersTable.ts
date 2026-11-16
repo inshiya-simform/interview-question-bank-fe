@@ -1,24 +1,52 @@
-import { useAdminUsersQuery } from '@/api/hooks';
-import { MEMBERS_PAGE_SIZE, MEMBER_LIST_ROLES, ROLE_LABELS } from '@/constants';
+import { toast } from 'react-toastify';
+import { useAdminUsersQuery, useUpdateUserStatusMutation } from '@/api/hooks';
+import {
+  ADMIN_COPY,
+  MEMBERS_PAGE_SIZE,
+  MEMBER_LIST_ROLES,
+  MEMBER_STATUS,
+  MEMBER_STATUSES,
+  MESSAGES,
+  ROLE_LABELS,
+} from '@/constants';
 import { useSession } from '@/features/auth';
 import { toMemberListParams } from '../memberFilters';
 import { useMembersFilters } from './useMembersFilters';
 
 const ROLE_OPTIONS = MEMBER_LIST_ROLES.map((role) => ({ value: role, label: ROLE_LABELS[role] }));
 
+const STATUS_OPTIONS = MEMBER_STATUSES.map((status) => ({
+  value: status,
+  label: status === MEMBER_STATUS.ACTIVE ? ADMIN_COPY.STATUS_ACTIVE : ADMIN_COPY.STATUS_INACTIVE,
+}));
+
 export function useMembersTable() {
   const { user } = useSession();
   const filterState = useMembersFilters();
   const query = useAdminUsersQuery(user?.id, toMemberListParams(filterState.filters));
+
+  const statusMutation = useUpdateUserStatusMutation();
+
+  const setMemberActive = (userId: string, isActive: boolean) =>
+    statusMutation.mutate(
+      { userId, isActive },
+      {
+        onSuccess: () =>
+          toast.success(isActive ? MESSAGES.USER_MARKED_ACTIVE : MESSAGES.USER_MARKED_INACTIVE),
+      },
+    );
 
   const total = query.data?.total ?? 0;
 
   return {
     ...filterState,
     roleOptions: ROLE_OPTIONS,
+    statusOptions: STATUS_OPTIONS,
     members: query.data?.users ?? [],
     total,
     totalPages: Math.max(1, Math.ceil(total / MEMBERS_PAGE_SIZE)),
+    setMemberActive,
+    pendingMemberId: statusMutation.isPending ? statusMutation.variables.userId : undefined,
     isLoading: query.isPending,
     isError: query.isError,
     hasData: query.data !== undefined,

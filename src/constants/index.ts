@@ -6,6 +6,7 @@ export * from './duplicateCheck';
 export * from './http';
 export * from './importCopy';
 export * from './importCsv';
+export * from './memberStatus';
 export * from './messages';
 export * from './notifications';
 export * from './notificationsCopy';

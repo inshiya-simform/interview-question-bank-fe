@@ -18,17 +18,20 @@ export const IMPORT_COPY = {
   COLUMN_TABLE_LABEL: 'CSV columns',
   REQUIRED_YES: 'Required',
   REQUIRED_NO: 'Optional',
-  REQUIRED_IF: 'If confirm_distinct is true',
+  REQUIRED_IF: 'Only if confirm_distinct is true',
   COLUMN_DESCRIPTIONS: {
-    text: `The question. Up to ${formatLimit(IMPORT_LIMITS.TEXT_MAX)} characters.`,
-    answer_notes: `Notes for the answer, as plain text or HTML. Up to ${formatLimit(IMPORT_LIMITS.ANSWER_NOTES_MAX)} characters of text. Exports contain HTML.`,
-    tags: 'Format category:tag|tag;category:tag, for example technology:docker;seniority:junior.',
-    client: 'The client name. Leave empty for all clients.',
-    confirm_distinct: 'true or false. Set to true when a flagged duplicate is genuinely different.',
-    distinct_reason: 'Why the question is different. Required when confirm_distinct is true.',
+    text: `The interview question itself, in plain words. Up to ${formatLimit(IMPORT_LIMITS.TEXT_MAX)} characters.`,
+    answer_notes: `What a good answer looks like. Type normal text, or leave formatting as it is if you copied it from an earlier export. Up to ${formatLimit(IMPORT_LIMITS.ANSWER_NOTES_MAX)} characters.`,
+    tags: 'Labels that describe the question, written as category:tag. Join several with a semicolon (;), for example technology:docker;seniority:junior. For two tags in the same category, separate them with a vertical bar (|), for example technology:docker|kubernetes. Use "View available tags" below for the allowed names.',
+    client: 'The client this question is for. Leave empty if it applies to all clients.',
+    confirm_distinct:
+      'Leave empty in most cases. If the import says your question looks like a duplicate but it is genuinely different, type true.',
+    distinct_reason:
+      'One sentence on how the question is different from the existing one. Only needed when confirm_distinct is true.',
   },
   EXAMPLE_LABEL: 'Example',
-  EXAMPLE_NOTE: 'Cells that contain commas or line breaks must be wrapped in double quotes.',
+  EXAMPLE_NOTE:
+    'The first row must be the column names, exactly as shown. If a cell contains a comma or a new line, put the whole cell in double quotes ("like, this"). The easiest way to start is to download the template.',
 
   TAGS_SUMMARY: 'View available tags',
   TAGS_COPY: 'Copy tags',

@@ -37,9 +37,9 @@ export const IMPORT_DUPLICATE_PATTERN = /^(Same as row \d+|Looks like an existin
 export const IMPORT_EXAMPLE_ROWS = [
   [...IMPORT_TEMPLATE_HEADER],
   [
-    'What is a Docker volume?',
-    'Persistent storage managed by Docker, independent of the container lifecycle.',
-    'technology:docker;seniority:junior',
+    'Tell me about a time you disagreed with a teammate. How did you handle it?',
+    'A good answer describes the situation, listens to the other view, stays respectful and reaches a clear outcome.',
+    'question-type:behavioural;seniority:mid',
     '',
     '',
     '',

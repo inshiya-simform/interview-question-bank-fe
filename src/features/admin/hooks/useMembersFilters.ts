@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { DEFAULT_PAGE, MEMBER_LIST_ROLES, SEARCH_DEBOUNCE_MS } from '@/constants';
+import { DEFAULT_PAGE, MEMBER_LIST_ROLES, MEMBER_STATUSES, SEARCH_DEBOUNCE_MS } from '@/constants';
 import { useDebounce } from '@/hooks/useDebounce';
 import { buildMemberSearchParams, parseMemberFilters } from '../memberFilters';
 
@@ -25,8 +25,15 @@ export function useMembersFilters() {
     );
   };
 
+  const setStatus = (value: string) => {
+    const status = MEMBER_STATUSES.find((candidate) => candidate === value);
+    setSearchParams((prev) =>
+      buildMemberSearchParams({ ...parseMemberFilters(prev), status, page: DEFAULT_PAGE }),
+    );
+  };
+
   const setPage = (page: number) =>
     setSearchParams((prev) => buildMemberSearchParams({ ...parseMemberFilters(prev), page }));
 
-  return { filters, searchInput, setSearchInput, setRole, setPage };
+  return { filters, searchInput, setSearchInput, setRole, setStatus, setPage };
 }

@@ -7,6 +7,8 @@ export const adminUserSchema = z.object({
   email: z.string(),
   name: z.string(),
   role: roleSchema,
+  // Defaults to active if the API omits the flag.
+  isActive: z.boolean().default(true),
   createdAt: z.string(),
   clients: z.array(clientSchema),
 });

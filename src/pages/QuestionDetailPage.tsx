@@ -14,6 +14,7 @@ export function QuestionDetailPage() {
   const {
     questionId,
     question,
+    canViewHistory,
     isNotFound,
     isLoading,
     isError,
@@ -54,9 +55,11 @@ export function QuestionDetailPage() {
           </div>
           <aside className="qpage__side" aria-label={QUESTION_DETAIL_COPY.SIDE_LABEL}>
             <RelatedQuestions question={question} />
-            <div className="qpage__card">
-              <QuestionHistory questionId={questionId} />
-            </div>
+            {canViewHistory && (
+              <div className="qpage__card">
+                <QuestionHistory questionId={questionId} />
+              </div>
+            )}
           </aside>
         </div>
       )}
